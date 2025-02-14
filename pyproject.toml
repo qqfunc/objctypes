@@ -1,0 +1,117 @@
+[build-system]
+requires = [
+  "setuptools",
+  "setuptools_scm",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "objctypes"
+dynamic = ["version"]
+requires-python = ">= 3.12"
+authors = [
+  {name = "qqfunc", email = "148628110+qqfunc@users.noreply.github.com"},
+]
+maintainers = [
+  {name = "qqfunc", email = "148628110+qqfunc@users.noreply.github.com"},
+]
+description = "Use Objective-C features in Python"
+readme = "README.md"
+license = {file = "LICENSE.md"}
+keywords = ["objctypes", "objc", "Objective-C", "ObjectiveC"]
+classifiers = [
+  "Development Status :: 1 - Planning",
+  "Environment :: Console",
+  "Environment :: MacOS X :: Cocoa",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: The Unlicense (Unlicense)",
+  "Operating System :: MacOS :: MacOS X",
+  "Operating System :: iOS",
+  "Programming Language :: Objective C",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Typing :: Typed",
+]
+
+[project.urls]
+Homepage = "https://qqfunc.github.io/objctypes"
+Documentation = "https://objctypes.readthedocs.org"
+Changelog = "https://objctypes.readthedocs.org/en/stable/changelog.html"
+Package = "https://pypi.org/project/objctypes/"
+Download = "https://pypi.org/project/objctypes/#files"
+Repository = "https://github.com/qqfunc/objctypes"
+Issues = "https://github.com/qqfunc/objctypes/issues"
+
+[dependency-groups]
+dev = [
+  "mypy[faster-cache] == 1.13.0",
+  "pytest == 8.3.3",
+  "pytest-xdist == 3.6.1",
+  "ruff == 0.7.1",
+]
+docs = [
+  "furo == 2024.8.6",
+  "readthedocs-sphinx-search == 0.3.2",
+  "sphinx == 8.1.0",
+  "sphinx-autobuild == 2024.10.3",
+  "sphinx-copybutton == 0.5.2",
+  "sphinx-hoverxref == 1.4.1",
+  "sphinx-notfound-page == 1.0.4",
+]
+gh-actions = [
+  {include-group = "dev"},
+  "pytest-github-actions-annotate-failures == 0.2.0"
+]
+
+[tool.mypy]
+exclude = ["^build/"]
+
+[tool.pytest.ini_options]
+addopts = "-n auto"
+
+[tool.ruff]
+line-length = 79
+
+[tool.ruff.format]
+docstring-code-line-length = 72
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+  "D203", # one-blank-line-before-class
+  "D213", # multi-line-summary-second-line
+]
+
+[tool.ruff.lint.pycodestyle]
+max-doc-length = 72
+
+[tool.ruff.lint.per-file-ignores]
+"docs/conf.py" = [
+  "INP001", # implicit-namespace-package
+]
+"tests/**.py" = [
+  "S101",    # assert
+  "INP001",  # implicit-namespace-package
+  "PLR2004", # magic-value-comparison
+]
+
+[[tool.setuptools.ext-modules]]
+name = "objctypes"
+sources = [
+  "csrc/objctypes.c",
+  "csrc/objcclass.c",
+  "csrc/objcobject.c",
+  "csrc/objcmethod.c",
+  "csrc/objcselector.c",
+  "csrc/objcbool.c",
+  "csrc/objctypes_cache.cpp",
+]
+include-dirs = ["$(brew --prefix)/include"]
+library-dirs = ["$(brew --prefix)/lib"]
+libraries = ["ffi"]
+optional = true
+
+[tool.setuptools_scm]
