@@ -37,7 +37,7 @@ static PyObject *
 ObjCClass_name(ObjCClassObject *self, PyObject *Py_UNUSED(closure))
 {
     if (self->value == NULL) {
-        return PyUnicode_FromString("");
+        return Py_GetConstant(Py_CONSTANT_EMPTY_STR);
     }
     return PyUnicode_FromString(class_getName(self->value));
 }
