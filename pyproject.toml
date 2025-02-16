@@ -21,7 +21,6 @@ license = {file = "LICENSE.md"}
 keywords = ["objctypes", "objc", "Objective-C", "ObjectiveC"]
 classifiers = [
   "Development Status :: 1 - Planning",
-  "Environment :: Console",
   "Environment :: MacOS X :: Cocoa",
   "Intended Audience :: Developers",
   "License :: OSI Approved :: The Unlicense (Unlicense)",
@@ -32,7 +31,6 @@ classifiers = [
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",
   "Programming Language :: Python :: Implementation :: CPython",
-  "Topic :: Software Development :: Libraries :: Python Modules",
   "Typing :: Typed",
 ]
 
