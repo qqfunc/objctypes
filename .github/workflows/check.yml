@@ -38,7 +38,7 @@ jobs:
     - name: Install dependencies
       run: uv sync --group gh-actions
     - name: Check with editorconfig-checker
-      run: uv run ec -no-color
+      run: uv run ec -format github-actions -no-color
     - name: Lint with Ruff
       run: uv run ruff check --output-format=github .
     - name: Format Check with Ruff
