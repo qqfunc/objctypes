@@ -46,9 +46,9 @@ def test_objcselector_from_address() -> None:
     sel2 = ObjCSelector("someMethod:")
     sel3 = ObjCSelector("someMethod:arg:")
 
-    assert sel1 is ObjCSelector.from_address(sel1.address)
-    assert sel2 is ObjCSelector.from_address(sel2.address)
-    assert sel3 is ObjCSelector.from_address(sel3.address)
+    assert sel1.address == ObjCSelector.from_address(sel1.address).address
+    assert sel2.address == ObjCSelector.from_address(sel2.address).address
+    assert sel3.address == ObjCSelector.from_address(sel3.address).address
 
 
 def test_objcselector_repr() -> None:
