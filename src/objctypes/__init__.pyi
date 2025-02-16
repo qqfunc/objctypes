@@ -9,7 +9,7 @@ class ObjCClass(type):  # NOTE: type?
         cls,
         name: str,
         bases: tuple[ObjCClass, ...],
-        namespace: dict[str, object],
+        dict: dict[str, object],
         /,
     ) -> ObjCClass: ...
     @classmethod
