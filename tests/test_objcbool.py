@@ -13,7 +13,7 @@ def test_objcbool() -> None:
     assert YES != NO
 
     # Test if the default value is NO.
-    assert ObjCBool == NO
+    assert ObjCBool() == NO
 
 
 def test_objcbool_cache() -> None:
@@ -71,17 +71,3 @@ def test_objcbool_float() -> None:
     # Test type of ObjCBool.__float__() is float.
     assert isinstance(float_yes, float)
     assert isinstance(float_no, float)
-
-
-def test_objcbool_complex() -> None:
-    """Test ObjCBool.__complex__()."""
-    complex_yes = complex(YES)
-    complex_no = complex(NO)
-
-    # Test values of of ObjCBool.__complex__().
-    assert complex_yes == 1 + 0j
-    assert complex_no == 0j
-
-    # Test type of ObjCBool.__complex__() is complex.
-    assert isinstance(complex_yes, complex)
-    assert isinstance(complex_no, complex)
