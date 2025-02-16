@@ -1,0 +1,84 @@
+name: Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  FORCE_COLOR: 'true'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.13']
+    steps:
+    - name: Checkout ${{ github.repository }}
+      uses: actions/checkout@v4
+    - name: Install Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install uv
+      uses: astral-sh/setup-uv@v3
+      with:
+        enable-cache: true
+        cache-suffix: check
+    - name: Install dependencies
+      run: uv sync --group check --no-default-groups --no-install-workspace
+    - name: Lint with Ruff
+      run: uv run ruff check --output-format=github .
+    - name: Format Check with Ruff
+      run: uv run ruff format --check
+    - name: Type check with mypy
+      run: uv run mypy .
+    - name: Prune uv cache
+      run: uv cache prune --ci
+
+  build:
+    name: Tests
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.13']
+    steps:
+    - name: Checkout ${{ github.repository }}
+      uses: actions/checkout@v4
+    - name: Install Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install libffi
+      run: brew install libffi
+    - name: Install uv
+      uses: astral-sh/setup-uv@v3
+      with:
+        enable-cache: true
+        cache-suffix: tests
+    - name: Install dependencies
+      run: uv sync --group gh-actions-tests
+    - name: Test with pytest
+      run: uv run pytest
+    - name: Prune uv cache
+      run: uv cache prune --ci
+
+  check-type:
+    name: Spell Check
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+    - name: Checkout ${{ github.repository }}
+      uses: actions/checkout@v4
+    - name: Spell check with typos
+      uses: crate-ci/typos@v1.29.5
