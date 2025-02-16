@@ -32,7 +32,7 @@ jobs:
       uses: astral-sh/setup-uv@v3
       with:
         enable-cache: true
-        cache-suffix: tests
+        # cache-suffix: tests
     - name: Install libffi
       run: brew install libffi
     - name: Install dependencies
