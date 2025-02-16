@@ -1,8 +1,5 @@
 [build-system]
-requires = [
-  "setuptools",
-  "setuptools_scm",
-]
+requires = ["setuptools", "setuptools_scm"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -10,14 +7,14 @@ name = "objctypes"
 dynamic = ["version"]
 requires-python = ">= 3.12"
 authors = [
-  {name = "qqfunc", email = "148628110+qqfunc@users.noreply.github.com"},
+  { name = "qqfunc", email = "148628110+qqfunc@users.noreply.github.com" },
 ]
 maintainers = [
-  {name = "qqfunc", email = "148628110+qqfunc@users.noreply.github.com"},
+  { name = "qqfunc", email = "148628110+qqfunc@users.noreply.github.com" },
 ]
 description = "Use Objective-C features in Python"
 readme = "README.md"
-license = {file = "LICENSE.md"}
+license = { file = "LICENSE.md" }
 keywords = ["objctypes", "objc", "Objective-C", "ObjectiveC"]
 classifiers = [
   "Development Status :: 1 - Planning",
@@ -61,8 +58,8 @@ docs = [
   "sphinx-notfound-page == 1.0.4",
 ]
 gh-actions = [
-  {include-group = "dev"},
-  "pytest-github-actions-annotate-failures == 0.2.0"
+  { include-group = "dev" },
+  "pytest-github-actions-annotate-failures == 0.2.0",
 ]
 
 [tool.mypy]
