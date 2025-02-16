@@ -51,6 +51,7 @@ dev = [
   "pytest == 8.3.4",
   "pytest-xdist == 3.6.1",
   "ruff == 0.9.6",
+  "types-setuptools == 75.8.0.20250210",
 ]
 docs = [
   "furo == 2024.8.6",
@@ -89,6 +90,9 @@ ignore = [
 max-doc-length = 72
 
 [tool.ruff.lint.per-file-ignores]
+"setup.py" = [
+  "S603", # subprocess-without-shell-equals-true
+]
 "docs/conf.py" = [
   "INP001", # implicit-namespace-package
 ]
@@ -96,18 +100,6 @@ max-doc-length = 72
   "S101",    # assert
   "INP001",  # implicit-namespace-package
   "PLR2004", # magic-value-comparison
-]
-
-[[tool.setuptools.ext-modules]]
-name = "objctypes"
-sources = [
-  "csrc/objctypes.c",
-  "csrc/objcclass.c",
-  "csrc/objcobject.c",
-  "csrc/objcmethod.c",
-  "csrc/objcselector.c",
-  "csrc/objcbool.c",
-  "csrc/objctypes_cache.cpp",
 ]
 
 [tool.setuptools_scm]
