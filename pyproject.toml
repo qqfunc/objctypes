@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "objctypes"
 dynamic = ["version"]
-requires-python = ">= 3.12"
+requires-python = ">= 3.13"
 authors = [
   { name = "qqfunc", email = "148628110+qqfunc@users.noreply.github.com" },
 ]
@@ -41,25 +41,30 @@ Repository = "https://github.com/qqfunc/objctypes"
 Issues = "https://github.com/qqfunc/objctypes/issues"
 
 [dependency-groups]
+check = [
+  "mypy[faster-cache] >= 1.15.0",
+  "ruff >= 0.9.6",
+  "types-setuptools >= 75.8.0.20250210",
+]
+check-editorconfig = ["editorconfig-checker >= 3.2.0"]
+tests = ["pytest >= 8.3.4", "pytest-xdist >= 3.6.1"]
+gh-actions-tests = [
+  { include-group = "tests" },
+  "pytest-github-actions-annotate-failures >= 0.3.0",
+]
 dev = [
-  "mypy[faster-cache] == 1.15.0",
-  "pytest == 8.3.4",
-  "pytest-xdist == 3.6.1",
-  "ruff == 0.9.6",
-  "types-setuptools == 75.8.0.20250210",
+  { include-group = "check" },
+  { include-group = "check-editorconfig" },
+  { include-group = "tests" },
 ]
 docs = [
-  "furo == 2024.8.6",
-  "readthedocs-sphinx-search == 0.3.2",
-  "sphinx == 8.1.3",
-  "sphinx-autobuild == 2024.10.3",
-  "sphinx-copybutton == 0.5.2",
-  "sphinx-hoverxref == 1.4.1",
-  "sphinx-notfound-page == 1.0.4",
-]
-gh-actions = [
-  { include-group = "dev" },
-  "pytest-github-actions-annotate-failures == 0.2.0",
+  "furo >= 2024.8.6",
+  "readthedocs-sphinx-search >= 0.3.2",
+  "sphinx >= 8.1.3",
+  "sphinx-autobuild >= 2024.10.3",
+  "sphinx-copybutton >= 0.5.2",
+  "sphinx-hoverxref >= 1.4.1",
+  "sphinx-notfound-page >= 1.0.4",
 ]
 
 [tool.mypy]
