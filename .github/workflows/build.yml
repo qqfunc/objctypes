@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: ['main']
 
+env:
+  FORCE_COLOR: 'true'
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -43,6 +46,6 @@ jobs:
     - name: Type check with mypy
       run: uv run mypy .
     - name: Test with pytest
-      run: uv run pytest --color=yes
+      run: uv run pytest
     - name: Prune uv cache
       run: uv cache prune --ci
