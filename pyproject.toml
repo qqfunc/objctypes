@@ -42,21 +42,18 @@ Issues = "https://github.com/qqfunc/objctypes/issues"
 
 [dependency-groups]
 check = [
+  "editorconfig-checker >= 3.2.0",
   "mypy[faster-cache] >= 1.15.0",
+  "pytest >= 8.3.4",
+  "pytest-xdist >= 3.6.1",
   "ruff >= 0.9.6",
   "types-setuptools >= 75.8.0.20250210",
 ]
-check-editorconfig = ["editorconfig-checker >= 3.2.0"]
-tests = ["pytest >= 8.3.4", "pytest-xdist >= 3.6.1"]
-gh-actions-tests = [
-  { include-group = "tests" },
+gh-actions = [
+  { include-group = "check" },
   "pytest-github-actions-annotate-failures >= 0.3.0",
 ]
-dev = [
-  { include-group = "check" },
-  { include-group = "check-editorconfig" },
-  { include-group = "tests" },
-]
+dev = [{ include-group = "check" }]
 docs = [
   "furo >= 2024.8.6",
   "readthedocs-sphinx-search >= 0.3.2",
