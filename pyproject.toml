@@ -109,9 +109,5 @@ sources = [
   "csrc/objcbool.c",
   "csrc/objctypes_cache.cpp",
 ]
-include-dirs = ["$(brew --prefix)/include"]
-library-dirs = ["$(brew --prefix)/lib"]
-libraries = ["ffi"]
-optional = true
 
 [tool.setuptools_scm]
