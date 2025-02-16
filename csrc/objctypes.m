@@ -12,4 +12,4 @@ objc_get_debug_description(id obj) {
     } else {
         return NULL;
     }
-} 
+}
