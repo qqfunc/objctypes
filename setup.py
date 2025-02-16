@@ -15,7 +15,7 @@ setup(
     ext_modules=[
         Extension(
             name="objctypes",
-            sources=C_EXT_PATH.glob("*.c", "*.cpp"),
+            sources=C_EXT_PATH.glob("*.c") + C_EXT_PATH.glob("*.cpp"),
             include_dirs=[f"{BREW_PREFIX}/include"],
             library_dirs=[f"{BREW_PREFIX}/lib"],
             libraries=["ffi"],
