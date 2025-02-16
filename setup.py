@@ -1,5 +1,6 @@
 """setup.py: Set configurations of setuptools."""
 
+import itertools
 from pathlib import Path
 from subprocess import check_output
 
@@ -15,7 +16,10 @@ setup(
     ext_modules=[
         Extension(
             name="objctypes",
-            sources=C_EXT_PATH.glob("*.c") + C_EXT_PATH.glob("*.cpp"),
+            sources=itertools.chain(
+                C_EXT_PATH.glob("*.c"),
+                C_EXT_PATH.glob("*.cpp"),
+            ),
             include_dirs=[f"{BREW_PREFIX}/include"],
             library_dirs=[f"{BREW_PREFIX}/lib"],
             libraries=["ffi"],
