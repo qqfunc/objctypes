@@ -8,7 +8,7 @@ class ObjCClass(type):  # NOTE: type?
     def __new__(
         cls,
         name: str,
-        bases: tuple[type, ...],
+        bases: tuple[ObjCClass, ...],
         namespace: dict[str, object],
         /,
     ) -> ObjCClass: ...
