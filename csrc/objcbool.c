@@ -106,28 +106,11 @@ ObjCBool_float(ObjCBoolObject *self)
     return PyFloat_FromDouble(self->value ? 1 : 0);
 }
 
-// ObjCBool.__complex__()
-static PyObject *
-ObjCBool_complex(ObjCBoolObject *self, PyObject *Py_UNUSED(args))
-{
-    return PyComplex_FromDoubles(self->value ? 1 : 0, 0);
-}
-
 static PyNumberMethods ObjCBool_number_methods = {
     .nb_bool = (inquiry)ObjCBool_bool,
     .nb_invert = (unaryfunc)ObjCBool_invert,
     .nb_int = (unaryfunc)ObjCBool_int,
     .nb_float = (unaryfunc)ObjCBool_float,
-};
-
-static PyMethodDef ObjCBool_methods[] = {
-    {
-        "__complex__",
-        (PyCFunction)ObjCBool_complex,
-        METH_NOARGS,
-        PyDoc_STR("Return complex(self)."),
-    },
-    {NULL},
 };
 
 PyTypeObject ObjCBoolType = {
@@ -141,7 +124,6 @@ PyTypeObject ObjCBoolType = {
     .tp_str = (reprfunc)ObjCBool_str,
     .tp_flags = Py_TPFLAGS_DEFAULT,
     .tp_doc = PyDoc_STR("Python wrapper for Objective-C BOOL."),
-    .tp_methods = 
     .tp_new = ObjCBool_new,
 };
 
