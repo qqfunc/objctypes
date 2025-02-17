@@ -16,6 +16,11 @@ def test_objcbool() -> None:
     assert ObjCBool() == NO
 
 
+def test_objcbool_doc() -> None:
+    """Test docstring of ObjCBool."""
+    assert ObjCBool.__doc__ is not None
+
+
 def test_objcbool_cache() -> None:
     """Test if ObjCBool objects are cached."""
     assert YES is ObjCBool(1)

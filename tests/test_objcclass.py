@@ -20,6 +20,11 @@ def test_objcclass() -> None:
     )
 
 
+def test_objcclass_doc() -> None:
+    """Test docstring of ObjCClass."""
+    assert ObjCClass.__doc__ is not None
+
+
 def test_objcclass_cache() -> None:
     """Test if ObjCClass objects are cached."""
     NSObject = ObjCClass("NSObject")  # noqa: N806

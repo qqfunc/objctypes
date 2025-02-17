@@ -18,6 +18,11 @@ def test_objcobject_type() -> None:
     assert ObjCObject.name == ""
 
 
+def test_objcobject_doc() -> None:
+    """Test docstring of ObjCObject."""
+    assert ObjCObject.__doc__ is not None
+
+
 def test_objcobject_cache() -> None:
     """Test if ObjCObject objects are cached."""
 

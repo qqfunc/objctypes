@@ -10,6 +10,11 @@ def test_objcselector() -> None:
     ObjCSelector("someMethod:arg:")
 
 
+def test_objcselector_doc() -> None:
+    """Test docstring of ObjCSelector."""
+    assert ObjCSelector.__doc__ is not None
+
+
 def test_objcselector_cache() -> None:
     """Test if ObjCSelector objects are cached."""
     sel1 = ObjCSelector("someMethod")
