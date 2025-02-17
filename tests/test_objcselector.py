@@ -1,5 +1,7 @@
 """Test functions for ObjCSelector."""
 
+import pytest
+
 from objctypes import ObjCSelector
 
 
@@ -8,11 +10,6 @@ def test_objcselector() -> None:
     ObjCSelector("someMethod")
     ObjCSelector("someMethod:")
     ObjCSelector("someMethod:arg:")
-
-
-def test_objcselector_doc() -> None:
-    """Test docstring of ObjCSelector."""
-    assert ObjCSelector.__doc__ is not None
 
 
 def test_objcselector_cache() -> None:
@@ -30,30 +27,9 @@ def test_objcselector_cache() -> None:
     assert sel3 is not sel1
 
 
-def test_objcselector_address() -> None:
-    """Test ObjCSelector.address."""
-    sel1 = ObjCSelector("someMethod")
-    sel2 = ObjCSelector("someMethod:")
-    sel3 = ObjCSelector("someMethod:arg:")
-
-    assert sel1.address == ObjCSelector("someMethod").address
-    assert sel2.address == ObjCSelector("someMethod:").address
-    assert sel3.address == ObjCSelector("someMethod:arg:").address
-
-    assert sel1.address != sel2.address
-    assert sel2.address != sel3.address
-    assert sel3.address != sel1.address
-
-
-def test_objcselector_from_address() -> None:
-    """Test ObjCSelector.from_address()."""
-    sel1 = ObjCSelector("someMethod")
-    sel2 = ObjCSelector("someMethod:")
-    sel3 = ObjCSelector("someMethod:arg:")
-
-    assert sel1.address == ObjCSelector.from_address(sel1.address).address
-    assert sel2.address == ObjCSelector.from_address(sel2.address).address
-    assert sel3.address == ObjCSelector.from_address(sel3.address).address
+def test_objcselector_doc() -> None:
+    """Test docstring of ObjCSelector."""
+    assert ObjCSelector.__doc__ is not None
 
 
 def test_objcselector_repr() -> None:
@@ -69,6 +45,35 @@ def test_objcselector_repr() -> None:
     assert str(sel1) == "someMethod"
     assert str(sel2) == "someMethod:"
     assert str(sel3) == "someMethod:arg:"
+
+
+def test_objcselector_from_address() -> None:
+    """Test ObjCSelector.from_address()."""
+    sel1 = ObjCSelector("someMethod")
+    sel2 = ObjCSelector("someMethod:")
+    sel3 = ObjCSelector("someMethod:arg:")
+
+    assert sel1.address == ObjCSelector.from_address(sel1.address).address
+    assert sel2.address == ObjCSelector.from_address(sel2.address).address
+    assert sel3.address == ObjCSelector.from_address(sel3.address).address
+
+    with pytest.raises(TypeError):
+        ObjCSelector.from_address(object())
+
+
+def test_objcselector_address() -> None:
+    """Test ObjCSelector.address."""
+    sel1 = ObjCSelector("someMethod")
+    sel2 = ObjCSelector("someMethod:")
+    sel3 = ObjCSelector("someMethod:arg:")
+
+    assert sel1.address == ObjCSelector("someMethod").address
+    assert sel2.address == ObjCSelector("someMethod:").address
+    assert sel3.address == ObjCSelector("someMethod:arg:").address
+
+    assert sel1.address != sel2.address
+    assert sel2.address != sel3.address
+    assert sel3.address != sel1.address
 
 
 def test_objcselector_name() -> None:

@@ -20,9 +20,18 @@ def test_objcclass() -> None:
     )
 
 
-def test_objcclass_doc() -> None:
-    """Test docstring of ObjCClass."""
-    assert ObjCClass.__doc__ is not None
+def test_objcclass_inheritance() -> None:
+    """Test inheritance relationships of ObjCClass."""
+    NSObject = ObjCClass("NSObject")  # noqa: N806
+    NSString = ObjCClass("NSString")  # noqa: N806
+    NSNumber = ObjCClass("NSNumber")  # noqa: N806
+
+    assert issubclass(NSString, NSObject)
+    assert issubclass(NSNumber, NSObject)
+    assert not issubclass(NSObject, NSString)
+    assert not issubclass(NSObject, NSNumber)
+    assert not issubclass(NSNumber, NSString)
+    assert not issubclass(NSString, NSNumber)
 
 
 def test_objcclass_cache() -> None:
@@ -40,19 +49,20 @@ def test_objcclass_cache() -> None:
     assert NSNumber is not NSObject
 
 
-def test_objcclass_address() -> None:
-    """Test ObjCClass.address."""
+def test_objcclass_doc() -> None:
+    """Test docstring of ObjCClass."""
+    assert ObjCClass.__doc__ is not None
+
+
+def test_objcclass_repr() -> None:
+    """Test ObjCClass.__str__() and ObjCClass.__repr__()."""
     NSObject = ObjCClass("NSObject")  # noqa: N806
     NSString = ObjCClass("NSString")  # noqa: N806
     NSNumber = ObjCClass("NSNumber")  # noqa: N806
 
-    assert NSObject.address == ObjCClass("NSObject").address
-    assert NSString.address == ObjCClass("NSString").address
-    assert NSNumber.address == ObjCClass("NSNumber").address
-
-    assert NSObject.address != NSString.address
-    assert NSString.address != NSNumber.address
-    assert NSNumber.address != NSObject.address
+    assert repr(NSObject) == "ObjCClass('NSObject')"
+    assert repr(NSString) == "ObjCClass('NSString')"
+    assert repr(NSNumber) == "ObjCClass('NSNumber')"
 
 
 def test_objcclass_from_address() -> None:
@@ -69,16 +79,23 @@ def test_objcclass_from_address() -> None:
     assert NSString.address == ObjCClass.from_address(NSString.address).address
     assert NSNumber.address == ObjCClass.from_address(NSNumber.address).address
 
+    with pytest.raises(TypeError):
+        ObjCClass.from_address(object())
 
-def test_objcclass_repr() -> None:
-    """Test ObjCClass.__str__() and ObjCClass.__repr__()."""
+
+def test_objcclass_address() -> None:
+    """Test ObjCClass.address."""
     NSObject = ObjCClass("NSObject")  # noqa: N806
     NSString = ObjCClass("NSString")  # noqa: N806
     NSNumber = ObjCClass("NSNumber")  # noqa: N806
 
-    assert repr(NSObject) == "ObjCClass('NSObject')"
-    assert repr(NSString) == "ObjCClass('NSString')"
-    assert repr(NSNumber) == "ObjCClass('NSNumber')"
+    assert NSObject.address == ObjCClass("NSObject").address
+    assert NSString.address == ObjCClass("NSString").address
+    assert NSNumber.address == ObjCClass("NSNumber").address
+
+    assert NSObject.address != NSString.address
+    assert NSString.address != NSNumber.address
+    assert NSNumber.address != NSObject.address
 
 
 def test_objcclass_name() -> None:
@@ -90,17 +107,3 @@ def test_objcclass_name() -> None:
     assert NSObject.name == "NSObject"
     assert NSString.name == "NSString"
     assert NSNumber.name == "NSNumber"
-
-
-def test_objcclass_inheritance() -> None:
-    """Test inheritance relationships of ObjCClass."""
-    NSObject = ObjCClass("NSObject")  # noqa: N806
-    NSString = ObjCClass("NSString")  # noqa: N806
-    NSNumber = ObjCClass("NSNumber")  # noqa: N806
-
-    assert issubclass(NSString, NSObject)
-    assert issubclass(NSNumber, NSObject)
-    assert not issubclass(NSObject, NSString)
-    assert not issubclass(NSObject, NSNumber)
-    assert not issubclass(NSNumber, NSString)
-    assert not issubclass(NSString, NSNumber)
