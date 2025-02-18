@@ -38,7 +38,7 @@ def test_objcobject_from_address() -> None:
     assert str(excinfo.value) == "the specified Objective-C object is nil"
 
     with pytest.raises(TypeError):
-        ObjCObject.from_address(object())
+        ObjCObject.from_address(object())  # type: ignore[arg-type]
 
 
 def test_objcobject_address() -> None:

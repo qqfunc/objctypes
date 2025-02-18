@@ -80,7 +80,7 @@ def test_objcclass_from_address() -> None:
     assert NSNumber.address == ObjCClass.from_address(NSNumber.address).address
 
     with pytest.raises(TypeError):
-        ObjCClass.from_address(object())
+        ObjCClass.from_address(object())  # type: ignore[arg-type]
 
 
 def test_objcclass_address() -> None:

@@ -58,7 +58,7 @@ def test_objcselector_from_address() -> None:
     assert sel3.address == ObjCSelector.from_address(sel3.address).address
 
     with pytest.raises(TypeError):
-        ObjCSelector.from_address(object())
+        ObjCSelector.from_address(object())  # type: ignore[arg-type]
 
 
 def test_objcselector_address() -> None:
