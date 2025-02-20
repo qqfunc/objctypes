@@ -23,22 +23,19 @@ jobs:
         python-version: ['3.13']
     steps:
     - name: Checkout ${{ github.repository }}
-      uses: actions/checkout@v4
+      uses: actions/checkout@v4.2.2
     - name: Install Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v5.4.0
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install uv
-      uses: astral-sh/setup-uv@v3
+      uses: astral-sh/setup-uv@v5.2.2
       with:
         enable-cache: true
-        # cache-suffix: tests
     - name: Install libffi
       run: brew install libffi
     - name: Install dependencies
       run: uv sync --group gh-actions
-    - name: Check with editorconfig-checker
-      run: uv run ec -format github-actions -no-color
     - name: Lint with Ruff
       run: uv run ruff check --output-format=github .
     - name: Format Check with Ruff
@@ -50,13 +47,17 @@ jobs:
     - name: Prune uv cache
       run: uv cache prune --ci
 
-  spell-check:
-    name: Spell Check
+  check:
+    name: Check
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
     steps:
     - name: Checkout ${{ github.repository }}
-      uses: actions/checkout@v4
+      uses: actions/checkout@v4.2.2
+    - name: Install editorconfig-checker
+      uses: editorconfig-checker/action-editorconfig-checker@v2.0.0
+    - name: Check files with editorconfig-checker
+      run: editorconfig-checker -format github-actions -no-color
     - name: Spell check with typos
       uses: crate-ci/typos@v1.29.5
