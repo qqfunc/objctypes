@@ -55,7 +55,7 @@ docs = [
   "sphinx-autobuild==2024.10.3",
   "sphinx-copybutton==0.5.2",
   "sphinx-hoverxref ==1.4.2",
-  "sphinx-notfound-page==1.0.4",
+  "sphinx-notfound-page==1.1.0",
 ]
 
 [tool.mypy]
