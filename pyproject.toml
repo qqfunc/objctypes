@@ -32,11 +32,6 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://qqfunc.github.io/objctypes"
-Documentation = "https://objctypes.readthedocs.org"
-Changelog = "https://objctypes.readthedocs.org/en/stable/changelog.html"
-Package = "https://pypi.org/project/objctypes/"
-Download = "https://pypi.org/project/objctypes/#files"
 Repository = "https://github.com/qqfunc/objctypes"
 Issues = "https://github.com/qqfunc/objctypes/issues"
 
