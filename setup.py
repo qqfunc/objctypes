@@ -7,7 +7,6 @@ from subprocess import check_output
 
 from setuptools import Extension, setup
 
-
 if sys.platform == "darwin":
     C_EXT_PATH = Path("csrc")
     BREW_PATH = Path("/opt/homebrew/bin/brew")
