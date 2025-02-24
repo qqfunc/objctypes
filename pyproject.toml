@@ -39,6 +39,7 @@ Issues = "https://github.com/qqfunc/objctypes/issues"
 check = [
   "mypy >= 1.15.0",
   "pytest >= 8.3.4",
+  "pytest-xdist >= 3.6.1",
   "ruff >= 0.9.6",
   "types-setuptools >= 75.8.0.20250210",
 ]
@@ -59,6 +60,9 @@ docs = [
 
 [tool.mypy]
 exclude = ["^build/"]
+
+[tool.pytest.ini_options]
+addopts = "-n auto"
 
 [tool.ruff]
 line-length = 79
