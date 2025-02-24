@@ -37,7 +37,7 @@ Issues = "https://github.com/qqfunc/objctypes/issues"
 
 [dependency-groups]
 check = [
-  "mypy[faster-cache] >= 1.15.0",
+  "mypy >= 1.15.0",
   "pytest >= 8.3.4",
   "pytest-xdist >= 3.6.1",
   "ruff >= 0.9.6",
