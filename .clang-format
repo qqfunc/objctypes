@@ -1,0 +1,25 @@
+AlignAfterOpenBracket: Align
+AllowShortIfStatementsOnASingleLine: Never
+BasedOnStyle: LLVM
+BraceWrapping:
+  AfterControlStatement: Never
+  AfterFunction: true
+  BeforeElse: true
+BreakAfterReturnType: All # Available in Clang-Format 19
+BreakBeforeBinaryOperators: NonAssignment
+BreakBeforeBraces: Custom
+ColumnLimit: 79
+DerivePointerAlignment: false
+IndentWidth: 4
+InsertBraces: true
+Macros:
+- PyVarObject_HEAD_INIT(type, size)=_PyObject_EXTRA_INIT 1, type, size,
+PointerAlignment: Right
+ReflowComments: true
+RemoveParentheses: ReturnStatement
+SeparateDefinitionBlocks: Always
+SpaceBeforeParens: ControlStatements
+SpacesInParens: Never
+StatementMacros: [PyObject_HEAD]
+TabWidth: 4
+UseTab: Never

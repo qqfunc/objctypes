@@ -112,7 +112,8 @@ static PyGetSetDef ObjCMethod_getset[] = {
 };
 
 PyTypeObject ObjCMethodType = {
-    .ob_base = PyVarObject_HEAD_INIT(NULL, 0).tp_name = "objctypes.ObjCMethod",
+    .ob_base = PyVarObject_HEAD_INIT(NULL, 0)
+    .tp_name = "objctypes.ObjCMethod",
     .tp_basicsize = sizeof(ObjCMethodObject),
     .tp_itemsize = 0,
     .tp_dealloc = (destructor)ObjCMethod_dealloc,
