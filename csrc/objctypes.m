@@ -6,10 +6,12 @@
 #include "objctypes.h"
 
 char *
-objc_get_debug_description(id obj) {
+objc_get_debug_description(id obj)
+{
     if (class_comformsToProtocol(object_getClass(obj), @protocol(NSObject))) {
         return [[obj debugDescription] UTF8String];
-    } else {
+    }
+    else {
         return NULL;
     }
 }
