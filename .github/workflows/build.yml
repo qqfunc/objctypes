@@ -56,6 +56,8 @@ jobs:
     steps:
     - name: Checkout ${{ github.repository }}
       uses: actions/checkout@v4.2.2
+    - name: Set up Homebrew
+      run: eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
     - name: Install editorconfig-checker
       uses: editorconfig-checker/action-editorconfig-checker@v2.0.0
     - name: Check files with editorconfig-checker
