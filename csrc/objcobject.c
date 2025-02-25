@@ -126,8 +126,8 @@ static PyGetSetDef ObjCObject_getset[] = {
 ObjCClassObject ObjCObjectType = {
     .type =
         {
-            .ob_base = PyVarObject_HEAD_INIT(NULL, 0).tp_name =
-                "objctypes.ObjCObject",
+            .ob_base = PyVarObject_HEAD_INIT(NULL, 0)
+            .tp_name = "objctypes.ObjCObject",
             .tp_basicsize = sizeof(ObjCObjectObject),
             .tp_itemsize = 0,
             .tp_dealloc = (destructor)ObjCObject_dealloc,

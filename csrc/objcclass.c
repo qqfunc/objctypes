@@ -208,7 +208,8 @@ static PyGetSetDef ObjCClass_getset[] = {
 };
 
 PyTypeObject ObjCClassType = {
-    .ob_base = PyVarObject_HEAD_INIT(NULL, 0).tp_name = "objctypes.ObjCClass",
+    .ob_base = PyVarObject_HEAD_INIT(NULL, 0)
+    .tp_name = "objctypes.ObjCClass",
     .tp_basicsize = sizeof(ObjCClassObject),
     .tp_itemsize = 0,
     .tp_dealloc = (destructor)ObjCClass_dealloc,
