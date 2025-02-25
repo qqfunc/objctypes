@@ -41,7 +41,7 @@ check = [
   "pytest==8.3.4",
   "pytest-xdist==3.6.1",
   "ruff==0.9.7",
-  "types-setuptools==75.8.0.20250210",
+  "types-setuptools==75.8.0.20250225",
 ]
 gh-actions = [
   { include-group = "check" },
