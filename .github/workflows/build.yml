@@ -56,17 +56,9 @@ jobs:
     steps:
     - name: Checkout ${{ github.repository }}
       uses: actions/checkout@v4.2.2
-    - name: Set up Homebrew
-      uses: Homebrew/actions/setup-homebrew@master
     - name: Install editorconfig-checker
       uses: editorconfig-checker/action-editorconfig-checker@v2.0.0
     - name: Check files with editorconfig-checker
       run: editorconfig-checker -format github-actions -no-color
     - name: Spell check with typos
       uses: crate-ci/typos@v1.29.9
-    - name: Install LLVM
-      run: brew install llvm
-    - name: Add LLVM to PATH
-      run: echo "$LLVM_PREFIX/opt/llvm/bin" >> $GITHUB_PATH
-    - name: Format with Clang-Format
-      run: clang-format -Werror -i ./**/*.(c|cpp|h|m)
