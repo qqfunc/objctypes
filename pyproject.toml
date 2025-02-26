@@ -82,3 +82,7 @@ lint.per-file-ignores."tests/**.py" = [
 lint.pycodestyle.max-doc-length = 72
 
 [tool.setuptools_scm]
+
+[tool.typos]
+files.extend-exclude = ["renovate.json", "uv.lock"]
+default.unicode = false
