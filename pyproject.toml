@@ -4,16 +4,9 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "objctypes"
-dynamic = ["version"]
-requires-python = ">= 3.13"
-authors = [
-  { name = "qqfunc", email = "148628110+qqfunc@users.noreply.github.com" },
-]
-maintainers = [
-  { name = "qqfunc", email = "148628110+qqfunc@users.noreply.github.com" },
-]
 description = "Use Objective-C features in Python"
 readme = "README.md"
+requires-python = ">=3.13"
 license = { file = "LICENSE.md" }
 keywords = ["objctypes", "objc", "Objective-C", "ObjectiveC"]
 classifiers = [
@@ -30,10 +23,9 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: CPython",
   "Typing :: Typed",
 ]
-
-[project.urls]
-Repository = "https://github.com/qqfunc/objctypes"
-Issues = "https://github.com/qqfunc/objctypes/issues"
+urls.Repository = "https://github.com/qqfunc/objctypes"
+urls.Issues = "https://github.com/qqfunc/objctypes/issues"
+dynamic = ["version"]
 
 [dependency-groups]
 check = [
@@ -66,31 +58,23 @@ addopts = "-n auto"
 
 [tool.ruff]
 line-length = 79
-
-[tool.ruff.format]
-docstring-code-line-length = 72
-
-[tool.ruff.lint]
-select = ["ALL"]
-ignore = [
+format.docstring-code-line-length = 72
+lint.select = ["ALL"]
+lint.ignore = [
   "D203", # one-blank-line-before-class
   "D213", # multi-line-summary-second-line
 ]
-
-[tool.ruff.lint.pycodestyle]
-max-doc-length = 72
-
-[tool.ruff.lint.per-file-ignores]
-"setup.py" = [
+lint.per-file-ignores."setup.py" = [
   "S603", # subprocess-without-shell-equals-true
 ]
-"docs/conf.py" = [
+lint.per-file-ignores."docs/conf.py" = [
   "INP001", # implicit-namespace-package
 ]
-"tests/**.py" = [
+lint.per-file-ignores."tests/**.py" = [
   "S101",    # assert
   "INP001",  # implicit-namespace-package
   "PLR2004", # magic-value-comparison
 ]
+lint.pycodestyle.max-doc-length = 72
 
 [tool.setuptools_scm]
