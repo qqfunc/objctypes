@@ -39,7 +39,11 @@ gh-actions = [
   { include-group = "check" },
   "pytest-github-actions-annotate-failures==0.3.0",
 ]
-dev = [{ include-group = "check" }, "editorconfig-checker==3.2.0"]
+dev = [
+  { include-group = "check" },
+  "editorconfig-checker==3.2.0",
+  "typos==1.29.10"
+]
 docs = [
   "furo==2024.8.6",
   "readthedocs-sphinx-search==0.3.2",
