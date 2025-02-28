@@ -12,7 +12,11 @@ indent_style = space
 indent_style = space
 indent_size = 4
 
-[*.{toml,yml}]
+[*.{json,toml,yml}]
+indent_style = space
+indent_size = 2
+
+[.clangd]
 indent_style = space
 indent_size = 2
 
