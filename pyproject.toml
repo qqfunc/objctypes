@@ -35,15 +35,6 @@ check = [
   "ruff==0.9.8",
   "types-setuptools==75.8.0.20250225",
 ]
-gh-actions = [
-  { include-group = "check" },
-  "pytest-github-actions-annotate-failures==0.3.0",
-]
-dev = [
-  { include-group = "check" },
-  "editorconfig-checker==3.2.0",
-  "typos==1.29.10"
-]
 docs = [
   "furo==2024.8.6",
   "readthedocs-sphinx-search==0.3.2",
@@ -52,6 +43,16 @@ docs = [
   "sphinx-copybutton==0.5.2",
   "sphinx-hoverxref ==1.4.2",
   "sphinx-notfound-page==1.1.0",
+]
+dev = [
+  { include-group = "check" },
+  { include-group = "docs" },
+  "editorconfig-checker==3.2.0",
+  "typos==1.29.10",
+]
+gh-actions = [
+  { include-group = "check" },
+  "pytest-github-actions-annotate-failures==0.3.0",
 ]
 
 [tool.mypy]
