@@ -162,5 +162,6 @@ cython_debug/
 #.idea/
 
 # clangd
+.clangd
 compile_commands.json
 compile_flags.txt
