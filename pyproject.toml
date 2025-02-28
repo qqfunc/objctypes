@@ -32,7 +32,7 @@ check = [
   "mypy==1.15.0",
   "pytest==8.3.4",
   "pytest-xdist==3.6.1",
-  "ruff==0.9.8",
+  "ruff==0.9.9",
   "types-setuptools==75.8.0.20250225",
 ]
 gh-actions = [
