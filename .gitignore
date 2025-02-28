@@ -29,6 +29,9 @@ share/python-wheels/
 *.egg
 MANIFEST
 
+# pytest
+.pytest_cache/
+
 # Sphinx documentation
 docs/_build/
 
@@ -40,6 +43,11 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
 
 # clangd
 .clangd
