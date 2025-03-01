@@ -21,6 +21,8 @@ version = ".".join([str(num) for num in Version(release).release[:2]])
 
 # General configuration
 extensions = [
+    "autoapi.extension",
+    "sphinx.ext.autodoc",
     "sphinx.ext.extlinks",
     "sphinx.ext.intersphinx",
     "hoverxref.extension",
@@ -31,7 +33,12 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # Options for HTML output
 html_theme = "furo"
-html_static_path = ["_static"]
+
+# autoapi.extension
+autoapi_dirs = ["../src"]
+
+# sphinx.ext.autodoc
+autodoc_typehints = "both"
 
 # sphinx.ext.extlinks
 extlinks = {
