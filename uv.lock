@@ -257,6 +257,7 @@ dev = [
     { name = "editorconfig-checker" },
     { name = "furo" },
     { name = "mypy" },
+    { name = "packaging" },
     { name = "pytest" },
     { name = "pytest-xdist" },
     { name = "readthedocs-sphinx-search" },
@@ -271,9 +272,9 @@ dev = [
 ]
 docs = [
     { name = "furo" },
+    { name = "packaging" },
     { name = "readthedocs-sphinx-search" },
     { name = "sphinx" },
-    { name = "sphinx-autobuild" },
     { name = "sphinx-copybutton" },
     { name = "sphinx-hoverxref" },
     { name = "sphinx-notfound-page" },
@@ -301,6 +302,7 @@ dev = [
     { name = "editorconfig-checker", specifier = "==3.2.0" },
     { name = "furo", specifier = "==2024.8.6" },
     { name = "mypy", specifier = "==1.15.0" },
+    { name = "packaging", specifier = "==24.2" },
     { name = "pytest", specifier = "==8.3.4" },
     { name = "pytest-xdist", specifier = "==3.6.1" },
     { name = "readthedocs-sphinx-search", specifier = "==0.3.2" },
@@ -315,9 +317,9 @@ dev = [
 ]
 docs = [
     { name = "furo", specifier = "==2024.8.6" },
+    { name = "packaging", specifier = "==24.2" },
     { name = "readthedocs-sphinx-search", specifier = "==0.3.2" },
     { name = "sphinx", specifier = "==8.2.1" },
-    { name = "sphinx-autobuild", specifier = "==2024.10.3" },
     { name = "sphinx-copybutton", specifier = "==0.5.2" },
     { name = "sphinx-hoverxref", specifier = "==1.4.2" },
     { name = "sphinx-notfound-page", specifier = "==1.1.0" },
