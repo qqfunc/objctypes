@@ -37,10 +37,6 @@ jobs:
       run: brew install libffi
     - name: Install dependencies
       run: uv sync --group gh-actions --no-default-groups
-    - name: Check with Ruff
-      run: uv run ruff check --output-format=github .
-    - name: Format with Ruff
-      run: uv run ruff format --check
     - name: Type Check with mypy
       run: uv run mypy .
     - name: Test with pytest
@@ -62,3 +58,11 @@ jobs:
       run: editorconfig-checker -format github-actions -no-color
     - name: Spell check with typos
       uses: crate-ci/typos@v1.30.0
+    - name: Install Ruff
+      uses: astral-sh/ruff-action@v3.2.1
+      with:
+        version-file: ./pyproject.toml
+    - name: Check with Ruff
+      run: ruff check --output-format=github .
+    - name: Format with Ruff
+      run: ruff format --check

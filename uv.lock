@@ -259,7 +259,6 @@ check = [
     { name = "mypy" },
     { name = "pytest" },
     { name = "pytest-xdist" },
-    { name = "ruff" },
     { name = "types-setuptools" },
 ]
 dev = [
@@ -291,7 +290,6 @@ gh-actions = [
     { name = "pytest" },
     { name = "pytest-github-actions-annotate-failures" },
     { name = "pytest-xdist" },
-    { name = "ruff" },
     { name = "types-setuptools" },
 ]
 
@@ -302,7 +300,6 @@ check = [
     { name = "mypy", specifier = "==1.15.0" },
     { name = "pytest", specifier = "==8.3.4" },
     { name = "pytest-xdist", specifier = "==3.6.1" },
-    { name = "ruff", specifier = "==0.9.9" },
     { name = "types-setuptools", specifier = "==75.8.2.20250301" },
 ]
 dev = [
@@ -334,7 +331,6 @@ gh-actions = [
     { name = "pytest", specifier = "==8.3.4" },
     { name = "pytest-github-actions-annotate-failures", specifier = "==0.3.0" },
     { name = "pytest-xdist", specifier = "==3.6.1" },
-    { name = "ruff", specifier = "==0.9.9" },
     { name = "types-setuptools", specifier = "==75.8.2.20250301" },
 ]
 
