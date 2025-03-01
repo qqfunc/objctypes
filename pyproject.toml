@@ -32,7 +32,6 @@ check = [
   "mypy==1.15.0",
   "pytest==8.3.4",
   "pytest-xdist==3.6.1",
-  "ruff==0.9.9",
   "types-setuptools==75.8.2.20250301",
 ]
 docs = [
@@ -47,6 +46,7 @@ dev = [
   { include-group = "check" },
   { include-group = "docs" },
   "editorconfig-checker==3.2.0",
+  "ruff==0.9.9",
   "sphinx-autobuild==2024.10.3",
   "typos==1.30.0",
 ]
