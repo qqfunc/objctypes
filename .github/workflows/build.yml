@@ -36,7 +36,7 @@ jobs:
     - name: Install libffi
       run: brew install libffi
     - name: Install dependencies
-      run: uv sync --group gh-actions
+      run: uv sync --group gh-actions --no-default-groups
     - name: Check with Ruff
       run: uv run ruff check --output-format=github .
     - name: Format with Ruff

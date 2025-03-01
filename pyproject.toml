@@ -35,23 +35,26 @@ check = [
   "ruff==0.9.9",
   "types-setuptools==75.8.2.20250301",
 ]
-gh-actions = [
-  { include-group = "check" },
-  "pytest-github-actions-annotate-failures==0.3.0",
+docs = [
+  "furo==2024.8.6",
+  "packaging==24.2",
+  "readthedocs-sphinx-search==0.3.2",
+  "sphinx==8.2.1",
+  "sphinx-autoapi==3.6.0",
+  "sphinx-copybutton==0.5.2",
+  "sphinx-hoverxref==1.4.2",
+  "sphinx-notfound-page==1.1.0",
 ]
 dev = [
   { include-group = "check" },
+  { include-group = "docs" },
   "editorconfig-checker==3.2.0",
-  "typos==1.30.0"
-]
-docs = [
-  "furo==2024.8.6",
-  "readthedocs-sphinx-search==0.3.2",
-  "sphinx==8.2.1",
   "sphinx-autobuild==2024.10.3",
-  "sphinx-copybutton==0.5.2",
-  "sphinx-hoverxref ==1.4.2",
-  "sphinx-notfound-page==1.1.0",
+  "typos==1.29.10",
+]
+gh-actions = [
+  { include-group = "check" },
+  "pytest-github-actions-annotate-failures==0.3.0",
 ]
 
 [tool.mypy]
@@ -65,8 +68,10 @@ line-length = 79
 format.docstring-code-line-length = 72
 lint.select = ["ALL"]
 lint.ignore = [
-  "D203", # one-blank-line-before-class
-  "D213", # multi-line-summary-second-line
+  "PYI021", # docstring-in-stub
+  "D203",   # one-blank-line-before-class
+  "D213",   # multi-line-summary-second-line
+  "D418",   # overload-with-docstring
 ]
 lint.per-file-ignores."setup.py" = [
   "S603", # subprocess-without-shell-equals-true
