@@ -63,6 +63,6 @@ jobs:
       with:
         version-file: ./pyproject.toml
     - name: Check with Ruff
-      run: uv run ruff check --output-format=github .
+      run: ruff check --output-format=github .
     - name: Format with Ruff
-      run: uv run ruff format --check
+      run: ruff format --check
