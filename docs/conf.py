@@ -25,7 +25,6 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.extlinks",
     "sphinx.ext.intersphinx",
-    "hoverxref.extension",
     "notfound.extension",
     "sphinx_copybutton",
 ]
@@ -61,6 +60,3 @@ intersphinx_timeout = 30
 
 # sphinx.ext.viewcode
 viewcode_line_numbers = True
-
-# sphinx-hoverxref
-hoverxref_auto_ref = True
