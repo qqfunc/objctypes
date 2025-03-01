@@ -61,4 +61,4 @@ jobs:
     - name: Check files with editorconfig-checker
       run: editorconfig-checker -format github-actions -no-color
     - name: Spell check with typos
-      uses: crate-ci/typos@v1.29.10
+      uses: crate-ci/typos@v1.30.0
