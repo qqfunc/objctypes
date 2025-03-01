@@ -1,0 +1,17 @@
+name: Documentation Preview
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  docs-preview:
+    name: Documentation Preview
+    runs-on: ubuntu-latest
+    steps:
+      - uses: readthedocs/actions/preview@v1.5
+        with:
+          project-slug: objctypes
