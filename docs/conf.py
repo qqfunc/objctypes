@@ -36,6 +36,8 @@ html_theme = "furo"
 
 # autoapi.extension
 autoapi_dirs = ["../src"]
+autoapi_python_class_content = "both"
+autoapi_keep_files = True
 
 # sphinx.ext.autodoc
 autodoc_typehints = "both"
