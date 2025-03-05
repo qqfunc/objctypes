@@ -300,7 +300,7 @@ check = [
     { name = "mypy", specifier = "==1.15.0" },
     { name = "pytest", specifier = "==8.3.5" },
     { name = "pytest-xdist", specifier = "==3.6.1" },
-    { name = "types-setuptools", specifier = "==75.8.2.20250301" },
+    { name = "types-setuptools", specifier = "==75.8.2.20250305" },
 ]
 dev = [
     { name = "editorconfig-checker", specifier = "==3.2.0" },
@@ -315,7 +315,7 @@ dev = [
     { name = "sphinx-autobuild", specifier = "==2024.10.3" },
     { name = "sphinx-copybutton", specifier = "==0.5.2" },
     { name = "sphinx-notfound-page", specifier = "==1.1.0" },
-    { name = "types-setuptools", specifier = "==75.8.2.20250301" },
+    { name = "types-setuptools", specifier = "==75.8.2.20250305" },
     { name = "typos", specifier = "==1.30.1" },
 ]
 docs = [
@@ -331,7 +331,7 @@ gh-actions = [
     { name = "pytest", specifier = "==8.3.5" },
     { name = "pytest-github-actions-annotate-failures", specifier = "==0.3.0" },
     { name = "pytest-xdist", specifier = "==3.6.1" },
-    { name = "types-setuptools", specifier = "==75.8.2.20250301" },
+    { name = "types-setuptools", specifier = "==75.8.2.20250305" },
 ]
 
 [[package]]
@@ -465,6 +465,15 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/42/55/e6c90f13880aeef327746052907e7e930681f26a164fe130ddac28b08269/ruff-0.9.9-py3-none-win32.whl", hash = "sha256:6b4c376d929c25ecd6d87e182a230fa4377b8e5125a4ff52d506ee8c087153c1", size = 10227912 },
     { url = "https://files.pythonhosted.org/packages/35/b2/da925693cb82a1208aa34966c0f36cb222baca94e729dd22a587bc22d0f3/ruff-0.9.9-py3-none-win_amd64.whl", hash = "sha256:837982ea24091d4c1700ddb2f63b7070e5baec508e43b01de013dc7eff974ff1", size = 11355632 },
     { url = "https://files.pythonhosted.org/packages/31/d8/de873d1c1b020d668d8ec9855d390764cb90cf8f6486c0983da52be8b7b7/ruff-0.9.9-py3-none-win_arm64.whl", hash = "sha256:3ac78f127517209fe6d96ab00f3ba97cafe38718b23b1db3e96d8b2d39e37ddf", size = 10435860 },
+]
+
+[[package]]
+name = "setuptools"
+version = "75.8.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/d1/53/43d99d7687e8cdef5ab5f9ec5eaf2c0423c2b35133a2b7e7bc276fc32b21/setuptools-75.8.2.tar.gz", hash = "sha256:4880473a969e5f23f2a2be3646b2dfd84af9028716d398e46192f84bc36900d2", size = 1344083 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a9/38/7d7362e031bd6dc121e5081d8cb6aa6f6fedf2b67bf889962134c6da4705/setuptools-75.8.2-py3-none-any.whl", hash = "sha256:558e47c15f1811c1fa7adbd0096669bf76c1d3f433f58324df69f3f5ecac4e8f", size = 1229385 },
 ]
 
 [[package]]
@@ -658,11 +667,14 @@ wheels = [
 
 [[package]]
 name = "types-setuptools"
-version = "75.8.2.20250301"
+version = "75.8.2.20250305"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/f6/02/5f476d1a4f2bb23ba47c3aac6246cae1159d430937171e58860a9f1f47f8/types_setuptools-75.8.2.20250301.tar.gz", hash = "sha256:c900bceebfffc92a4abc3cfd4b3c39ead1a2298a73dae37e6bc09da7baf797a0", size = 48468 }
+dependencies = [
+    { name = "setuptools" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/4f/18/a996861f5225e7d533a8d8b6aa61bcc9183429a6b8bc93b850aa2e22974d/types_setuptools-75.8.2.20250305.tar.gz", hash = "sha256:a987269b49488f21961a1d99aa8d281b611625883def6392a93855b31544e405", size = 42609 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f3/d8/aba63d60951fbec2917a9d2c8673605a57fdbfc9134268802988c99c7a4c/types_setuptools-75.8.2.20250301-py3-none-any.whl", hash = "sha256:3cc3e751db9e84eddf1e6d4f8c46bef2c77e6c25b0cd096f729ffa57d3d6a83a", size = 71841 },
+    { url = "https://files.pythonhosted.org/packages/d9/5b/bb33f99239a6d54ed1d8220a088d96d2ccacac7abb317df0d68d2500f3be/types_setuptools-75.8.2.20250305-py3-none-any.whl", hash = "sha256:ba80953fd1f5f49e552285c024f75b5223096a38a5138a54d18ddd3fa8f6a2d4", size = 63727 },
 ]
 
 [[package]]
