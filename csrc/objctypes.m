@@ -7,7 +7,7 @@
 char *
 objc_get_debug_description(id obj)
 {
-    if (class_comformsToProtocol(object_getClass(obj), @protocol(NSObject))) {
+    if (class_conformsToProtocol(object_getClass(obj), @protocol(NSObject))) {
         return [[obj debugDescription] UTF8String];
     }
     else {
