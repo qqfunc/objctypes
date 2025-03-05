@@ -1,5 +1,5 @@
-#ifndef __OBJCTYPES_H__
-#define __OBJCTYPES_H__
+#ifndef OBJCTYPES_H
+#define OBJCTYPES_H
 
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
@@ -129,4 +129,4 @@ cache_delete_ObjCSelector(SEL selector);
 }
 #endif
 
-#endif // __OBJCTYPES_H__
+#endif // OBJCTYPES_H
