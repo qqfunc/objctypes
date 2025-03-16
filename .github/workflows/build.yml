@@ -59,7 +59,7 @@ jobs:
     - name: Spell check with typos
       uses: crate-ci/typos@v1.30.2
     - name: Install Ruff
-      uses: astral-sh/ruff-action@v3.2.1
+      uses: astral-sh/ruff-action@v3.2.2
       with:
         version-file: ./pyproject.toml
     - name: Check with Ruff
