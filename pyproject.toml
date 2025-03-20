@@ -7,13 +7,13 @@ name = "objctypes"
 description = "Use Objective-C features in Python"
 readme = "README.md"
 requires-python = ">=3.13"
-license = { file = "LICENSE.md" }
+license = "Unlicense"
+license-files = ["LICENSE.md"]
 keywords = ["objctypes", "objc", "Objective-C", "ObjectiveC"]
 classifiers = [
   "Development Status :: 1 - Planning",
   "Environment :: MacOS X :: Cocoa",
   "Intended Audience :: Developers",
-  "License :: OSI Approved :: The Unlicense (Unlicense)",
   "Operating System :: MacOS :: MacOS X",
   "Operating System :: iOS",
   "Programming Language :: Objective C",
