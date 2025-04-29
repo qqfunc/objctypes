@@ -32,7 +32,7 @@ check = [
   "mypy==1.15.0",
   "pytest==8.3.5",
   "pytest-xdist==3.6.1",
-  "types-setuptools==79.0.0.20250422",
+  "types-setuptools==80.0.0.20250429",
 ]
 docs = [
   "furo==2024.8.6",
