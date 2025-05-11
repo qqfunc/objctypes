@@ -300,7 +300,7 @@ check = [
     { name = "mypy", specifier = "==1.15.0" },
     { name = "pytest", specifier = "==8.3.5" },
     { name = "pytest-xdist", specifier = "==3.6.1" },
-    { name = "types-setuptools", specifier = "==80.3.0.20250505" },
+    { name = "types-setuptools", specifier = "==80.4.0.20250511" },
 ]
 dev = [
     { name = "editorconfig-checker", specifier = "==3.2.1" },
@@ -315,7 +315,7 @@ dev = [
     { name = "sphinx-autobuild", specifier = "==2024.10.3" },
     { name = "sphinx-copybutton", specifier = "==0.5.2" },
     { name = "sphinx-notfound-page", specifier = "==1.1.0" },
-    { name = "types-setuptools", specifier = "==80.3.0.20250505" },
+    { name = "types-setuptools", specifier = "==80.4.0.20250511" },
     { name = "typos", specifier = "==1.32.0" },
 ]
 docs = [
@@ -331,7 +331,7 @@ gh-actions = [
     { name = "pytest", specifier = "==8.3.5" },
     { name = "pytest-github-actions-annotate-failures", specifier = "==0.3.0" },
     { name = "pytest-xdist", specifier = "==3.6.1" },
-    { name = "types-setuptools", specifier = "==80.3.0.20250505" },
+    { name = "types-setuptools", specifier = "==80.4.0.20250511" },
 ]
 
 [[package]]
@@ -667,14 +667,14 @@ wheels = [
 
 [[package]]
 name = "types-setuptools"
-version = "80.3.0.20250505"
+version = "80.4.0.20250511"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "setuptools" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/f4/1e/9c401fc3aa8f8c1596a9daedbe8d1c70c830e20d78753117d75f7e9b9535/types_setuptools-80.3.0.20250505.tar.gz", hash = "sha256:5fd3d34b8fa3441d68d010fef95e232d1e48f3f5cb578f3477b7aae4f8374502", size = 41205, upload-time = "2025-05-05T03:06:44.726Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/87/f5/27854a6912bb6a13e42ab342409fadc5613bf9d36ac9a69e8211771c5e6a/types_setuptools-80.4.0.20250511.tar.gz", hash = "sha256:faa4159c9384e45b3b04218ca43ee3829efb6acc303e0ee561e47b3404423d32", size = 41205, upload-time = "2025-05-11T03:08:46.257Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/3f/bf/466fa9faaf6a99dc68c37492693069c99b4f83c73b5bac59649051a74937/types_setuptools-80.3.0.20250505-py3-none-any.whl", hash = "sha256:117c86a82367306388b55310d04da807ff4c3ecdf769656a5fdc0fdd06a2c1b6", size = 63106, upload-time = "2025-05-05T03:06:43.063Z" },
+    { url = "https://files.pythonhosted.org/packages/ce/f5/9d47c996cb266092ec670edb24603eed527868d1cd68e1af29c81ea56f14/types_setuptools-80.4.0.20250511-py3-none-any.whl", hash = "sha256:972d7d947871cf7594263c764a9c2c2f137660c4ac3ad0cec1d4f1254ca8ae6a", size = 63110, upload-time = "2025-05-11T03:08:44.741Z" },
 ]
 
 [[package]]
