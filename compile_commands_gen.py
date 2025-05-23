@@ -50,7 +50,7 @@ def generate_command(file: Path) -> CompileCommand:
     return {
         "directory": str(BASE_DIR),
         "file": str(file.relative_to(BASE_DIR)),
-        "arguments": [compiler, f"-I{INCLUDE_PATH}", "-Weverything"],
+        "arguments": [compiler, f"-I{INCLUDE_PATH}", "-Wall", "-Wextra"],
     }
 
 
