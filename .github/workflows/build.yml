@@ -47,8 +47,6 @@ jobs:
   check:
     name: Check
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
     steps:
     - name: Checkout ${{ github.repository }}
       uses: actions/checkout@v4.2.2
