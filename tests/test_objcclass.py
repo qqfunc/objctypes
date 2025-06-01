@@ -60,9 +60,9 @@ def test_objcclass_repr() -> None:
     NSString = ObjCClass("NSString")  # noqa: N806
     NSNumber = ObjCClass("NSNumber")  # noqa: N806
 
-    assert repr(NSObject) == "ObjCClass('NSObject')"
-    assert repr(NSString) == "ObjCClass('NSString')"
-    assert repr(NSNumber) == "ObjCClass('NSNumber')"
+    assert repr(NSObject) == "<ObjCClass 'NSObject'>"
+    assert repr(NSString) == "<ObjCClass 'NSString'>"
+    assert repr(NSNumber) == "<ObjCClass 'NSNumber'>"
 
 
 def test_objcclass_from_address() -> None:
