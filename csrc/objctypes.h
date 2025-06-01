@@ -1,7 +1,6 @@
 #ifndef OBJCTYPES_H
 #define OBJCTYPES_H
 
-#define PY_SSIZE_T_CLEAN
 #include <Python.h>
 #include <objc/objc.h>
 #include <objc/runtime.h>
