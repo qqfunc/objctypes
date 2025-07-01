@@ -31,7 +31,7 @@ dynamic = ["version"]
 check = [
   "mypy==1.16.1",
   "pytest==8.4.1",
-  "pytest-xdist==3.7.0",
+  "pytest-xdist==3.8.0",
   "types-setuptools==80.9.0.20250529",
 ]
 docs = [
