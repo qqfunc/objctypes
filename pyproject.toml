@@ -48,7 +48,7 @@ dev = [
   "editorconfig-checker==3.2.1",
   "ruff==0.12.8",
   "sphinx-autobuild==2024.10.3",
-  "typos==1.35.1",
+  "typos==1.35.2",
 ]
 gh-actions = [
   { include-group = "check" },
