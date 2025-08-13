@@ -55,7 +55,7 @@ jobs:
     - name: Check files with editorconfig-checker
       run: editorconfig-checker -format github-actions -no-color
     - name: Spell check with typos
-      uses: crate-ci/typos@v1.35.3
+      uses: crate-ci/typos@v1.35.4
     - name: Install Ruff
       uses: astral-sh/ruff-action@v3.5.1
       with:
