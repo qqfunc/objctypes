@@ -130,9 +130,9 @@ wheels = [
 
 [[package]]
 name = "editorconfig-checker"
-version = "3.2.1"
+version = "3.3.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/e6/dd/ca9c996a7e4de9d350d18d2146cb2a8da5cb7b4ea31fef32c75b830ce28f/editorconfig-checker-3.2.1.tar.gz", hash = "sha256:41c884129343f1418118fc160889dc0cba4e66e23b45bc9731f40d73be4ce204", size = 4773, upload-time = "2025-03-30T15:59:02.272Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/6f/83/f5d98cb5f2d7616b5d919f598d9661dfb20a739ed8e1f167366843060ce6/editorconfig-checker-3.3.0.tar.gz", hash = "sha256:3ea3175cc323f5c7e36e0a7fe9f23a4efdd6b92aa3a7e4cefbf3299f947d8afd", size = 4761, upload-time = "2025-08-14T20:50:05.798Z" }
 
 [[package]]
 name = "execnet"
@@ -323,7 +323,7 @@ check = [
     { name = "types-setuptools", specifier = "==80.9.0.20250809" },
 ]
 dev = [
-    { name = "editorconfig-checker", specifier = "==3.2.1" },
+    { name = "editorconfig-checker", specifier = "==3.3.0" },
     { name = "furo", specifier = "==2025.7.19" },
     { name = "mypy", specifier = "==1.17.1" },
     { name = "packaging", specifier = "==25.0" },
