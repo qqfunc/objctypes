@@ -46,7 +46,7 @@ dev = [
   { include-group = "check" },
   { include-group = "docs" },
   "editorconfig-checker==3.4.0",
-  "ruff==0.12.9",
+  "ruff==0.12.10",
   "sphinx-autobuild==2024.10.3",
   "typos==1.35.5",
 ]
