@@ -29,7 +29,7 @@ dynamic = ["version"]
 
 [dependency-groups]
 check = [
-  "mypy==1.17.1",
+  "mypy==1.18.1",
   "pytest==8.4.2",
   "pytest-xdist==3.8.0",
   "types-setuptools==80.9.0.20250822",
