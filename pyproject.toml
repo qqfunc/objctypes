@@ -35,7 +35,7 @@ check = [
   "types-setuptools==80.9.0.20250822",
 ]
 docs = [
-  "furo==2025.7.19",
+  "furo==2025.9.25",
   "packaging==25.0",
   "sphinx==8.2.3",
   "sphinx-autoapi==3.6.0",
