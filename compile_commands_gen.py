@@ -12,7 +12,7 @@ import itertools
 import json
 from pathlib import Path
 from sysconfig import get_config_var, get_path
-from typing import NotRequired, Required, TypedDict
+from typing import NotRequired, TypedDict
 
 COMPILE_COMMANDS_FILE = Path("compile_commands.json")
 BASE_DIR = Path(__file__).parent
@@ -57,9 +57,9 @@ def generate_command(file: Path) -> CompileCommand:
 class CompileCommand(TypedDict):
     """Compile command dictionary for ``compile_commands.json``."""
 
-    directory: Required[str]
-    file: Required[str]
-    arguments: Required[list[str]]
+    directory: str
+    file: str
+    arguments: list[str]
     output: NotRequired[str]
 
 
