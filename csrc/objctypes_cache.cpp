@@ -1,10 +1,10 @@
 #include <Python.h>
 #include <objc/objc.h>
-#include <unordered_map>
+#include <map>
 
 #include "objctypes.h"
 
-typedef std::unordered_map<void *, PyObject *> cache_map;
+typedef std::map<void *, PyObject *> cache_map;
 
 // Cache ObjCClass
 
