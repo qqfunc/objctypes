@@ -57,6 +57,12 @@ extern PyTypeObject ObjCSelectorType;
 PyObject *
 ObjCSelector_FromSEL(SEL sel);
 
+// Convert a Python object to an Objective-C selector.
+// A converter function for `O&` format unit.
+// See https://docs.python.org/3.13/c-api/arg.html#other-objects.
+int
+ObjCSelector_SELConverter(PyObject *obj, void *ptr);
+
 // ObjCBool
 
 typedef struct {

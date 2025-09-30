@@ -137,3 +137,33 @@ ObjCSelector_FromSEL(SEL sel)
 {
     return (PyObject *)_ObjCSelector_FromSEL(&ObjCSelectorType, sel);
 }
+
+int
+ObjCSelector_SELConverter(PyObject *obj, void *ptr)
+{
+    SEL sel;
+    const char *name;
+
+    if (PyObject_TypeCheck(obj, &ObjCSelectorType)) {
+        sel = ((ObjCSelectorObject *)obj)->value;
+    }
+    else if (PyUnicode_Check(obj)) {
+        name = PyUnicode_AsUTF8(obj);
+        if (name == NULL) {
+            return 0; // Failure
+        }
+        sel = sel_registerName(name);
+    }
+    else if (PyBytes_Check(obj)) {
+        sel = sel_registerName(PyBytes_AS_STRING(obj));
+    }
+    else {
+        PyErr_Format(PyExc_TypeError,
+                     "Expected an Objective-C selector, got '%s'",
+                     Py_TYPE(obj)->tp_name);
+        return 0; // Failure
+    }
+
+    *(SEL *)ptr = sel;
+    return 1; // Success
+}
