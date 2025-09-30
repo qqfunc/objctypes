@@ -73,6 +73,23 @@ class ObjCMethod:
         :return: The Objective-C method that was retrieved.
         """
 
+    @classmethod
+    def from_class(
+        cls,
+        objc_class: ObjCClass,
+        selector: ObjCSelector | str | bytes,
+        /,
+    ) -> Self:
+        """Retrieve an Objective-C class method.
+
+        :param objc_class: The Objective-C class of the Objective-C
+            class method.
+        :param selector: The selector of the Objective-C class method.
+        :return: The Objective-C selector that was retrieved.
+        :raise AttributeError: if the Objective-C class has no class
+            method with the specified selector
+        """
+
     @property
     def address(self) -> int:
         """The address of the Objective-C method."""
