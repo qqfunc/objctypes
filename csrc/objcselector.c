@@ -96,7 +96,7 @@ static PyMethodDef ObjCSelector_methods[] = {
         METH_VARARGS | METH_CLASS,
         PyDoc_STR("Get an ObjCSelector from the memory address."),
     },
-    {NULL},
+    {.ml_name = NULL},
 };
 
 static PyGetSetDef ObjCSelector_getset[] = {
@@ -114,7 +114,7 @@ static PyGetSetDef ObjCSelector_getset[] = {
         PyDoc_STR("The name of the Objective-C selector."),
         NULL,
     },
-    {NULL},
+    {.name = NULL},
 };
 
 PyTypeObject ObjCSelectorType = {

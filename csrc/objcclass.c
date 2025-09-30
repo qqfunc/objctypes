@@ -21,7 +21,8 @@ ObjCClass_repr(ObjCClassObject *self)
     if (self->value == NULL) {
         return PyUnicode_FromString("<class 'ObjCObject'>");
     }
-    return PyUnicode_FromFormat("<ObjCClass '%s'>", class_getName(self->value));
+    return PyUnicode_FromFormat("<ObjCClass '%s'>",
+                                class_getName(self->value));
 }
 
 // ObjCClass.address
@@ -185,7 +186,7 @@ static PyMethodDef ObjCClass_methods[] = {
         METH_NOARGS,
         PyDoc_STR("Load or reload all methods of the class."),
     },
-    {NULL},
+    {.ml_name = NULL},
 };
 
 static PyGetSetDef ObjCClass_getset[] = {
@@ -203,7 +204,7 @@ static PyGetSetDef ObjCClass_getset[] = {
         PyDoc_STR("The name of the Objective-C class."),
         NULL,
     },
-    {NULL},
+    {.name = NULL},
 };
 
 PyTypeObject ObjCClassType = {

@@ -89,7 +89,8 @@ ObjCObject_from_address(ObjCClassObject *type, PyObject *args)
 
 // ObjCObject.__new__()
 static PyObject *
-ObjCObject_new(ObjCClassObject *type, PyObject *args, PyObject *kwds)
+ObjCObject_new(ObjCClassObject *type, PyObject *Py_UNUSED(args),
+               PyObject *Py_UNUSED(kwds))
 {
     if (type == &ObjCObjectType) {
         PyErr_SetString(PyExc_TypeError,
@@ -108,7 +109,7 @@ static PyMethodDef ObjCObject_methods[] = {
         METH_VARARGS | METH_CLASS,
         PyDoc_STR("Get an ObjCObject from the memory address."),
     },
-    {NULL},
+    {.ml_name = NULL},
 };
 
 static PyGetSetDef ObjCObject_getset[] = {
@@ -119,7 +120,7 @@ static PyGetSetDef ObjCObject_getset[] = {
         PyDoc_STR("The address of the Objective-C object."),
         NULL,
     },
-    {NULL},
+    {.name = NULL},
 };
 
 ObjCClassObject ObjCObjectType = {

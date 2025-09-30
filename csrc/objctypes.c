@@ -28,7 +28,7 @@ PyInit_objctypes(void)
 
     // Add ObjCObject
     Py_SET_TYPE(&ObjCObjectType, &ObjCClassType);
-    PyModule_AddType(module, &ObjCObjectType);
+    PyModule_AddType(module, (PyTypeObject *)&ObjCObjectType);
     Py_XDECREF(&ObjCObjectType);
 
     // Add ObjCMethod

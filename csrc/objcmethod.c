@@ -100,7 +100,8 @@ ObjCMethod_from_class(PyTypeObject *type, PyObject *args)
 
 // ObjCMethod.__new__()
 static PyObject *
-ObjCMethod_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
+ObjCMethod_new(PyTypeObject *Py_UNUSED(type), PyObject *Py_UNUSED(args),
+               PyObject *Py_UNUSED(kwds))
 {
     PyErr_SetNone(PyExc_NotImplementedError);
     return NULL;
@@ -117,9 +118,10 @@ static PyMethodDef ObjCMethod_methods[] = {
         "from_class",
         (PyCFunction)ObjCMethod_from_class,
         METH_VARARGS | METH_CLASS,
-        PyDoc_STR("Get an ObjCMethod from the Objective-C class and selector."),
+        PyDoc_STR(
+            "Get an ObjCMethod from the Objective-C class and selector."),
     },
-    {NULL},
+    {.ml_name = NULL},
 };
 
 static PyGetSetDef ObjCMethod_getset[] = {
@@ -137,7 +139,7 @@ static PyGetSetDef ObjCMethod_getset[] = {
         PyDoc_STR("The name of the Objective-C method."),
         NULL,
     },
-    {NULL},
+    {.name = NULL},
 };
 
 PyTypeObject ObjCMethodType = {
