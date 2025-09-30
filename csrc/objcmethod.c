@@ -90,7 +90,7 @@ ObjCMethod_from_class(PyTypeObject *type, PyObject *args)
     address = class_getClassMethod(cls->value, sel);
     if (address == NULL) {
         PyErr_Format(PyExc_AttributeError,
-                     "Objective-C class %s has no method '%s'",
+                     "Objective-C class %s has no class method '%s'",
                      class_getName(cls->value), sel_getName(sel));
         return NULL;
     }

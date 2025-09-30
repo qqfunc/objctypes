@@ -80,14 +80,14 @@ class ObjCMethod:
         selector: ObjCSelector | str | bytes,
         /,
     ) -> Self:
-        """Retrieve an Objective-C method from the specified class.
+        """Retrieve an Objective-C class method.
 
         :param objc_class: The Objective-C class of the Objective-C
-            method
-        :param selector: The selector of the Objective-C method
-        :return: The Objective-C selector that was retrieved
-        :raise AttributeError: if the Objective-C class has no method
-            with the specified selector
+            class method.
+        :param selector: The selector of the Objective-C class method.
+        :return: The Objective-C selector that was retrieved.
+        :raise AttributeError: if the Objective-C class has no class
+            method with the specified selector
         """
 
     @property

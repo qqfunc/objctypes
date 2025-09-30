@@ -16,5 +16,5 @@ def test_objcmethod_from_class() -> None:
 
     assert (
         str(excinfo.value)
-        == "Objective-C class NSObject has no method 'nonexistentMethod'"
+        == "Objective-C class NSObject has no class method 'nonexistentMethod'"
     )
