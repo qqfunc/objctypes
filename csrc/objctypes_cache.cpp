@@ -5,7 +5,6 @@
 #include "objctypes.h"
 
 typedef std::unordered_map<void *, PyObject *> cache_map;
-typedef cache_map::iterator cache_iter;
 
 // Cache ObjCClass
 
@@ -14,7 +13,7 @@ static cache_map ObjCClass_cache;
 ObjCClassObject *
 cache_get_ObjCClass(Class cls)
 {
-    const cache_iter it = ObjCClass_cache.find(cls);
+    const auto it = ObjCClass_cache.find(cls);
     if (it != ObjCClass_cache.end()) {
         Py_INCREF(it->second);
         return (ObjCClassObject *)it->second;
@@ -41,7 +40,7 @@ static cache_map ObjCObject_cache;
 ObjCObjectObject *
 cache_get_ObjCObject(id obj)
 {
-    const cache_iter it = ObjCObject_cache.find(obj);
+    const auto it = ObjCObject_cache.find(obj);
     if (it != ObjCObject_cache.end()) {
         Py_INCREF(it->second);
         return (ObjCObjectObject *)it->second;
@@ -68,7 +67,7 @@ static cache_map ObjCMethod_cache;
 ObjCMethodObject *
 cache_get_ObjCMethod(Method method)
 {
-    const cache_iter it = ObjCMethod_cache.find(method);
+    const auto it = ObjCMethod_cache.find(method);
     if (it != ObjCMethod_cache.end()) {
         Py_INCREF(it->second);
         return (ObjCMethodObject *)it->second;
@@ -95,7 +94,7 @@ static cache_map ObjCSelector_cache;
 ObjCSelectorObject *
 cache_get_ObjCSelector(SEL sel)
 {
-    const cache_iter it = ObjCSelector_cache.find(sel);
+    const auto it = ObjCSelector_cache.find(sel);
     if (it != ObjCSelector_cache.end()) {
         Py_INCREF(it->second);
         return (ObjCSelectorObject *)it->second;
