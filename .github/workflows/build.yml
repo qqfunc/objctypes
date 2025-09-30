@@ -64,3 +64,5 @@ jobs:
       run: ruff check --output-format=github .
     - name: Format with Ruff
       run: ruff format --check
+    - name: Format with Clang Format
+      run: clang-format --Werror --dry-run ./csrc/*.c ./csrc/*.h
