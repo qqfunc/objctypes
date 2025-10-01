@@ -321,7 +321,15 @@ gh-actions-build = [
 ]
 gh-actions-check = [
     { name = "editorconfig-checker" },
+    { name = "furo" },
+    { name = "packaging" },
+    { name = "pytest" },
+    { name = "pytest-xdist" },
     { name = "ruff" },
+    { name = "sphinx" },
+    { name = "sphinx-autoapi" },
+    { name = "sphinx-copybutton" },
+    { name = "sphinx-notfound-page" },
     { name = "ty" },
     { name = "types-setuptools" },
     { name = "typos" },
@@ -381,7 +389,15 @@ gh-actions-build = [
 ]
 gh-actions-check = [
     { name = "editorconfig-checker", specifier = "==3.4.0" },
+    { name = "furo", specifier = "==2025.9.25" },
+    { name = "packaging", specifier = "==25.0" },
+    { name = "pytest", specifier = "==8.4.2" },
+    { name = "pytest-xdist", specifier = "==3.8.0" },
     { name = "ruff", specifier = "==0.13.2" },
+    { name = "sphinx", specifier = "==8.2.3" },
+    { name = "sphinx-autoapi", specifier = "==3.6.0" },
+    { name = "sphinx-copybutton", specifier = "==0.5.2" },
+    { name = "sphinx-notfound-page", specifier = "==1.1.0" },
     { name = "ty", specifier = "==0.0.1a21" },
     { name = "types-setuptools", specifier = "==80.9.0.20250822" },
     { name = "typos", specifier = "==1.37.0" },

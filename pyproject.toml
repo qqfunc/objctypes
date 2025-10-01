@@ -55,7 +55,11 @@ gh-actions-build = [
   { include-group = "tests" },
   "pytest-github-actions-annotate-failures==0.3.0",
 ]
-gh-actions-check = [{ include-group = "check" }]
+gh-actions-check = [
+  { include-group = "check" },
+  { include-group = "docs" },
+  { include-group = "tests" },
+]
 readthedocs = [{ include-group = "docs" }]
 
 [tool.pytest.ini_options]
