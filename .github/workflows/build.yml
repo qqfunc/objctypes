@@ -61,6 +61,6 @@ jobs:
     - name: Check with Ruff
       run: uv run --no-default-groups ruff check --output-format=github
     - name: Format with Ruff
-      run: uv run --no-default-groups ruff format --check --output-format=github
+      run: uv run --no-default-groups ruff format --check
     - name: Type Check with ty
       run: uv run --no-default-groups ty check --output-format=github
