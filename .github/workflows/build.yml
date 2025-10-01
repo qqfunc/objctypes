@@ -53,7 +53,7 @@ jobs:
       with:
         enable-cache: true
     - name: Install dependencies
-      run: uv sync --group gh-actions --no-default-groups
+      run: uv sync --group gh-actions-check --no-default-groups
     - name: Check files with editorconfig-checker
       run: uv run --no-default-groups ec -format github-actions -no-color
     - name: Spell check with typos
