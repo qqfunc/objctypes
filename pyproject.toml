@@ -33,7 +33,7 @@ check = [
   "ruff==0.13.2",
   "ty==0.0.1a21",
   "types-setuptools==80.9.0.20250822",
-  "typos==1.37.0",
+  "typos==1.37.1",
 ]
 docs = [
   "furo==2025.9.25",
