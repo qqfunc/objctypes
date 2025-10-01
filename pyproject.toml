@@ -29,10 +29,11 @@ dynamic = ["version"]
 
 [dependency-groups]
 check = [
-  "mypy==1.18.2",
-  "pytest==8.4.2",
-  "pytest-xdist==3.8.0",
+  "editorconfig-checker==3.4.0",
+  "ruff==0.13.2",
+  "ty==0.0.1a21",
   "types-setuptools==80.9.0.20250822",
+  "typos==1.37.0",
 ]
 docs = [
   "furo==2025.9.25",
@@ -42,21 +43,20 @@ docs = [
   "sphinx-copybutton==0.5.2",
   "sphinx-notfound-page==1.1.0",
 ]
+tests = ["pytest==8.4.2", "pytest-xdist==3.8.0"]
 dev = [
   { include-group = "check" },
   { include-group = "docs" },
-  "editorconfig-checker==3.4.0",
-  "ruff==0.13.2",
+  { include-group = "tests" },
+  "lefthook==1.13.6",
   "sphinx-autobuild==2025.8.25",
-  "typos==1.37.0",
 ]
-gh-actions = [
-  { include-group = "check" },
+gh-actions-build = [
+  { include-group = "tests" },
   "pytest-github-actions-annotate-failures==0.3.0",
 ]
-
-[tool.mypy]
-exclude = ["^build/"]
+gh-actions-check = [{ include-group = "check" }]
+readthedocs = [{ include-group = "docs" }]
 
 [tool.pytest.ini_options]
 addopts = "-n auto"
@@ -85,6 +85,9 @@ lint.per-file-ignores."tests/**.py" = [
 lint.pycodestyle.max-doc-length = 72
 
 [tool.setuptools_scm]
+
+[tool.ty]
+terminal.error-on-warning = true
 
 [tool.typos]
 files.extend-exclude = ["uv.lock"]

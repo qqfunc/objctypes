@@ -9,7 +9,7 @@ build:
       - asdf plugin add uv
       - asdf install uv latest
       - asdf global uv latest
-      - UV_PROJECT_ENVIRONMENT=$READTHEDOCS_VIRTUALENV_PATH uv sync --group docs --no-default-groups
+      - UV_PROJECT_ENVIRONMENT=$READTHEDOCS_VIRTUALENV_PATH uv sync --group readthedocs --no-default-groups
     install:
       - "true"
 

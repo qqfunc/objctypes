@@ -1,0 +1,48 @@
+pre-commit:
+  parallel: true
+  jobs:
+    - name: editorconfig-checker
+      run: ec
+    - name: Typos
+      run: typos
+    - group:
+        parallel: true
+        jobs:
+          - name: Ruff Check
+            run: ruff check
+          - name: Ruff Format
+            run: ruff format --check
+    - name: ty
+      run: ty check
+
+check:
+  parallel: true
+  jobs:
+    - name: editorconfig-checker
+      run: ec
+    - name: Typos
+      run: typos
+    - group:
+        parallel: true
+        jobs:
+          - name: Ruff Check
+            run: ruff check
+          - name: Ruff Format
+            run: ruff format --check
+    - name: ty
+      run: ty check
+
+fix:
+  jobs:
+    - name: editorconfig-checker
+      run: ec
+    - name: Typos
+      run: typos -w
+    - group:
+        jobs:
+          - name: Ruff Check
+            run: ruff check --fix
+          - name: Ruff Format
+            run: ruff format
+    - name: ty
+      run: ty check
