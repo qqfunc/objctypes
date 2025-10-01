@@ -19,7 +19,7 @@ static PyObject *
 ObjCClass_repr(ObjCClassObject *self)
 {
     if (self->value == NULL) {
-        return PyUnicode_FromString("<class 'ObjCObject'>");
+        return PyUnicode_FromString("<class 'objctypes.ObjCObject'>");
     }
     return PyUnicode_FromFormat("<ObjCClass '%s'>",
                                 class_getName(self->value));

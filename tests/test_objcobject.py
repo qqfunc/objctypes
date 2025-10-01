@@ -14,7 +14,7 @@ def test_objcobject() -> None:
 
 def test_objcobject_type() -> None:
     """Test ObjCObject type object."""
-    assert repr(ObjCObject) == "<class 'ObjCObject'>"
+    assert repr(ObjCObject) == "<class 'objctypes.ObjCObject'>"
     assert ObjCObject.name == ""
 
 
