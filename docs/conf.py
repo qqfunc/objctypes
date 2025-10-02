@@ -1,21 +1,23 @@
 """Configure Sphinx documentation for objctypes."""
 
-import tomllib
+from importlib.metadata import metadata
 from importlib.metadata import version as get_version
-from pathlib import Path
 from urllib.parse import urljoin
 
 from packaging.version import Version
 
-PYPROJECT_TOML_PATH = Path("../pyproject.toml")
+package_metadata = metadata("objctypes")
 
-with PYPROJECT_TOML_PATH.open("rb") as f:
-    pyproject = tomllib.load(f)
+project_url_strings = package_metadata.get_all("Project-URL", [])
+project_urls = {}
+for url_string in project_url_strings:
+    name, url = url_string.split(", ")
+    project_urls[name] = url
 
 # Project information
-project = pyproject["project"]["name"]
-author = "qqfunc"
-project_copyright = "2025, qqfunc"
+project = package_metadata["Name"]
+# author = ?
+# project_copyright = ?
 release = get_version(project)
 version = ".".join([str(num) for num in Version(release).release[:2]])
 
@@ -43,11 +45,11 @@ autodoc_typehints = "both"
 # sphinx.ext.extlinks
 extlinks = {
     "issue": (
-        urljoin(pyproject["project"]["urls"]["Repository"], "%s"),
+        urljoin(project_urls["Source"], "issues/%s"),
         "Issue #%s",
     ),
     "pull": (
-        urljoin(pyproject["project"]["urls"]["Repository"], "%s"),
+        urljoin(project_urls["Source"], "pull/%s"),
         "Pull Request #%s",
     ),
 }

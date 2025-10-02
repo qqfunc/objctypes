@@ -23,9 +23,12 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: CPython",
   "Typing :: Typed",
 ]
-urls.Repository = "https://github.com/qqfunc/objctypes"
-urls.Issues = "https://github.com/qqfunc/objctypes/issues"
 dynamic = ["version"]
+
+[project.urls]
+Source = "https://github.com/qqfunc/objctypes"
+Documentation = "https://objctypes.readthedocs.io/"
+Issues = "https://github.com/qqfunc/objctypes/issues"
 
 [dependency-groups]
 check = [
