@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "astral-sh.ty",
+    "charliemarsh.ruff",
+    "editorconfig.editorconfig",
+    "github.vscode-github-actions",
+    "github.vscode-pull-request-github",
+    "llvm-vs-code-extensions.vscode-clangd",
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "ms-python.vscode-python-envs",
+    "redhat.vscode-yaml"
+  ]
+}
