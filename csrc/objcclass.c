@@ -1,6 +1,4 @@
 #include <Python.h>
-#include <objc/objc.h>
-#include <objc/runtime.h>
 
 #include "objctypes.h"
 

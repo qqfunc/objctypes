@@ -1,8 +1,8 @@
 #include <Python.h>
-#include <objc/objc.h>
-#include <map>
 
 #include "objctypes.h"
+
+#include <map>
 
 typedef std::map<void *, PyObject *> cache_map;
 

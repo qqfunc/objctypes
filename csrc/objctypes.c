@@ -1,5 +1,4 @@
 #include <Python.h>
-#include <objc/objc.h>
 
 #include "objctypes.h"
 

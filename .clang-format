@@ -10,10 +10,15 @@ BreakBeforeBinaryOperators: NonAssignment
 BreakBeforeBraces: Custom
 ColumnLimit: 79
 DerivePointerAlignment: false
+IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex:           '<Python.h>'
+    Priority:        -1
+    CaseSensitive:   true
 IndentWidth: 4
 InsertBraces: true
 Macros:
-- PyVarObject_HEAD_INIT(type, size)=_PyObject_EXTRA_INIT 1, type, size,
+  - PyVarObject_HEAD_INIT(type, size)=_PyObject_EXTRA_INIT 1, type, size,
 PointerAlignment: Right
 ReflowComments: true
 RemoveParentheses: ReturnStatement

@@ -1,10 +1,10 @@
 #include <Python.h>
-#include <objc/objc.h>
-#include <objc/runtime.h>
 
 #include "objctypes.h"
 
-char *
+#import <Foundation/Foundation.h>
+
+const char *
 objc_get_debug_description(id obj)
 {
     if (class_conformsToProtocol(object_getClass(obj), @protocol(NSObject))) {
