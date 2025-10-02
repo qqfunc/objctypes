@@ -1,53 +1,20 @@
 # General
 .cache
 
-# Byte-compiled / optimized / DLL files
+# Python
 __pycache__/
-*.py[cod]
+*.pyc
 *$py.class
-
-# C extensions
 *.so
-
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
 dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-share/python-wheels/
 *.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-
-# pytest
-.pytest_cache/
+.venv/
 
 # Sphinx documentation
 docs/_build/
 
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
+# Lefthook
+lefthook-local.yml
 
 # clangd
 .clangd
