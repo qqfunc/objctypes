@@ -43,14 +43,12 @@ PyInit_objctypes(void)
     Py_XDECREF(&ObjCBoolType);
 
     // Add YES
-    objc_yes = ObjCBoolType.tp_new(&ObjCBoolType, PyTuple_Pack(1, Py_True),
-                                   PyDict_New());
+    objc_yes = ObjCBool_FromInt(1);
     PyModule_AddObjectRef(module, "YES", objc_yes);
     Py_XDECREF(objc_yes);
 
     // Add NO
-    objc_no = ObjCBoolType.tp_new(&ObjCBoolType, PyTuple_Pack(1, Py_False),
-                                  PyDict_New());
+    objc_no = ObjCBool_FromInt(0);
     PyModule_AddObjectRef(module, "NO", objc_no);
     Py_XDECREF(objc_no);
 
