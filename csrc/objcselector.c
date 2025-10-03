@@ -43,12 +43,7 @@ ObjCSelector_name(ObjCSelectorObject *self, void *Py_UNUSED(closure))
 static PyObject *
 ObjCSelector_is_mapped(ObjCSelectorObject *self, void *Py_UNUSED(closure))
 {
-    if (sel_isMapped(self->value)) {
-        return Py_True;
-    }
-    else {
-        return Py_False;
-    }
+    return sel_isMapped(self->value) ? Py_True : Py_False;
 }
 
 // Get an ObjCSelector from a Python type and an Objective-C SEL.
