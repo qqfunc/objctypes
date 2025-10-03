@@ -124,6 +124,10 @@ class ObjCSelector:
     def name(self) -> str:
         """The name of the Objective-C selector."""
 
+    @property
+    def is_mapped(self) -> bool:
+        """Whether the Objective-C selector is mapped."""
+
 @final
 class ObjCBool:
     """A Python wrapper class for an Objective-C Boolean.
