@@ -7,7 +7,7 @@
       "editor.defaultFormatter": "redhat.vscode-yaml"
   },
   "[python]": {
-      "editor.defaultFormatter": "charliemarsh.ruff"
+      "editor.defaultFormatter": "charliermarsh.ruff"
   },
   "[yaml]": {
       "editor.defaultFormatter": "redhat.vscode-yaml"

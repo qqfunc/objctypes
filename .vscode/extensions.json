@@ -1,7 +1,7 @@
 {
   "recommendations": [
     "astral-sh.ty",
-    "charliemarsh.ruff",
+    "charliermarsh.ruff",
     "editorconfig.editorconfig",
     "github.vscode-github-actions",
     "github.vscode-pull-request-github",
