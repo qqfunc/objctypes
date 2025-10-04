@@ -67,10 +67,6 @@ def test_objcclass_repr() -> None:
 
 def test_objcclass_from_address() -> None:
     """Test ObjCClass.from_address()."""
-    with pytest.raises(TypeError) as excinfo:
-        ObjCClass.from_address(0)
-    assert str(excinfo.value) == "the specified Objective-C class is Nil"
-
     NSObject = ObjCClass("NSObject")  # noqa: N806
     NSString = ObjCClass("NSString")  # noqa: N806
     NSNumber = ObjCClass("NSNumber")  # noqa: N806
@@ -81,6 +77,23 @@ def test_objcclass_from_address() -> None:
 
     with pytest.raises(TypeError):
         ObjCClass.from_address(object())  # type: ignore[arg-type]
+
+
+def test_objcclass_from_address_wrong_arguments() -> None:
+    """Test ObjCClass.from_address() with wrong arguments."""
+    with pytest.raises(TypeError) as excinfo:
+        ObjCClass.from_address("wrong argument")  # type: ignore[arg-type]
+    assert (
+        str(excinfo.value)
+        == "ObjCClass.from_address() argument 1 must be int, not str"
+    )
+
+
+def test_objcclass_from_address_nil() -> None:
+    """Test ObjCClass.from_address() with Nil."""
+    with pytest.raises(TypeError) as excinfo:
+        ObjCClass.from_address(0)
+    assert str(excinfo.value) == "the specified Objective-C class is Nil"
 
 
 def test_objcclass_address() -> None:
