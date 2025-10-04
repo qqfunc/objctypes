@@ -57,8 +57,15 @@ def test_objcselector_from_address() -> None:
     assert sel2.address == ObjCSelector.from_address(sel2.address).address
     assert sel3.address == ObjCSelector.from_address(sel3.address).address
 
-    with pytest.raises(TypeError):
-        ObjCSelector.from_address(object())  # type: ignore[arg-type]
+
+def test_objcselector_from_address_wrong_arg() -> None:
+    """Test ObjCSelector.from_address() with wrong arguments."""
+    with pytest.raises(TypeError) as excinfo:
+        ObjCSelector.from_address("wrong argument")  # type: ignore[arg-type]
+    assert (
+        str(excinfo.value)
+        == "ObjCSelector.from_address() argument 1 must be int, not str"
+    )
 
 
 def test_objcselector_address() -> None:
