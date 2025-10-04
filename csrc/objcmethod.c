@@ -60,12 +60,12 @@ _ObjCMethod_FromMethod(PyTypeObject *type, Method method)
 
 // ObjCMethod.from_address()
 static PyObject *
-ObjCMethod_from_address(PyTypeObject *type, PyObject *args)
+ObjCMethod_from_address(PyTypeObject *type, PyObject *address)
 {
-    PyObject *address;
-
-    if (!PyArg_ParseTuple(args, "O!:ObjCMethod.from_address", &PyLong_Type,
-                          &address)) {
+    if (!PyLong_Check(address)) {
+        PyErr_Format(PyExc_TypeError,
+                     "ObjCMethod.from_address() argument 1 must be int, not %T",
+                     address);
         return NULL;
     }
 
@@ -109,7 +109,7 @@ static PyMethodDef ObjCMethod_methods[] = {
     {
         "from_address",
         (PyCFunction)ObjCMethod_from_address,
-        METH_VARARGS | METH_CLASS,
+        METH_O | METH_CLASS,
         PyDoc_STR("Get an ObjCMethod from the memory address."),
     },
     {

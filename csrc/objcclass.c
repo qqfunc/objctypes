@@ -89,14 +89,17 @@ _ObjCClass_FromClass(PyTypeObject *type, Class cls)
 
 // ObjCClass.from_address()
 static PyObject *
-ObjCClass_from_address(PyTypeObject *type, PyObject *args)
+ObjCClass_from_address(PyTypeObject *type, PyObject *address)
 {
-    PyObject *address;
     Class cls;
-    if (!PyArg_ParseTuple(args, "O!:ObjCClass.from_address", &PyLong_Type,
-                          &address)) {
+
+    if (!PyLong_Check(address)) {
+        PyErr_Format(PyExc_TypeError,
+                     "ObjCClass.from_address() argument 1 must be int, not %T",
+                     address);
         return NULL;
     }
+
     cls = PyLong_AsVoidPtr(address);
 
     // Make sure the class is not Nil.
@@ -175,7 +178,7 @@ static PyMethodDef ObjCClass_methods[] = {
     {
         "from_address",
         (PyCFunction)ObjCClass_from_address,
-        METH_VARARGS | METH_CLASS,
+        METH_O | METH_CLASS,
         PyDoc_STR("Get an ObjCClass from the memory address."),
     },
     {

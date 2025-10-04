@@ -66,12 +66,12 @@ _ObjCSelector_FromSEL(PyTypeObject *type, SEL sel)
 
 // ObjCSelector.from_address()
 static PyObject *
-ObjCSelector_from_address(PyTypeObject *type, PyObject *args)
+ObjCSelector_from_address(PyTypeObject *type, PyObject *address)
 {
-    PyObject *address;
-
-    if (!PyArg_ParseTuple(args, "O!:ObjCSelector.from_address", &PyLong_Type,
-                          &address)) {
+    if (!PyLong_Check(address)) {
+        PyErr_Format(PyExc_TypeError,
+                     "ObjCSelector.from_address() argument 1 must be int, not %T",
+                     address);
         return NULL;
     }
 
@@ -99,7 +99,7 @@ static PyMethodDef ObjCSelector_methods[] = {
     {
         "from_address",
         (PyCFunction)ObjCSelector_from_address,
-        METH_VARARGS | METH_CLASS,
+        METH_O | METH_CLASS,
         PyDoc_STR("Get an ObjCSelector from the memory address."),
     },
     {.ml_name = NULL},

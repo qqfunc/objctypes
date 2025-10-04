@@ -33,12 +33,23 @@ def test_objcobject_repr() -> None:
 
 def test_objcobject_from_address() -> None:
     """Test ObjCObject.from_address()."""
+
+
+def test_objcobject_from_address_wrong_arg() -> None:
+    """Test ObjCObject.from_address() with wrong arguments."""
+    with pytest.raises(TypeError) as excinfo:
+        ObjCObject.from_address("wrong argument")  # type: ignore[arg-type]
+    assert (
+        str(excinfo.value)
+        == "ObjCObject.from_address() argument 1 must be int, not str"
+    )
+
+
+def test_objcobject_from_address_nil() -> None:
+    """Test ObjCObject.from_address() with Nil."""
     with pytest.raises(TypeError) as excinfo:
         ObjCObject.from_address(0)
     assert str(excinfo.value) == "the specified Objective-C object is nil"
-
-    with pytest.raises(TypeError):
-        ObjCObject.from_address(object())  # type: ignore[arg-type]
 
 
 def test_objcobject_address() -> None:

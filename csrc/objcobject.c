@@ -48,14 +48,17 @@ _ObjCObject_FromId(ObjCClassObject *type, id obj)
 
 // ObjCObject.from_address()
 static PyObject *
-ObjCObject_from_address(ObjCClassObject *type, PyObject *args)
+ObjCObject_from_address(ObjCClassObject *type, PyObject *address)
 {
-    PyObject *address;
     id obj;
-    if (!PyArg_ParseTuple(args, "O!:ObjCObject.from_address", &PyLong_Type,
-                          &address)) {
+
+    if (!PyLong_Check(address)) {
+        PyErr_Format(PyExc_TypeError,
+                     "ObjCObject.from_address() argument 1 must be int, not %T",
+                     address);
         return NULL;
     }
+
     obj = PyLong_AsVoidPtr(address);
 
     // Make sure the object is not nil.
@@ -104,7 +107,7 @@ static PyMethodDef ObjCObject_methods[] = {
     {
         "from_address",
         (PyCFunction)ObjCObject_from_address,
-        METH_VARARGS | METH_CLASS,
+        METH_O | METH_CLASS,
         PyDoc_STR("Get an ObjCObject from the memory address."),
     },
     {.ml_name = NULL},
