@@ -79,7 +79,7 @@ def test_objcclass_from_address() -> None:
         ObjCClass.from_address(object())  # type: ignore[arg-type]
 
 
-def test_objcclass_from_address_wrong_arguments() -> None:
+def test_objcclass_from_address_wrong_arg() -> None:
     """Test ObjCClass.from_address() with wrong arguments."""
     with pytest.raises(TypeError) as excinfo:
         ObjCClass.from_address("wrong argument")  # type: ignore[arg-type]
