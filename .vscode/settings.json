@@ -1,6 +1,6 @@
 {
   "search.exclude": {
-    "**/package-lock.json": true
+    "**/uv.lock": true
   },
   "ty.disableLanguageServices": true,
   "[github-actions-workflow]": {
