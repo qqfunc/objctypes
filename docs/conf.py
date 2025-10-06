@@ -17,7 +17,7 @@ for url_string in project_url_strings:
 # Project information
 project = package_metadata["Name"]
 # author = ?
-# project_copyright = ?
+project_copyright = "%Y"
 release = get_version(project)
 version = ".".join([str(num) for num in Version(release).release[:2]])
 
