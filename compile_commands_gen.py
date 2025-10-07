@@ -11,6 +11,7 @@ __all__ = [
 import itertools
 import json
 from pathlib import Path
+from subprocess import check_output
 from sysconfig import get_config_var, get_path
 from typing import NotRequired, TypedDict
 
@@ -22,6 +23,18 @@ CXX_COMPILER = get_config_var("CXX")
 INCLUDE_PATH = get_path("include")
 
 JSON_INDENT = 2
+
+LIBFFI_INCLUDE_PATH = (
+    Path(
+        check_output(
+            ["/opt/homebrew/bin/brew", "--prefix", "libffi"],
+            text=True,
+        ).removesuffix("\n")
+        if Path("/opt/homebrew/bin/brew").is_file()
+        else None,
+    )
+    / "include"
+)
 
 
 def generate_compile_commands() -> None:
@@ -47,7 +60,7 @@ def generate_compile_commands() -> None:
 def generate_command(file: Path) -> CompileCommand:
     """Generate compile commands for the specified file."""
     compiler = CXX_COMPILER if file.name.endswith("cpp") else C_COMPILER
-    return {
+    compile_command = {
         "directory": str(BASE_DIR),
         "file": str(file.relative_to(BASE_DIR)),
         "arguments": [
@@ -58,6 +71,9 @@ def generate_command(file: Path) -> CompileCommand:
             "-Wextra",
         ],
     }
+    if LIBFFI_INCLUDE_PATH is not None:
+        compile_command["arguments"].append(f"-I{LIBFFI_INCLUDE_PATH}")
+    return compile_command
 
 
 class CompileCommand(TypedDict):
