@@ -88,3 +88,10 @@ def test_objcselector_name() -> None:
     assert ObjCSelector("someMethod").name == "someMethod"
     assert ObjCSelector("someMethod:").name == "someMethod:"
     assert ObjCSelector("someMethod:arg:").name == "someMethod:arg:"
+
+
+def test_objcselector_is_mapped() -> None:
+    """Test ObjCSelector.is_mapped."""
+    assert ObjCSelector("someMethod").is_mapped
+    assert ObjCSelector("someMethod:").is_mapped
+    assert ObjCSelector("someMethod:arg:").is_mapped
