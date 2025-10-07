@@ -85,10 +85,6 @@ def test_objcselector_address() -> None:
 
 def test_objcselector_name() -> None:
     """Test ObjCSelector.name."""
-    sel1 = ObjCSelector("someMethod")
-    sel2 = ObjCSelector("someMethod:")
-    sel3 = ObjCSelector("someMethod:arg:")
-
-    assert sel1.name == "someMethod"
-    assert sel2.name == "someMethod:"
-    assert sel3.name == "someMethod:arg:"
+    assert ObjCSelector("someMethod").name == "someMethod"
+    assert ObjCSelector("someMethod:").name == "someMethod:"
+    assert ObjCSelector("someMethod:arg:").name == "someMethod:arg:"
