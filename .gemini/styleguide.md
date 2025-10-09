@@ -11,6 +11,8 @@
 
 ### Python C API
 
+- Use `PyDoc_STR()` rather than `PyDoc_STRVAR()`.
+
 #### Memory Management
 
 - Use `PyMem_New()` rather than `PyMem_Malloc()` if possible.
