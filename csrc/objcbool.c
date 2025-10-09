@@ -33,7 +33,7 @@ ObjCBool_str(ObjCBoolObject *self)
 }
 
 // Get an ObjCBool from a Python type and an int.
-static PyObject *
+static ObjCBoolObject *
 _ObjCBool_FromInt(PyTypeObject *type, int bool_value)
 {
     if (bool_value) {
@@ -46,7 +46,7 @@ _ObjCBool_FromInt(PyTypeObject *type, int bool_value)
         else {
             Py_INCREF(objc_YES);
         }
-        return (PyObject *)objc_YES;
+        return objc_YES;
     }
 
     if (objc_NO == NULL) {
@@ -58,7 +58,7 @@ _ObjCBool_FromInt(PyTypeObject *type, int bool_value)
     else {
         Py_INCREF(objc_NO);
     }
-    return (PyObject *)objc_NO;
+    return objc_NO;
 }
 
 // ObjCBool.__new__()
