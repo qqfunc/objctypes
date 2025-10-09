@@ -44,9 +44,8 @@ ObjCMethod_address(ObjCMethodObject *self, void *Py_UNUSED(closure))
 static ObjCMethodObject *
 _ObjCMethod_FromMethod(PyTypeObject *type, Method method)
 {
-    ObjCMethodObject *self;
+    ObjCMethodObject *self = cache_get_ObjCMethod(method);
 
-    self = cache_get_ObjCMethod(method);
     if (self == NULL) {
         self = (ObjCMethodObject *)type->tp_alloc(type, 0);
         if (self != NULL) {
@@ -78,14 +77,13 @@ ObjCMethod_from_class(PyTypeObject *type, PyObject *args)
 {
     ObjCClassObject *cls;
     SEL sel;
-    Method address;
 
     if (!PyArg_ParseTuple(args, "O!O&:ObjCMethod.from_class", &ObjCClassType,
                           &cls, ObjCSelector_SELConverter, &sel)) {
         return NULL;
     }
 
-    address = class_getClassMethod(cls->value, sel);
+    Method address = class_getClassMethod(cls->value, sel);
     if (address == NULL) {
         PyErr_Format(PyExc_AttributeError,
                      "Objective-C class %s has no class method '%s'",

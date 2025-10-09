@@ -29,12 +29,9 @@ ObjCObject_address(ObjCObjectObject *self, void *Py_UNUSED(closure))
 static ObjCObjectObject *
 _ObjCObject_FromId(ObjCClassObject *type, id obj)
 {
-    PyTypeObject *pytype;
-    ObjCObjectObject *self;
+    PyTypeObject *pytype = &(type->type);
+    ObjCObjectObject *self = cache_get_ObjCObject(obj);
 
-    pytype = &(type->type);
-
-    self = cache_get_ObjCObject(obj);
     if (self == NULL) {
         self = (ObjCObjectObject *)pytype->tp_alloc(pytype, 0);
         if (self != NULL) {
@@ -50,8 +47,6 @@ _ObjCObject_FromId(ObjCClassObject *type, id obj)
 static PyObject *
 ObjCObject_from_address(ObjCClassObject *type, PyObject *address)
 {
-    id obj;
-
     if (!PyLong_Check(address)) {
         PyErr_Format(PyExc_TypeError,
                      "ObjCObject.from_address() argument 1 must be int, not %T",
@@ -59,7 +54,7 @@ ObjCObject_from_address(ObjCClassObject *type, PyObject *address)
         return NULL;
     }
 
-    obj = PyLong_AsVoidPtr(address);
+    id obj = PyLong_AsVoidPtr(address);
 
     // Make sure the object is not nil.
     if (obj == NULL) {

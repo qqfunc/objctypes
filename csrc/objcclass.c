@@ -44,11 +44,10 @@ ObjCClass_name(ObjCClassObject *self, PyObject *Py_UNUSED(closure))
 static PyObject *
 ObjCClass_load_methods(ObjCClassObject *self, PyObject *Py_UNUSED(args))
 {
-    unsigned int outCount, num;
-    Method *methods;
+    unsigned int outCount;
 
-    methods = class_copyMethodList(self->value, &outCount);
-    for (num = 0; num < outCount; num++) {
+    Method *methods = class_copyMethodList(self->value, &outCount);
+    for (unsigned int num = 0; num < outCount; num++) {
         printf("Method %s\n", sel_getName(method_getName(methods[num])));
     }
     free(methods);
@@ -60,12 +59,9 @@ ObjCClass_load_methods(ObjCClassObject *self, PyObject *Py_UNUSED(args))
 static ObjCClassObject *
 _ObjCClass_FromClass(PyTypeObject *type, Class cls)
 {
-    Class super_cls;
-    ObjCClassObject *self, *super;
-
-    self = cache_get_ObjCClass(cls);
+    ObjCClassObject *self = cache_get_ObjCClass(cls);
     if (self == NULL) {
-        super_cls = class_getSuperclass(cls);
+        Class super_cls = class_getSuperclass(cls);
         if (super_cls == NULL) {
             // The class is a root class.
             self = (ObjCClassObject *)PyType_Type.tp_new(
@@ -73,7 +69,7 @@ _ObjCClass_FromClass(PyTypeObject *type, Class cls)
                 PyDict_New());
         }
         else {
-            super = _ObjCClass_FromClass(type, super_cls);
+            ObjCClassObject *super = _ObjCClass_FromClass(type, super_cls);
             self = (ObjCClassObject *)PyType_Type.tp_new(
                 type, Py_BuildValue("(s(O){})", class_getName(cls), super),
                 PyDict_New());
@@ -91,8 +87,6 @@ _ObjCClass_FromClass(PyTypeObject *type, Class cls)
 static PyObject *
 ObjCClass_from_address(PyTypeObject *type, PyObject *address)
 {
-    Class cls;
-
     if (!PyLong_Check(address)) {
         PyErr_Format(PyExc_TypeError,
                      "ObjCClass.from_address() argument 1 must be int, not %T",
@@ -100,7 +94,7 @@ ObjCClass_from_address(PyTypeObject *type, PyObject *address)
         return NULL;
     }
 
-    cls = PyLong_AsVoidPtr(address);
+    Class cls = PyLong_AsVoidPtr(address);
 
     // Make sure the class is not Nil.
     if (cls == NULL) {
@@ -136,7 +130,6 @@ ObjCClass_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
     static char *kwlist[] = {"", "", "", NULL};
     char *name;
     PyObject *bases = NULL, *dict = NULL;
-    Class cls;
     ObjCClassObject *self;
 
     if (!PyArg_ParseTupleAndKeywords(args, kwds, "s|O!O!:ObjCClass", kwlist,
@@ -147,7 +140,7 @@ ObjCClass_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
 
     if (bases == NULL) {
         // ObjCClass(name, /)
-        cls = objc_getClass(name);
+        Class cls = objc_getClass(name);
         if (cls == NULL) {
             PyErr_Format(PyExc_NameError,
                          "Objective-C class '%s' is not defined", name);

@@ -50,9 +50,8 @@ ObjCSelector_is_mapped(ObjCSelectorObject *self, void *Py_UNUSED(closure))
 static ObjCSelectorObject *
 _ObjCSelector_FromSEL(PyTypeObject *type, SEL sel)
 {
-    ObjCSelectorObject *self;
+    ObjCSelectorObject *self = cache_get_ObjCSelector(sel);
 
-    self = cache_get_ObjCSelector(sel);
     if (self == NULL) {
         self = (ObjCSelectorObject *)type->tp_alloc(type, 0);
         if (self != NULL) {
@@ -84,14 +83,13 @@ ObjCSelector_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
 {
     static char *kwlist[] = {"", NULL};
     char *name;
-    ObjCSelectorObject *self;
 
     if (!PyArg_ParseTupleAndKeywords(args, kwds, "s:ObjCSelector", kwlist,
                                      &name)) {
         return NULL;
     }
 
-    self = _ObjCSelector_FromSEL(type, sel_registerName(name));
+    ObjCSelectorObject *self = _ObjCSelector_FromSEL(type, sel_registerName(name));
     return (PyObject *)self;
 }
 
@@ -155,13 +153,12 @@ int
 ObjCSelector_SELConverter(PyObject *obj, void *ptr)
 {
     SEL sel;
-    const char *name;
 
     if (PyObject_TypeCheck(obj, &ObjCSelectorType)) {
         sel = ((ObjCSelectorObject *)obj)->value;
     }
     else if (PyUnicode_Check(obj)) {
-        name = PyUnicode_AsUTF8(obj);
+        const char *name = PyUnicode_AsUTF8(obj);
         if (name == NULL) {
             return 0; // Failure
         }
