@@ -12,45 +12,54 @@ static PyModuleDef objctypesmodule = {
 PyMODINIT_FUNC
 PyInit_objctypes(void)
 {
-    PyObject *module;
-    PyObject *objc_yes, *objc_no;
-
-    module = PyModule_Create(&objctypesmodule);
+    PyObject *module = PyModule_Create(&objctypesmodule);
     if (module == NULL) {
         return NULL;
     }
 
     // Add ObjCClass
     ObjCClassType.tp_base = &PyType_Type;
-    PyModule_AddType(module, &ObjCClassType);
+    if (PyModule_AddType(module, &ObjCClassType) < 0) {
+        return NULL;
+    }
     Py_XDECREF(&ObjCClassType);
 
     // Add ObjCObject
     Py_SET_TYPE(&ObjCObjectType, &ObjCClassType);
-    PyModule_AddType(module, (PyTypeObject *)&ObjCObjectType);
+    if (PyModule_AddType(module, (PyTypeObject *)&ObjCObjectType) < 0) {
+        return NULL;
+    }
     Py_XDECREF(&ObjCObjectType);
 
     // Add ObjCMethod
-    PyModule_AddType(module, &ObjCMethodType);
+    if (PyModule_AddType(module, &ObjCMethodType) < 0) {
+        return NULL;
+    }
     Py_XDECREF(&ObjCMethodType);
 
     // Add ObjCSelector
-    PyModule_AddType(module, &ObjCSelectorType);
+    if (PyModule_AddType(module, &ObjCSelectorType) < 0) {
+        return NULL;
+    }
     Py_XDECREF(&ObjCSelectorType);
 
     // Add ObjCBool
-    PyModule_AddType(module, &ObjCBoolType);
+    if (PyModule_AddType(module, &ObjCBoolType) < 0) {
+        return NULL;
+    }
     Py_XDECREF(&ObjCBoolType);
 
     // Add YES
-    objc_yes = ObjCBool_FromInt(1);
-    PyModule_AddObjectRef(module, "YES", objc_yes);
-    Py_XDECREF(objc_yes);
+    PyObject *objc_yes = ObjCBool_FromInt(1);
+    if (PyModule_Add(module, "YES", objc_yes) < 0) {
+        return NULL;
+    }
 
     // Add NO
-    objc_no = ObjCBool_FromInt(0);
-    PyModule_AddObjectRef(module, "NO", objc_no);
-    Py_XDECREF(objc_no);
+    PyObject *objc_no = ObjCBool_FromInt(0);
+    if (PyModule_Add(module, "NO", objc_no) < 0) {
+        return NULL;
+    }
 
     return module;
 }
