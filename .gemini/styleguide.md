@@ -7,6 +7,7 @@
 ## C / C++ / Objective-C
 
 - Follow PEP 7.
+- Declare variables and constants in the middle of a function as needed.
 
 ### Python C API
 
