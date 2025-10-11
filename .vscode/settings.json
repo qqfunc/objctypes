@@ -6,6 +6,18 @@
   "[github-actions-workflow]": {
       "editor.defaultFormatter": "redhat.vscode-yaml"
   },
+  "[c]": {
+    "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
+  },
+  "[cpp]": {
+    "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
+  },
+  "[objective-c]": {
+    "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
+  },
+  "[objective-cpp]": {
+    "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
+  },
   "[python]": {
       "editor.defaultFormatter": "charliermarsh.ruff"
   },
