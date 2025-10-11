@@ -60,7 +60,7 @@ def generate_compile_commands() -> None:
 def generate_command(file: Path) -> CompileCommand:
     """Generate compile commands for the specified file."""
     compiler = CXX_COMPILER if file.name.endswith("cpp") else C_COMPILER
-    compile_command = {
+    compile_command: CompileCommand = {
         "directory": str(BASE_DIR),
         "file": str(file.relative_to(BASE_DIR)),
         "arguments": [
