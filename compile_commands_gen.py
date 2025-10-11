@@ -59,14 +59,16 @@ def generate_compile_commands() -> None:
 
 def generate_command(file: Path) -> CompileCommand:
     """Generate compile commands for the specified file."""
-    compiler = CXX_COMPILER if file.name.endswith("cpp") else C_COMPILER
+    is_cpp = file.suffix == ".cpp"
+    compiler = CXX_COMPILER if is_cpp else C_COMPILER
+    stdlib = "c++11" if is_cpp else "c11"
     compile_command: CompileCommand = {
         "directory": str(BASE_DIR),
         "file": str(file.relative_to(BASE_DIR)),
         "arguments": [
             compiler,
             f"-I{INCLUDE_PATH}",
-            "-std=c11",
+            f"-std={stdlib}",
             "-Wall",
             "-Wextra",
         ],
