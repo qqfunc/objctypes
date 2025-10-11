@@ -17,7 +17,8 @@
 
 - Use `PyModule_Add()` to add objects to a module.
 - Use `PyModule_AddType()` to add type objects to a module.
-- Do not explicitly check if the object to be added to the module is `NULL`.
+- Since the above functions leave the raised exception unchanged, do not
+  explicitly check whether the object to be added to the module is `NULL`.
 
 #### Memory Management
 
