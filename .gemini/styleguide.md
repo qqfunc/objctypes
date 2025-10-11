@@ -13,6 +13,12 @@
 
 - Use `PyDoc_STR()` rather than `PyDoc_STRVAR()`.
 
+#### Module Objects
+
+- Use `PyModule_Add()` to add objects to a module.
+- Use `PyModule_AddType()` to add type objects to a module.
+- Do not explicitly check if the object to be added to the module is `NULL`.
+
 #### Memory Management
 
 - Use `PyMem_New()` rather than `PyMem_Malloc()` if possible.
@@ -21,6 +27,7 @@
   `PyMem_Malloc()`, `PyMem_Calloc()` or `PyMem_Realloc()`.
 - Use `PyMem_Del()` for memory blocks that have been allocated with
   `PyMem_New()` or `PyMem_Resize()`.
-- Never resize or free memory blocks that have been allocated by functions other
-  than `PyMem_Malloc()`, `PyMem_Realloc()`, `PyMem_Calloc()`, `PyMem_New()` or
-  `PyMem_Resize()` with `PyMem_Realloc()`, `PyMem_Free()`, `PyMem_Resize()` or `PyMem_Del()`.
+- Never resize or free memory blocks that have been allocated by functions
+  other than `PyMem_Malloc()`, `PyMem_Realloc()`, `PyMem_Calloc()`,
+  `PyMem_New()` or `PyMem_Resize()` with `PyMem_Realloc()`, `PyMem_Free()`,
+  `PyMem_Resize()` or `PyMem_Del()`.
