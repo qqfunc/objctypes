@@ -36,8 +36,8 @@ def test_objcclass_from_class() -> None:
 
 def test_objcobject_from_id() -> None:
     """Test ObjCObject_FromId()."""
-    clib.ObjCMethod_FromMethod.restype = py_object
-    clib.ObjCMethod_FromMethod.argtypes = (c_void_p,)
+    clib.ObjCObject_FromId.restype = py_object
+    clib.ObjCObject_FromId.argtypes = (c_void_p,)
 
 
 def test_objcmethod_from_method() -> None:
