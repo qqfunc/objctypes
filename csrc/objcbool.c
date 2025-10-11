@@ -32,11 +32,11 @@ ObjCBool_str(ObjCBoolObject *self)
     return PyUnicode_FromString(self->value ? "YES" : "NO");
 }
 
-// Get an ObjCBool from a Python type and an int.
+// Get an ObjCBool from a Python type and an long.
 static ObjCBoolObject *
-_ObjCBool_FromInt(PyTypeObject *type, int bool_value)
+_ObjCBool_FromLong(PyTypeObject *type, long v)
 {
-    if (bool_value) {
+    if (v) {
         if (objc_YES == NULL) {
             objc_YES = (ObjCBoolObject *)type->tp_alloc(type, 0);
             if (objc_YES != NULL) {
@@ -66,14 +66,14 @@ static PyObject *
 ObjCBool_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
 {
     static char *kwlist[] = {"", NULL};
-    int bool_value = 0;
+    int v = 0;
 
     if (!PyArg_ParseTupleAndKeywords(args, kwds, "|p:ObjCBool", kwlist,
-                                     &bool_value)) {
+                                     &v)) {
         return NULL;
     }
 
-    return (PyObject *)_ObjCBool_FromInt(type, bool_value);
+    return (PyObject *)_ObjCBool_FromLong(type, v);
 }
 
 // ObjCBool.__bool__()
@@ -87,7 +87,7 @@ ObjCBool_bool(ObjCBoolObject *self)
 static PyObject *
 ObjCBool_invert(ObjCBoolObject *self)
 {
-    return (PyObject *)ObjCBool_FromInt(!(self->value));
+    return (PyObject *)ObjCBool_FromLong(!(self->value));
 }
 
 // ObjCBool.__int__()
@@ -126,7 +126,7 @@ PyTypeObject ObjCBoolType = {
 };
 
 PyObject *
-ObjCBool_FromInt(int bool_value)
+ObjCBool_FromLong(long v)
 {
-    return (PyObject *)_ObjCBool_FromInt(&ObjCBoolType, bool_value);
+    return (PyObject *)_ObjCBool_FromLong(&ObjCBoolType, v);
 }

@@ -75,7 +75,7 @@ extern PyTypeObject ObjCBoolType;
 
 // Get an ObjCBool from an int.
 PyObject *
-ObjCBool_FromInt(int bool_value);
+ObjCBool_FromLong(long v);
 
 // Cache functions
 

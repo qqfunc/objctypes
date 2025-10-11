@@ -50,13 +50,13 @@ PyInit_objctypes(void)
     Py_XDECREF(&ObjCBoolType);
 
     // Add YES
-    PyObject *objc_yes = ObjCBool_FromInt(1);
+    PyObject *objc_yes = ObjCBool_FromLong(1);
     if (PyModule_Add(module, "YES", objc_yes) < 0) {
         return NULL;
     }
 
     // Add NO
-    PyObject *objc_no = ObjCBool_FromInt(0);
+    PyObject *objc_no = ObjCBool_FromLong(0);
     if (PyModule_Add(module, "NO", objc_no) < 0) {
         return NULL;
     }
