@@ -100,6 +100,12 @@ ObjCObject_new(ObjCClassObject *type, PyObject *Py_UNUSED(args),
 
 static PyMethodDef ObjCObject_methods[] = {
     {
+        "__class_getitem__",
+        Py_GenericAlias,
+        METH_O | METH_CLASS,
+        PyDoc_STR("Python wrapper for Objective-C Class."),
+    },
+    {
         "from_address",
         (PyCFunction)ObjCObject_from_address,
         METH_O | METH_CLASS,

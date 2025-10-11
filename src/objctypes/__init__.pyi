@@ -1,4 +1,5 @@
-from typing import Self, final, overload
+from types import GenericAlias
+from typing import Any, Self, final, overload
 
 @final  # NOTE: final?
 class ObjCClass(type):  # NOTE: type?
@@ -44,6 +45,7 @@ class ObjCObject(metaclass=ObjCClass):
     """
 
     def __new__(cls, *args: tuple[object, ...]) -> Self: ...
+    def __class_getitem__(cls, item: Any, /) -> GenericAlias: ...
     @classmethod
     def from_address(cls, address: int, /) -> Self:
         """Retrieve an Objective-C object from the specified address.

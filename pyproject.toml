@@ -81,6 +81,9 @@ lint.ignore = [
   "D213",   # multi-line-summary-second-line
   "D418",   # overload-with-docstring
 ]
+lint.per-file-ignores."src/**/*.pyi" = [
+  "ANN401" # any-type
+]
 lint.per-file-ignores."setup.py" = [
   "S603", # subprocess-without-shell-equals-true
 ]
