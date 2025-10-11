@@ -14,7 +14,7 @@ dist/
 docs/_build/
 
 # Lefthook
-lefthook-local.yml
+.lefthook-local.yml
 
 # clangd
 .clangd
