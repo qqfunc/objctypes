@@ -3,14 +3,14 @@
     "**/uv.lock": true
   },
   "ty.disableLanguageServices": true,
-  "[github-actions-workflow]": {
-      "editor.defaultFormatter": "redhat.vscode-yaml"
-  },
   "[c]": {
     "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
   },
   "[cpp]": {
     "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
+  },
+  "[github-actions-workflow]": {
+      "editor.defaultFormatter": "redhat.vscode-yaml"
   },
   "[objective-c]": {
     "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
