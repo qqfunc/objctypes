@@ -64,3 +64,5 @@ jobs:
       run: uv run --no-default-groups ruff format --check --preview --output-format=github
     - name: Type Check with ty
       run: uv run --no-default-groups ty check --output-format=github
+    - name: Prune uv cache
+      run: uv cache prune --ci
