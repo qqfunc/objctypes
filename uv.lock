@@ -333,6 +333,7 @@ docs = [
     { name = "sphinx" },
     { name = "sphinx-autoapi" },
     { name = "sphinx-copybutton" },
+    { name = "sphinx-lint" },
     { name = "sphinx-notfound-page" },
 ]
 gh-actions-build = [
@@ -350,6 +351,7 @@ gh-actions-check = [
     { name = "sphinx" },
     { name = "sphinx-autoapi" },
     { name = "sphinx-copybutton" },
+    { name = "sphinx-lint" },
     { name = "sphinx-notfound-page" },
     { name = "taskipy" },
     { name = "ty" },
@@ -365,6 +367,7 @@ readthedocs = [
     { name = "sphinx" },
     { name = "sphinx-autoapi" },
     { name = "sphinx-copybutton" },
+    { name = "sphinx-lint" },
     { name = "sphinx-notfound-page" },
 ]
 tests = [
@@ -408,6 +411,7 @@ docs = [
     { name = "sphinx", specifier = "==8.2.3" },
     { name = "sphinx-autoapi", specifier = "==3.6.1" },
     { name = "sphinx-copybutton", specifier = "==0.5.2" },
+    { name = "sphinx-lint", specifier = "==1.0.0" },
     { name = "sphinx-notfound-page", specifier = "==1.1.0" },
 ]
 gh-actions-build = [
@@ -425,6 +429,7 @@ gh-actions-check = [
     { name = "sphinx", specifier = "==8.2.3" },
     { name = "sphinx-autoapi", specifier = "==3.6.1" },
     { name = "sphinx-copybutton", specifier = "==0.5.2" },
+    { name = "sphinx-lint", specifier = "==1.0.0" },
     { name = "sphinx-notfound-page", specifier = "==1.1.0" },
     { name = "taskipy", specifier = "==1.14.1" },
     { name = "ty", specifier = "==0.0.1a22" },
@@ -438,6 +443,7 @@ readthedocs = [
     { name = "sphinx", specifier = "==8.2.3" },
     { name = "sphinx-autoapi", specifier = "==3.6.1" },
     { name = "sphinx-copybutton", specifier = "==0.5.2" },
+    { name = "sphinx-lint", specifier = "==1.0.0" },
     { name = "sphinx-notfound-page", specifier = "==1.1.0" },
 ]
 tests = [
