@@ -14,6 +14,8 @@ pre-commit:
             run: ruff format --check
     - name: ty
       run: ty check
+    - name: sphinx-lint
+      run: task docs-lint
 
 commit-msg:
   jobs:
@@ -36,6 +38,8 @@ check:
             run: ruff format --check
     - name: ty
       run: ty check
+    - name: sphinx-lint
+      run: task docs-lint
 
 fix:
   jobs:
@@ -51,3 +55,5 @@ fix:
             run: ruff format
     - name: ty
       run: ty check
+    - name: sphinx-lint
+      run: task docs-lint
