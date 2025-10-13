@@ -17,7 +17,6 @@ docs/_build/
 .lefthook-local.yml
 
 # clangd
-.clangd
 compile_commands.json
 compile_flags.txt
 

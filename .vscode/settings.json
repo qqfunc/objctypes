@@ -2,6 +2,7 @@
   "search.exclude": {
     "**/uv.lock": true
   },
+  "clangd.arguments": ["--enable-config"],
   "ty.disableLanguageServices": true,
   "[c]": {
     "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
