@@ -50,7 +50,7 @@ objctypes_module_exec(PyObject *m)
 static PyModuleDef_Slot objctypes_module_slots[] = {
     {Py_mod_exec, objctypes_module_exec},
     {Py_mod_multiple_interpreters, Py_MOD_MULTIPLE_INTERPRETERS_NOT_SUPPORTED},
-    {0, NULL}
+    {0, NULL},
 };
 
 static PyModuleDef objctypes_module = {
