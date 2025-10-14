@@ -101,6 +101,9 @@ lint.pycodestyle.max-doc-length = 72
 
 [tool.setuptools_scm]
 
+[tool.taskipy.settings]
+cwd = "."
+
 [tool.taskipy.tasks]
 test = { cmd = "pytest", help = "Run unit tests with pytest" }
 docs-build = { cmd = "sphinx-build docs docs/_build", help = "Build the documentation with Sphinx" }
