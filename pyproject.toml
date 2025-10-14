@@ -102,13 +102,18 @@ lint.pycodestyle.max-doc-length = 72
 [tool.setuptools_scm]
 
 [tool.taskipy.settings]
+use_vars = true
 cwd = "."
+
+[tool.taskipy.variables]
+docs = "./docs"
+docs-build = { var = "{docs}/_build", recursive = true }
 
 [tool.taskipy.tasks]
 test = { cmd = "pytest", help = "Run unit tests with pytest" }
-docs-build = { cmd = "sphinx-build docs docs/_build", help = "Build the documentation with Sphinx" }
-docs-autobuild = { cmd = "sphinx-autobuild docs docs/_build", help = "Build the documentation with sphinx-autobuild" }
-docs-lint = { cmd = "sphinx-lint -i .venv -i docs/_build", help = "Lint the documentation with sphinx-lint" }
+docs-build = { cmd = "sphinx-build {docs} {docs-build}", help = "Build the documentation with Sphinx" }
+docs-autobuild = { cmd = "sphinx-autobuild {docs} {docs-build}", help = "Build the documentation with sphinx-autobuild" }
+docs-lint = { cmd = "sphinx-lint -i .venv -i {docs-build}", help = "Lint the documentation with sphinx-lint" }
 
 [tool.ty]
 terminal.error-on-warning = true
