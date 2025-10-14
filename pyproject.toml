@@ -121,3 +121,6 @@ terminal.error-on-warning = true
 [tool.typos]
 files.extend-exclude = ["uv.lock"]
 default.unicode = false
+
+[tool.uv]
+cache-keys = [{ file = "pyproject.toml" }, { file = "setup.py" }, { file = "csrc/**/*" }]
