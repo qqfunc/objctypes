@@ -6,7 +6,7 @@
 static void
 ObjCSelector_dealloc(ObjCSelectorObject *self)
 {
-    cache_delete_ObjCSelector(self->value);
+    ObjCSelector_cache_del(self->value);
     Py_TYPE(self)->tp_free((PyObject *)self);
 }
 
@@ -50,13 +50,13 @@ ObjCSelector_is_mapped(ObjCSelectorObject *self, void *Py_UNUSED(closure))
 static ObjCSelectorObject *
 _ObjCSelector_FromSEL(PyTypeObject *type, SEL sel)
 {
-    ObjCSelectorObject *self = cache_get_ObjCSelector(sel);
+    ObjCSelectorObject *self = ObjCSelector_cache_get(sel);
 
     if (self == NULL) {
         self = (ObjCSelectorObject *)type->tp_alloc(type, 0);
         if (self != NULL) {
             self->value = sel;
-            cache_add_ObjCSelector(sel, self);
+            ObjCSelector_cache_set(sel, self);
         }
     }
 

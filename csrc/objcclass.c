@@ -7,7 +7,7 @@ static void
 ObjCClass_dealloc(ObjCClassObject *self)
 {
     if (self->value != NULL) {
-        cache_delete_ObjCClass(self->value);
+        ObjCClass_cache_del(self->value);
     }
     Py_TYPE(self)->tp_free((PyObject *)self);
 }
@@ -59,7 +59,7 @@ ObjCClass_load_methods(ObjCClassObject *self, PyObject *Py_UNUSED(args))
 static ObjCClassObject *
 _ObjCClass_FromClass(PyTypeObject *type, Class cls)
 {
-    ObjCClassObject *self = cache_get_ObjCClass(cls);
+    ObjCClassObject *self = ObjCClass_cache_get(cls);
     if (self == NULL) {
         Class super_cls = class_getSuperclass(cls);
         if (super_cls == NULL) {
@@ -76,7 +76,7 @@ _ObjCClass_FromClass(PyTypeObject *type, Class cls)
         }
         if (self != NULL) {
             self->value = cls;
-            cache_add_ObjCClass(cls, self);
+            ObjCClass_cache_set(cls, self);
         }
     }
 

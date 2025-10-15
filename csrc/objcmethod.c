@@ -6,7 +6,7 @@
 static void
 ObjCMethod_dealloc(ObjCMethodObject *self)
 {
-    cache_delete_ObjCMethod(self->value);
+    ObjCMethod_cache_del(self->value);
     Py_TYPE(self)->tp_free((PyObject *)self);
 }
 
@@ -44,13 +44,13 @@ ObjCMethod_address(ObjCMethodObject *self, void *Py_UNUSED(closure))
 static ObjCMethodObject *
 _ObjCMethod_FromMethod(PyTypeObject *type, Method method)
 {
-    ObjCMethodObject *self = cache_get_ObjCMethod(method);
+    ObjCMethodObject *self = ObjCMethod_cache_get(method);
 
     if (self == NULL) {
         self = (ObjCMethodObject *)type->tp_alloc(type, 0);
         if (self != NULL) {
             self->value = method;
-            cache_add_ObjCMethod(method, self);
+            ObjCMethod_cache_set(method, self);
         }
     }
 

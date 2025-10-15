@@ -85,51 +85,51 @@ extern "C" {
 
 // Get an ObjCClass cache if it exists. Returns a new reference or NULL.
 ObjCClassObject *
-cache_get_ObjCClass(Class cls);
+ObjCClass_cache_get(Class cls);
 
 // Cache an ObjCClass.
 void
-cache_add_ObjCClass(Class cls, ObjCClassObject *obj);
+ObjCClass_cache_set(Class cls, ObjCClassObject *obj);
 
 // Delete an ObjCClass cache.
 void
-cache_delete_ObjCClass(Class cls);
+ObjCClass_cache_del(Class cls);
 
 // Get an ObjCObject cache if it exists. Returns a new reference or NULL.
 ObjCObjectObject *
-cache_get_ObjCObject(id obj);
+ObjCObject_cache_get(id obj);
 
 // Cache an ObjCObject.
 void
-cache_add_ObjCObject(id obj, ObjCObjectObject *pyobj);
+ObjCObject_cache_set(id obj, ObjCObjectObject *pyobj);
 
 // Delete an ObjCObject cache.
 void
-cache_delete_ObjCObject(id obj);
+ObjCObject_cache_del(id obj);
 
 // Get an ObjCMethod cache if it exists. Returns a new reference or NULL.
 ObjCMethodObject *
-cache_get_ObjCMethod(Method method);
+ObjCMethod_cache_get(Method method);
 
 // Cache an ObjCMethod.
 void
-cache_add_ObjCMethod(Method method, ObjCMethodObject *obj);
+ObjCMethod_cache_set(Method method, ObjCMethodObject *obj);
 
 // Delete an ObjCMethod cache.
 void
-cache_delete_ObjCMethod(Method method);
+ObjCMethod_cache_del(Method method);
 
 // Get an ObjCSelector cache if it exists. Returns a new reference or NULL.
 ObjCSelectorObject *
-cache_get_ObjCSelector(SEL selector);
+ObjCSelector_cache_get(SEL selector);
 
 // Cache an ObjCSelector.
 void
-cache_add_ObjCSelector(SEL sel, ObjCSelectorObject *obj);
+ObjCSelector_cache_set(SEL sel, ObjCSelectorObject *obj);
 
 // Delete an ObjCSelector cache.
 void
-cache_delete_ObjCSelector(SEL selector);
+ObjCSelector_cache_del(SEL selector);
 
 #ifdef __cplusplus
 }

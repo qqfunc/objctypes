@@ -11,7 +11,7 @@ typedef std::map<void *, PyObject *> cache_map;
 static cache_map ObjCClass_cache;
 
 ObjCClassObject *
-cache_get_ObjCClass(Class cls)
+ObjCClass_cache_get(Class cls)
 {
     const auto it = ObjCClass_cache.find(cls);
     if (it != ObjCClass_cache.end()) {
@@ -22,13 +22,13 @@ cache_get_ObjCClass(Class cls)
 }
 
 void
-cache_add_ObjCClass(Class cls, ObjCClassObject *obj)
+ObjCClass_cache_set(Class cls, ObjCClassObject *obj)
 {
     ObjCClass_cache[cls] = (PyObject *)obj;
 }
 
 void
-cache_delete_ObjCClass(Class cls)
+ObjCClass_cache_del(Class cls)
 {
     ObjCClass_cache.erase(cls);
 }
@@ -38,7 +38,7 @@ cache_delete_ObjCClass(Class cls)
 static cache_map ObjCObject_cache;
 
 ObjCObjectObject *
-cache_get_ObjCObject(id obj)
+ObjCObject_cache_get(id obj)
 {
     const auto it = ObjCObject_cache.find(obj);
     if (it != ObjCObject_cache.end()) {
@@ -49,13 +49,13 @@ cache_get_ObjCObject(id obj)
 }
 
 void
-cache_add_ObjCObject(id obj, ObjCObjectObject *pyobj)
+ObjCObject_cache_set(id obj, ObjCObjectObject *pyobj)
 {
     ObjCObject_cache[obj] = (PyObject *)pyobj;
 }
 
 void
-cache_delete_ObjCObject(id obj)
+ObjCObject_cache_del(id obj)
 {
     ObjCObject_cache.erase(obj);
 }
@@ -65,7 +65,7 @@ cache_delete_ObjCObject(id obj)
 static cache_map ObjCMethod_cache;
 
 ObjCMethodObject *
-cache_get_ObjCMethod(Method method)
+ObjCMethod_cache_get(Method method)
 {
     const auto it = ObjCMethod_cache.find(method);
     if (it != ObjCMethod_cache.end()) {
@@ -76,13 +76,13 @@ cache_get_ObjCMethod(Method method)
 }
 
 void
-cache_add_ObjCMethod(Method method, ObjCMethodObject *obj)
+ObjCMethod_cache_set(Method method, ObjCMethodObject *obj)
 {
     ObjCMethod_cache[method] = (PyObject *)obj;
 }
 
 void
-cache_delete_ObjCMethod(Method method)
+ObjCMethod_cache_del(Method method)
 {
     ObjCMethod_cache.erase(method);
 }
@@ -92,7 +92,7 @@ cache_delete_ObjCMethod(Method method)
 static cache_map ObjCSelector_cache;
 
 ObjCSelectorObject *
-cache_get_ObjCSelector(SEL sel)
+ObjCSelector_cache_get(SEL sel)
 {
     const auto it = ObjCSelector_cache.find(sel);
     if (it != ObjCSelector_cache.end()) {
@@ -103,13 +103,13 @@ cache_get_ObjCSelector(SEL sel)
 }
 
 void
-cache_add_ObjCSelector(SEL sel, ObjCSelectorObject *obj)
+ObjCSelector_cache_set(SEL sel, ObjCSelectorObject *obj)
 {
     ObjCSelector_cache[sel] = (PyObject *)obj;
 }
 
 void
-cache_delete_ObjCSelector(SEL sel)
+ObjCSelector_cache_del(SEL sel)
 {
     ObjCSelector_cache.erase(sel);
 }

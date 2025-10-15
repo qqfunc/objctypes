@@ -6,7 +6,7 @@
 static void
 ObjCObject_dealloc(ObjCObjectObject *self)
 {
-    cache_delete_ObjCObject(self->value);
+    ObjCObject_cache_del(self->value);
     Py_TYPE(self)->tp_free((PyObject *)self);
 }
 
@@ -30,13 +30,13 @@ static ObjCObjectObject *
 _ObjCObject_FromId(ObjCClassObject *type, id obj)
 {
     PyTypeObject *pytype = &(type->type);
-    ObjCObjectObject *self = cache_get_ObjCObject(obj);
+    ObjCObjectObject *self = ObjCObject_cache_get(obj);
 
     if (self == NULL) {
         self = (ObjCObjectObject *)pytype->tp_alloc(pytype, 0);
         if (self != NULL) {
             self->value = obj;
-            cache_add_ObjCObject(obj, self);
+            ObjCObject_cache_set(obj, self);
         }
     }
 
