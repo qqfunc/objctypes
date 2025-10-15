@@ -2,17 +2,17 @@
 
 #include "objctypes.h"
 
-static ObjCBoolObject *objc_YES = NULL, *objc_NO = NULL;
+static ObjCBoolObject *objc_yes = NULL, *objc_no = NULL;
 
 // Destruct an ObjCBool.
 static void
 ObjCBool_dealloc(ObjCBoolObject *self)
 {
     if (self->value) {
-        objc_YES = NULL;
+        objc_yes = NULL;
     }
     else {
-        objc_NO = NULL;
+        objc_no = NULL;
     }
     Py_TYPE(self)->tp_free((PyObject *)self);
 }
@@ -37,28 +37,28 @@ static ObjCBoolObject *
 _ObjCBool_FromLong(PyTypeObject *type, long v)
 {
     if (v) {
-        if (objc_YES == NULL) {
-            objc_YES = (ObjCBoolObject *)type->tp_alloc(type, 0);
-            if (objc_YES != NULL) {
-                objc_YES->value = YES;
+        if (objc_yes == NULL) {
+            objc_yes = (ObjCBoolObject *)type->tp_alloc(type, 0);
+            if (objc_yes != NULL) {
+                objc_yes->value = YES;
             }
         }
         else {
-            Py_INCREF(objc_YES);
+            Py_INCREF(objc_yes);
         }
-        return objc_YES;
+        return objc_yes;
     }
 
-    if (objc_NO == NULL) {
-        objc_NO = (ObjCBoolObject *)type->tp_alloc(type, 0);
-        if (objc_NO != NULL) {
-            objc_NO->value = NO;
+    if (objc_no == NULL) {
+        objc_no = (ObjCBoolObject *)type->tp_alloc(type, 0);
+        if (objc_no != NULL) {
+            objc_no->value = NO;
         }
     }
     else {
-        Py_INCREF(objc_NO);
+        Py_INCREF(objc_no);
     }
-    return objc_NO;
+    return objc_no;
 }
 
 // ObjCBool.__new__()
