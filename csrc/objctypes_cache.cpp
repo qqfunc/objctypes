@@ -15,8 +15,7 @@ ObjCClass_cache_get(Class cls)
 {
     const auto it = ObjCClass_cache.find(cls);
     if (it != ObjCClass_cache.end()) {
-        Py_INCREF(it->second);
-        return (ObjCClassObject *)it->second;
+        return (ObjCClassObject *)Py_NewRef(it->second);
     }
     return NULL;
 }
@@ -42,8 +41,7 @@ ObjCObject_cache_get(id obj)
 {
     const auto it = ObjCObject_cache.find(obj);
     if (it != ObjCObject_cache.end()) {
-        Py_INCREF(it->second);
-        return (ObjCObjectObject *)it->second;
+        return (ObjCObjectObject *)Py_NewRef(it->second);
     }
     return NULL;
 }
@@ -69,8 +67,7 @@ ObjCMethod_cache_get(Method method)
 {
     const auto it = ObjCMethod_cache.find(method);
     if (it != ObjCMethod_cache.end()) {
-        Py_INCREF(it->second);
-        return (ObjCMethodObject *)it->second;
+        return (ObjCMethodObject *)Py_NewRef(it->second);
     }
     return NULL;
 }
@@ -96,8 +93,7 @@ ObjCSelector_cache_get(SEL sel)
 {
     const auto it = ObjCSelector_cache.find(sel);
     if (it != ObjCSelector_cache.end()) {
-        Py_INCREF(it->second);
-        return (ObjCSelectorObject *)it->second;
+        return (ObjCSelectorObject *)Py_NewRef(it->second);
     }
     return NULL;
 }
