@@ -68,8 +68,7 @@ ObjCBool_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
     static char *kwlist[] = {"", NULL};
     int v = 0;
 
-    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|p:ObjCBool", kwlist,
-                                     &v)) {
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|p:ObjCBool", kwlist, &v)) {
         return NULL;
     }
 
