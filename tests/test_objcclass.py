@@ -2,7 +2,7 @@
 
 import pytest
 
-from objctypes import ObjCClass
+from objctypes import ObjCClass, ObjCObject
 
 
 def test_objcclass() -> None:
@@ -26,8 +26,13 @@ def test_objcclass_inheritance() -> None:
     NSString = ObjCClass("NSString")  # noqa: N806
     NSNumber = ObjCClass("NSNumber")  # noqa: N806
 
+    assert issubclass(NSObject, ObjCObject)
+    assert issubclass(NSString, ObjCObject)
+    assert issubclass(NSNumber, ObjCObject)
+
     assert issubclass(NSString, NSObject)
     assert issubclass(NSNumber, NSObject)
+
     assert not issubclass(NSObject, NSString)
     assert not issubclass(NSObject, NSNumber)
     assert not issubclass(NSNumber, NSString)

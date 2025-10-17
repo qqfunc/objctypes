@@ -65,7 +65,8 @@ _ObjCClass_FromClass(PyTypeObject *type, Class cls)
         if (super_cls == NULL) {
             // The class is a root class.
             self = (ObjCClassObject *)PyType_Type.tp_new(
-                type, Py_BuildValue("(s(){})", class_getName(cls)),
+                type,
+                Py_BuildValue("(s(O){})", class_getName(cls), &ObjCObjectType),
                 PyDict_New());
         }
         else {
