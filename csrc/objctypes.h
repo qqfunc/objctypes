@@ -66,16 +66,9 @@ ObjCSelector_SELConverter(PyObject *obj, void *ptr);
 
 // ObjCBool
 
-typedef struct {
-    PyObject_HEAD
-    BOOL value;
-} ObjCBoolObject;
-
-extern PyTypeObject ObjCBoolType;
-
 // Get an ObjCBool from an int.
 PyObject *
-ObjCBool_FromLong(long v);
+ObjCBool_FromLong(PyObject *module, long v);
 
 // Cache functions
 

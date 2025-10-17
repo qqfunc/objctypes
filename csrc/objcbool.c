@@ -1,19 +1,14 @@
 #include <Python.h>
 
-#include "objctypes.h"
+#include "objcbool.h"
 
-static ObjCBoolObject *objc_yes = NULL, *objc_no = NULL;
+#include "objctypes.h"
+#include "objctypes_module.h"
 
 // Destruct an ObjCBool.
 static void
 ObjCBool_dealloc(ObjCBoolObject *self)
 {
-    if (self->value) {
-        objc_yes = NULL;
-    }
-    else {
-        objc_no = NULL;
-    }
     Py_TYPE(self)->tp_free((PyObject *)self);
 }
 
@@ -36,29 +31,30 @@ ObjCBool_str(ObjCBoolObject *self)
 static ObjCBoolObject *
 _ObjCBool_FromLong(PyTypeObject *type, long v)
 {
-    if (v) {
-        if (objc_yes == NULL) {
-            objc_yes = (ObjCBoolObject *)type->tp_alloc(type, 0);
-            if (objc_yes != NULL) {
-                objc_yes->value = YES;
-            }
-        }
-        else {
-            Py_INCREF(objc_yes);
-        }
-        return objc_yes;
+    PyObject *module = PyType_GetModuleByDef(type, &objctypes_module);
+    if (module == NULL) {
+        return NULL;
     }
 
-    if (objc_no == NULL) {
-        objc_no = (ObjCBoolObject *)type->tp_alloc(type, 0);
-        if (objc_no != NULL) {
-            objc_no->value = NO;
+    objctypes_state *state = PyModule_GetState(module);
+
+    if (v) {
+        if (state->ObjCBool_YES == NULL) {
+            state->ObjCBool_YES = type->tp_alloc(type, 0);
+            if (state->ObjCBool_YES != NULL) {
+                ((ObjCBoolObject *)state->ObjCBool_YES)->value = YES;
+            }
+        }
+        return (ObjCBoolObject *)Py_NewRef(state->ObjCBool_YES);
+    }
+
+    if (state->ObjCBool_NO == NULL) {
+        state->ObjCBool_NO = type->tp_alloc(type, 0);
+        if (state->ObjCBool_NO != NULL) {
+            ((ObjCBoolObject *)state->ObjCBool_NO)->value = NO;
         }
     }
-    else {
-        Py_INCREF(objc_no);
-    }
-    return objc_no;
+    return (ObjCBoolObject *)Py_NewRef(state->ObjCBool_NO);
 }
 
 // ObjCBool.__new__()
@@ -86,7 +82,12 @@ ObjCBool_bool(ObjCBoolObject *self)
 static PyObject *
 ObjCBool_invert(ObjCBoolObject *self)
 {
-    return (PyObject *)ObjCBool_FromLong(!(self->value));
+    PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
+    if (module == NULL) {
+        return NULL;
+    }
+
+    return (PyObject *)ObjCBool_FromLong(module, !(self->value));
 }
 
 // ObjCBool.__int__()
@@ -103,29 +104,34 @@ ObjCBool_float(ObjCBoolObject *self)
     return PyFloat_FromDouble(self->value ? 1 : 0);
 }
 
-static PyNumberMethods ObjCBool_number_methods = {
-    .nb_bool = (inquiry)ObjCBool_bool,
-    .nb_invert = (unaryfunc)ObjCBool_invert,
-    .nb_int = (unaryfunc)ObjCBool_int,
-    .nb_float = (unaryfunc)ObjCBool_float,
+static PyType_Slot ObjCBool_slots[] = {
+    {Py_tp_dealloc, ObjCBool_dealloc},
+    {Py_tp_repr, ObjCBool_repr},
+    {Py_nb_bool, ObjCBool_bool},
+    {Py_nb_invert, ObjCBool_invert},
+    {Py_nb_int, ObjCBool_int},
+    {Py_nb_float, ObjCBool_float},
+    {Py_tp_str, ObjCBool_str},
+    {Py_tp_doc, "Python wrapper for Objective-C BOOL."},
+    {Py_tp_new, ObjCBool_new},
+    {0, NULL},
 };
 
-PyTypeObject ObjCBoolType = {
-    .ob_base = PyVarObject_HEAD_INIT(NULL, 0)
-    .tp_name = "objctypes.ObjCBool",
-    .tp_basicsize = sizeof(ObjCBoolObject),
-    .tp_itemsize = 0,
-    .tp_dealloc = (destructor)ObjCBool_dealloc,
-    .tp_repr = (reprfunc)ObjCBool_repr,
-    .tp_as_number = &ObjCBool_number_methods,
-    .tp_str = (reprfunc)ObjCBool_str,
-    .tp_flags = Py_TPFLAGS_DEFAULT,
-    .tp_doc = PyDoc_STR("Python wrapper for Objective-C BOOL."),
-    .tp_new = ObjCBool_new,
+PyType_Spec ObjCBool_spec = {
+    .name = "objctypes.ObjCBool",
+    .basicsize = sizeof(ObjCBoolObject),
+    .itemsize = 0,
+    .flags = Py_TPFLAGS_DEFAULT,
+    .slots = ObjCBool_slots,
 };
 
 PyObject *
-ObjCBool_FromLong(long v)
+ObjCBool_FromLong(PyObject *module, long v)
 {
-    return (PyObject *)_ObjCBool_FromLong(&ObjCBoolType, v);
+    objctypes_state *state = PyModule_GetState(module);
+    if (state->ObjCBool_Type == NULL) {
+        return NULL;
+    }
+
+    return (PyObject *)_ObjCBool_FromLong((PyTypeObject *)state->ObjCBool_Type, v);
 }

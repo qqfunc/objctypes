@@ -2,12 +2,20 @@
 
 #include "objctypes.h"
 
+#include "objcbool.h"
 #include "objctypes_module.h"
 
 static int
 objctypes_module_exec(PyObject *module)
 {
     // Get the module state
+    objctypes_state *state = PyModule_GetState(module);
+
+    state->ObjCBool_Type =
+        (PyTypeObject *)PyType_FromModuleAndSpec(module, &ObjCBool_spec, NULL);
+    if (state->ObjCBool_Type == NULL) {
+        return -1;
+    }
 
     // Add ObjCClass
     ObjCClassType.tp_base = &PyType_Type;
@@ -32,19 +40,19 @@ objctypes_module_exec(PyObject *module)
     }
 
     // Add ObjCBool
-    if (PyModule_AddType(module, &ObjCBoolType) < 0) {
+    if (PyModule_AddType(module, state->ObjCBool_Type) < 0) {
         return -1;
     }
 
     // Add YES
-    PyObject *objc_yes = ObjCBool_FromLong(1);
-    if (PyModule_Add(module, "YES", objc_yes) < 0) {
+    PyObject *ObjCBool_YES = ObjCBool_FromLong(module, 1);
+    if (PyModule_Add(module, "YES", ObjCBool_YES) < 0) {
         return -1;
     }
 
     // Add NO
-    PyObject *objc_no = ObjCBool_FromLong(0);
-    if (PyModule_Add(module, "NO", objc_no) < 0) {
+    PyObject *ObjCBool_NO = ObjCBool_FromLong(module, 0);
+    if (PyModule_Add(module, "NO", ObjCBool_NO) < 0) {
         return -1;
     }
 
@@ -52,17 +60,22 @@ objctypes_module_exec(PyObject *module)
 }
 
 static int
-objctypes_module_traverse(PyObject *Py_UNUSED(module),
-                          visitproc Py_UNUSED(visit), void *Py_UNUSED(arg))
+objctypes_module_traverse(PyObject *module, visitproc visit, void *arg)
 {
-    // objctypes_state *state = PyModule_GetState(module);
+    objctypes_state *state = PyModule_GetState(module);
+    Py_VISIT(state->ObjCBool_Type);
+    Py_VISIT(state->ObjCBool_YES);
+    Py_VISIT(state->ObjCBool_NO);
     return 0;
 }
 
 static int
-objctypes_module_clear(PyObject *Py_UNUSED(module))
+objctypes_module_clear(PyObject *module)
 {
-    // objctypes_state *state = PyModule_GetState(module);
+    objctypes_state *state = PyModule_GetState(module);
+    Py_CLEAR(state->ObjCBool_Type);
+    Py_CLEAR(state->ObjCBool_YES);
+    Py_CLEAR(state->ObjCBool_NO);
     return 0;
 }
 
