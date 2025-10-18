@@ -12,6 +12,9 @@ typedef struct {
     SEL value;
 } ObjCSelectorObject;
 
-extern PyTypeObject ObjCSelectorType;
+extern PyType_Spec ObjCSelector_spec;
+
+PyObject *
+ObjCSelector_FromSEL(PyObject *module, SEL sel);
 
 #endif // OBJCSELECTOR_H

@@ -4,12 +4,16 @@
 
 #include "objctypes.h"
 #include "objctypes_cache.h"
+#include "objctypes_module.h"
 
 // Destruct an ObjCSelector.
 static void
 ObjCSelector_dealloc(ObjCSelectorObject *self)
 {
-    ObjCSelector_cache_del(self->value);
+    PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
+    if (module != NULL) {
+        ObjCSelector_cache_del(module, self->value);
+    }
     Py_TYPE(self)->tp_free((PyObject *)self);
 }
 
@@ -53,13 +57,18 @@ ObjCSelector_is_mapped(ObjCSelectorObject *self, void *Py_UNUSED(closure))
 static ObjCSelectorObject *
 _ObjCSelector_FromSEL(PyTypeObject *type, SEL sel)
 {
-    ObjCSelectorObject *self = ObjCSelector_cache_get(sel);
+    PyObject *module = PyType_GetModuleByDef(type, &objctypes_module);
+    if (module == NULL) {
+        return NULL;
+    }
+
+    ObjCSelectorObject *self = ObjCSelector_cache_get(module, sel);
 
     if (self == NULL) {
         self = (ObjCSelectorObject *)type->tp_alloc(type, 0);
         if (self != NULL) {
             self->value = sel;
-            ObjCSelector_cache_set(sel, self);
+            ObjCSelector_cache_set(module, sel, self);
         }
     }
 
@@ -133,52 +142,33 @@ static PyGetSetDef ObjCSelector_getset[] = {
     {.name = NULL},
 };
 
-PyTypeObject ObjCSelectorType = {
-    .ob_base = PyVarObject_HEAD_INIT(NULL, 0)
-    .tp_name = "objctypes.ObjCSelector",
-    .tp_basicsize = sizeof(ObjCSelectorObject),
-    .tp_itemsize = 0,
-    .tp_dealloc = (destructor)ObjCSelector_dealloc,
-    .tp_repr = (reprfunc)ObjCSelector_repr,
-    .tp_str = (reprfunc)ObjCSelector_str,
-    .tp_flags = Py_TPFLAGS_DEFAULT,
-    .tp_doc = PyDoc_STR("Python wrapper for Objective-C SEL."),
-    .tp_methods = ObjCSelector_methods,
-    .tp_getset = ObjCSelector_getset,
-    .tp_new = ObjCSelector_new,
+static PyType_Slot ObjCSelector_slots[] = {
+    {Py_tp_dealloc, ObjCSelector_dealloc},
+    {Py_tp_repr, ObjCSelector_repr},
+    {Py_tp_str, ObjCSelector_str},
+    {Py_tp_doc, "Python wrapper for Objective-C SEL."},
+    {Py_tp_methods, ObjCSelector_methods},
+    {Py_tp_getset, ObjCSelector_getset},
+    {Py_tp_new, ObjCSelector_new},
+    {0, NULL},
+};
+
+PyType_Spec ObjCSelector_spec = {
+    .name = "objctypes.ObjCSelector",
+    .basicsize = sizeof(ObjCSelectorObject),
+    .itemsize = 0,
+    .flags = Py_TPFLAGS_DEFAULT,
+    .slots = ObjCSelector_slots,
 };
 
 PyObject *
-ObjCSelector_FromSEL(SEL sel)
+ObjCSelector_FromSEL(PyObject *module, SEL sel)
 {
-    return (PyObject *)_ObjCSelector_FromSEL(&ObjCSelectorType, sel);
-}
-
-int
-ObjCSelector_SELConverter(PyObject *obj, void *ptr)
-{
-    SEL sel;
-
-    if (PyObject_TypeCheck(obj, &ObjCSelectorType)) {
-        sel = ((ObjCSelectorObject *)obj)->value;
-    }
-    else if (PyUnicode_Check(obj)) {
-        const char *name = PyUnicode_AsUTF8(obj);
-        if (name == NULL) {
-            return 0; // Failure
-        }
-        sel = sel_registerName(name);
-    }
-    else if (PyBytes_Check(obj)) {
-        sel = sel_registerName(PyBytes_AS_STRING(obj));
-    }
-    else {
-        PyErr_Format(PyExc_TypeError,
-                     "Expected an Objective-C selector, got '%s'",
-                     Py_TYPE(obj)->tp_name);
-        return 0; // Failure
+    objctypes_state *state = PyModule_GetState(module);
+    if (state->ObjCSelector_Type == NULL) {
+        return NULL;
     }
 
-    *(SEL *)ptr = sel;
-    return 1; // Success
+    return (PyObject *)_ObjCSelector_FromSEL(
+        (PyTypeObject *)state->ObjCSelector_Type, sel);
 }

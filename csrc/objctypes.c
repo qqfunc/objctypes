@@ -7,6 +7,7 @@
 #include "objcmethod.h"
 #include "objcobject.h"
 #include "objcselector.h"
+#include "objctypes_cache.h"
 #include "objctypes_module.h"
 
 static int
@@ -18,6 +19,17 @@ objctypes_module_exec(PyObject *module)
     state->ObjCBool_Type =
         (PyTypeObject *)PyType_FromModuleAndSpec(module, &ObjCBool_spec, NULL);
     if (state->ObjCBool_Type == NULL) {
+        return -1;
+    }
+
+    state->ObjCSelector_Type = (PyTypeObject *)PyType_FromModuleAndSpec(
+        module, &ObjCSelector_spec, NULL);
+    if (state->ObjCSelector_Type == NULL) {
+        return -1;
+    }
+
+    state->ObjCSelector_cache = ObjCSelector_cache_alloc();
+    if (state->ObjCSelector_cache == NULL) {
         return -1;
     }
 
@@ -39,7 +51,8 @@ objctypes_module_exec(PyObject *module)
     }
 
     // Add ObjCSelector
-    if (PyModule_AddType(module, &ObjCSelectorType) < 0) {
+    if (PyModule_AddType(module, (PyTypeObject *)state->ObjCSelector_Type)
+        < 0) {
         return -1;
     }
 
@@ -70,6 +83,7 @@ objctypes_module_traverse(PyObject *module, visitproc visit, void *arg)
     Py_VISIT(state->ObjCBool_Type);
     Py_VISIT(state->ObjCBool_YES);
     Py_VISIT(state->ObjCBool_NO);
+    Py_VISIT(state->ObjCSelector_Type);
     return 0;
 }
 
@@ -80,12 +94,17 @@ objctypes_module_clear(PyObject *module)
     Py_CLEAR(state->ObjCBool_Type);
     Py_CLEAR(state->ObjCBool_YES);
     Py_CLEAR(state->ObjCBool_NO);
+    Py_CLEAR(state->ObjCSelector_Type);
     return 0;
 }
 
 static void
 objctypes_module_free(void *module)
 {
+    objctypes_state *state = (objctypes_state *)PyModule_GetState(module);
+
+    ObjCSelector_cache_dealloc(state->ObjCSelector_cache);
+
     objctypes_module.m_clear(module);
 }
 

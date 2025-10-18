@@ -52,17 +52,25 @@ ObjCMethod_cache_set(Method method, ObjCMethodObject *obj);
 void
 ObjCMethod_cache_del(Method method);
 
-// Get an ObjCSelector cache if it exists. Returns a new reference or NULL.
-ObjCSelectorObject *
-ObjCSelector_cache_get(SEL selector);
-
-// Cache an ObjCSelector.
-void
-ObjCSelector_cache_set(SEL sel, ObjCSelectorObject *obj);
+// Create a new ObjCSelector cache.
+void *
+ObjCSelector_cache_alloc(void);
 
 // Delete an ObjCSelector cache.
 void
-ObjCSelector_cache_del(SEL selector);
+ObjCSelector_cache_dealloc(void *cache);
+
+// Get an ObjCSelector cache if it exists. Returns a new reference or NULL.
+ObjCSelectorObject *
+ObjCSelector_cache_get(PyObject *module, SEL selector);
+
+// Cache an ObjCSelector.
+void
+ObjCSelector_cache_set(PyObject *module, SEL sel, ObjCSelectorObject *obj);
+
+// Delete an ObjCSelector cache.
+void
+ObjCSelector_cache_del(PyObject *module, SEL selector);
 
 #ifdef __cplusplus
 }

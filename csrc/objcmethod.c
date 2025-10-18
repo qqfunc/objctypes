@@ -75,29 +75,6 @@ ObjCMethod_from_address(PyTypeObject *type, PyObject *address)
     return (PyObject *)_ObjCMethod_FromMethod(type, PyLong_AsVoidPtr(address));
 }
 
-// ObjCMethod.from_class()
-static PyObject *
-ObjCMethod_from_class(PyTypeObject *type, PyObject *args)
-{
-    ObjCClassObject *cls;
-    SEL sel;
-
-    if (!PyArg_ParseTuple(args, "O!O&:ObjCMethod.from_class", &ObjCClassType,
-                          &cls, ObjCSelector_SELConverter, &sel)) {
-        return NULL;
-    }
-
-    Method address = class_getClassMethod(cls->value, sel);
-    if (address == NULL) {
-        PyErr_Format(PyExc_AttributeError,
-                     "Objective-C class %s has no class method '%s'",
-                     class_getName(cls->value), sel_getName(sel));
-        return NULL;
-    }
-
-    return (PyObject *)_ObjCMethod_FromMethod(type, address);
-}
-
 // ObjCMethod.__new__()
 static PyObject *
 ObjCMethod_new(PyTypeObject *Py_UNUSED(type), PyObject *Py_UNUSED(args),
@@ -113,13 +90,6 @@ static PyMethodDef ObjCMethod_methods[] = {
         (PyCFunction)ObjCMethod_from_address,
         METH_O | METH_CLASS,
         PyDoc_STR("Get an ObjCMethod from the memory address."),
-    },
-    {
-        "from_class",
-        (PyCFunction)ObjCMethod_from_class,
-        METH_VARARGS | METH_CLASS,
-        PyDoc_STR(
-            "Get an ObjCMethod from the Objective-C class and selector."),
     },
     {.ml_name = NULL},
 };

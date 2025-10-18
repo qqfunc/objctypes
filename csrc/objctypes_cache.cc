@@ -6,6 +6,7 @@
 #include "objcmethod.h"
 #include "objcobject.h"
 #include "objcselector.h"
+#include "objctypes_module.h"
 
 #include <map>
 
@@ -91,26 +92,43 @@ ObjCMethod_cache_del(Method method)
 
 // Cache ObjCSelector
 
-static cache_map ObjCSelector_cache;
+void *
+ObjCSelector_cache_alloc(void)
+{
+    return new (std::nothrow) cache_map();
+}
+
+void
+ObjCSelector_cache_dealloc(void *cache)
+{
+    delete (cache_map *)cache;
+}
 
 ObjCSelectorObject *
-ObjCSelector_cache_get(SEL sel)
+ObjCSelector_cache_get(PyObject *module, SEL sel)
 {
-    const auto it = ObjCSelector_cache.find(sel);
-    if (it != ObjCSelector_cache.end()) {
+    objctypes_state *state = (objctypes_state *)PyModule_GetState(module);
+    cache_map *cache = (cache_map *)state->ObjCSelector_cache;
+
+    const auto it = cache->find(sel);
+    if (it != cache->end()) {
         return (ObjCSelectorObject *)Py_NewRef(it->second);
     }
     return NULL;
 }
 
 void
-ObjCSelector_cache_set(SEL sel, ObjCSelectorObject *obj)
+ObjCSelector_cache_set(PyObject *module, SEL sel, ObjCSelectorObject *obj)
 {
-    ObjCSelector_cache[sel] = (PyObject *)obj;
+    objctypes_state *state = (objctypes_state *)PyModule_GetState(module);
+    cache_map *cache = (cache_map *)state->ObjCSelector_cache;
+    (*cache)[sel] = (PyObject *)obj;
 }
 
 void
-ObjCSelector_cache_del(SEL sel)
+ObjCSelector_cache_del(PyObject *module, SEL sel)
 {
-    ObjCSelector_cache.erase(sel);
+    objctypes_state *state = (objctypes_state *)PyModule_GetState(module);
+    cache_map *cache = (cache_map *)state->ObjCSelector_cache;
+    cache->erase(sel);
 }

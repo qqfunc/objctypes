@@ -17,6 +17,10 @@ typedef struct {
     // `ObjCBool` type.
     PyObject *ObjCBool_NO;
 
+    PyTypeObject *ObjCSelector_Type;
+
+    void *ObjCSelector_cache;
+
 } objctypes_state;
 
 #endif // OBJCTYPES_MODULE_H
