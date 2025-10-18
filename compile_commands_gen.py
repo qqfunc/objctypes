@@ -46,7 +46,7 @@ def generate_compile_commands() -> None:
     csrc_dir = BASE_DIR / "csrc"
     target_files = itertools.chain(
         csrc_dir.glob("*.c"),
-        csrc_dir.glob("*.cpp"),
+        csrc_dir.glob("*.cc"),
         csrc_dir.glob("*.m"),
     )
     with COMPILE_COMMANDS_FILE.open("w") as f:
@@ -59,7 +59,7 @@ def generate_compile_commands() -> None:
 
 def generate_command(file: Path) -> CompileCommand:
     """Generate compile commands for the specified file."""
-    is_cpp = file.suffix == ".cpp"
+    is_cpp = file.suffix == ".cc"
     compiler = CXX_COMPILER if is_cpp else C_COMPILER
     stdlib = "c++11" if is_cpp else "c11"
     compile_command: CompileCommand = {

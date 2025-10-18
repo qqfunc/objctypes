@@ -24,7 +24,7 @@ if sys.platform == "darwin":
                 name="objctypes",
                 sources=itertools.chain(
                     C_EXT_PATH.glob("*.c"),
-                    C_EXT_PATH.glob("*.cpp"),
+                    C_EXT_PATH.glob("*.cc"),
                 ),
                 include_dirs=None
                 if LIBFFI_PREFIX is None
