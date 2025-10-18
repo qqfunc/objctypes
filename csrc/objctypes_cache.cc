@@ -1,6 +1,9 @@
 #include <Python.h>
 
-#include "objctypes.h"
+#include "objcclass.h"
+#include "objcmethod.h"
+#include "objcobject.h"
+#include "objcselector.h"
 
 #include <map>
 

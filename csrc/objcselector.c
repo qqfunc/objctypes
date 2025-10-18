@@ -1,6 +1,9 @@
 #include <Python.h>
 
+#include "objcselector.h"
+
 #include "objctypes.h"
+#include "objctypes_cache.h"
 
 // Destruct an ObjCSelector.
 static void
@@ -68,9 +71,10 @@ static PyObject *
 ObjCSelector_from_address(PyTypeObject *type, PyObject *address)
 {
     if (!PyLong_Check(address)) {
-        PyErr_Format(PyExc_TypeError,
-                     "ObjCSelector.from_address() argument 1 must be int, not %T",
-                     address);
+        PyErr_Format(
+            PyExc_TypeError,
+            "ObjCSelector.from_address() argument 1 must be int, not %T",
+            address);
         return NULL;
     }
 
@@ -89,7 +93,8 @@ ObjCSelector_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
         return NULL;
     }
 
-    ObjCSelectorObject *self = _ObjCSelector_FromSEL(type, sel_registerName(name));
+    ObjCSelectorObject *self =
+        _ObjCSelector_FromSEL(type, sel_registerName(name));
     return (PyObject *)self;
 }
 

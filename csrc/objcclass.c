@@ -1,6 +1,9 @@
 #include <Python.h>
 
+#include "objcclass.h"
+
 #include "objctypes.h"
+#include "objctypes_cache.h"
 
 // Destruct an ObjCClass.
 static void

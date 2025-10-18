@@ -1,6 +1,9 @@
 #include <Python.h>
 
+#include "objcmethod.h"
+
 #include "objctypes.h"
+#include "objctypes_cache.h"
 
 // Destruct an ObjCMethod.
 static void
@@ -62,9 +65,10 @@ static PyObject *
 ObjCMethod_from_address(PyTypeObject *type, PyObject *address)
 {
     if (!PyLong_Check(address)) {
-        PyErr_Format(PyExc_TypeError,
-                     "ObjCMethod.from_address() argument 1 must be int, not %T",
-                     address);
+        PyErr_Format(
+            PyExc_TypeError,
+            "ObjCMethod.from_address() argument 1 must be int, not %T",
+            address);
         return NULL;
     }
 
