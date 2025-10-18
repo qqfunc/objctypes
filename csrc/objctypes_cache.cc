@@ -1,5 +1,7 @@
 #include <Python.h>
 
+#include "objctypes_cache.h"
+
 #include "objcclass.h"
 #include "objcmethod.h"
 #include "objcobject.h"
