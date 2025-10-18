@@ -1,5 +1,11 @@
 # Development Guide for AI Agents
 
+## Project Structure
+
+- `csrc/`: C / C++ / Objective-C / Objective-C++ source code
+  - `objctypes.h`: C header for public function declarations.
+- `src/`: Python source code / type stubs
+
 ## Setup
 
 - Install dependencies and build project with `uv sync`
@@ -14,6 +20,10 @@ Follow PEP 8.
 ### C / C++ / Objective-C / Objective-C++
 
 Follow PEP 7.
+
+## Tests
+
+Run tests with `uv run task test`.
 
 ## Commands
 
