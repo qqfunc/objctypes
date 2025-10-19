@@ -1,5 +1,6 @@
-objctypes documentation
-=======================
+=========
+Tutorials
+=========
 
 .. code-block:: pycon
 
@@ -8,6 +9,3 @@ objctypes documentation
 
 .. toctree::
    :hidden:
-
-   tutorial
-   reference/index

@@ -62,3 +62,6 @@ intersphinx_timeout = 30
 
 # sphinx.ext.viewcode
 viewcode_line_numbers = True
+
+# sphinx-autoapi
+autoapi_generate_api_docs = False
