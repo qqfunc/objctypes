@@ -57,7 +57,7 @@ class ObjCObject(metaclass=ObjCClass):
 
         :param address: The address of the Objective-C object.
         :return: The Objective-C object that was retrieved.
-        :raises TypeError: if the address points to an Objetive-C class
+        :raises TypeError: if the address points to an Objective-C class
 
         .. warning::
             Passing an invalid address may cause crashes.
