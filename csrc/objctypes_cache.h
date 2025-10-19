@@ -3,7 +3,6 @@
 
 #include <Python.h>
 
-#include "objcclass.h"
 #include "objcmethod.h"
 #include "objcobject.h"
 #include "objcselector.h"
@@ -16,41 +15,65 @@
 extern "C" {
 #endif
 
-// Get an ObjCClass cache if it exists. Returns a new reference or NULL.
-ObjCClassObject *
-ObjCClass_cache_get(Class cls);
-
-// Cache an ObjCClass.
-void
-ObjCClass_cache_set(Class cls, ObjCClassObject *obj);
+// Create a new ObjCClass cache.
+void *
+ObjCClass_cache_alloc(void);
 
 // Delete an ObjCClass cache.
 void
-ObjCClass_cache_del(Class cls);
+ObjCClass_cache_dealloc(void *cache);
 
-// Get an ObjCObject cache if it exists. Returns a new reference or NULL.
-ObjCObjectObject *
-ObjCObject_cache_get(id obj);
+// Get an ObjCClass cache if it exists. Returns a new reference or NULL.
+PyObject *
+ObjCClass_cache_get(PyObject *module, Class cls);
 
-// Cache an ObjCObject.
+// Cache an ObjCClass.
 void
-ObjCObject_cache_set(id obj, ObjCObjectObject *pyobj);
+ObjCClass_cache_set(PyObject *module, Class cls, PyObject *obj);
+
+// Delete an ObjCClass cache.
+void
+ObjCClass_cache_del(PyObject *module, Class cls);
+
+// Create a new ObjCObject cache.
+void *
+ObjCObject_cache_alloc(void);
 
 // Delete an ObjCObject cache.
 void
-ObjCObject_cache_del(id obj);
+ObjCObject_cache_dealloc(void *cache);
 
-// Get an ObjCMethod cache if it exists. Returns a new reference or NULL.
-ObjCMethodObject *
-ObjCMethod_cache_get(Method method);
+// Get an ObjCObject cache if it exists. Returns a new reference or NULL.
+ObjCObjectObject *
+ObjCObject_cache_get(PyObject *module, id obj);
 
-// Cache an ObjCMethod.
+// Cache an ObjCObject.
 void
-ObjCMethod_cache_set(Method method, ObjCMethodObject *obj);
+ObjCObject_cache_set(PyObject *module, id obj, ObjCObjectObject *pyobj);
+
+// Delete an ObjCObject cache.
+void
+ObjCObject_cache_del(PyObject *module, id obj);
+
+// Create a new ObjCMethod cache.
+void *
+ObjCMethod_cache_alloc(void);
 
 // Delete an ObjCMethod cache.
 void
-ObjCMethod_cache_del(Method method);
+ObjCMethod_cache_dealloc(void *cache);
+
+// Get an ObjCMethod cache if it exists. Returns a new reference or NULL.
+ObjCMethodObject *
+ObjCMethod_cache_get(PyObject *module, Method method);
+
+// Cache an ObjCMethod.
+void
+ObjCMethod_cache_set(PyObject *module, Method method, ObjCMethodObject *obj);
+
+// Delete an ObjCMethod cache.
+void
+ObjCMethod_cache_del(PyObject *module, Method method);
 
 // Create a new ObjCSelector cache.
 void *

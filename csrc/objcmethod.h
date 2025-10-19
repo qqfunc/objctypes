@@ -12,6 +12,6 @@ typedef struct {
     Method value;
 } ObjCMethodObject;
 
-extern PyTypeObject ObjCMethodType;
+extern PyType_Spec ObjCMethod_spec;
 
 #endif // OBJCMETHOD_H

@@ -8,10 +8,9 @@
 // ObjCClass
 
 typedef struct {
-    PyTypeObject type;
     Class value;
-} ObjCClassObject;
+} ObjCClassState;
 
-extern PyTypeObject ObjCClassType;
+extern PyType_Spec ObjCClass_spec;
 
 #endif // OBJCCLASS_H
