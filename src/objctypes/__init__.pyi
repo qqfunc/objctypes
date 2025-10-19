@@ -26,6 +26,11 @@ class ObjCClass(type):  # NOTE: type?
 
         :param address: The address of the Objective-C class.
         :return: The Objective-C class that was retrieved.
+        :raises TypeError: if the address points to a non-class
+            Objective-C object or metaclass
+
+        .. warning::
+            Passing an invalid address may cause crashes.
         """
 
     @property
@@ -52,6 +57,10 @@ class ObjCObject(metaclass=ObjCClass):
 
         :param address: The address of the Objective-C object.
         :return: The Objective-C object that was retrieved.
+        :raises TypeError: if the address points to an Objetive-C class
+
+        .. warning::
+            Passing an invalid address may cause crashes.
         """
 
     @property
@@ -73,6 +82,9 @@ class ObjCMethod:
 
         :param address: The address of the Objective-C method.
         :return: The Objective-C method that was retrieved.
+
+        .. warning::
+            Passing an invalid address may cause crashes.
         """
 
     @property
@@ -99,6 +111,9 @@ class ObjCSelector:
 
         :param address: The address of the Objective-C selector.
         :return: The Objective-C selector that was retrieved.
+
+        .. warning::
+            Passing an invalid address may cause crashes.
         """
 
     @property
