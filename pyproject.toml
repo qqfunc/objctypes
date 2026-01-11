@@ -54,7 +54,7 @@ dev = [
   { include-group = "tests" },
   { include-group = "docs" },
   { include-group = "misc" },
-  "commitlint==1.3.1",
+  "commitlint==1.13.3",
   "lefthook==2.0.13",
   "sphinx-autobuild==2025.8.25",
 ]
