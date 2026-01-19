@@ -36,7 +36,7 @@ check = [
   "ruff==0.14.13",
   "ty==0.0.1a27",
   "types-setuptools==80.9.0.20251223",
-  "typos==1.42.0",
+  "typos==1.42.1",
 ]
 tests = ["pytest==9.0.2", "pytest-xdist==3.8.0"]
 docs = [
