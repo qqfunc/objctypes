@@ -157,9 +157,9 @@ wheels = [
 
 [[package]]
 name = "editorconfig-checker"
-version = "3.6.0"
+version = "3.6.1"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/36/33/00730df977c6d3b18441f7726f503036db678ed089b10710ed6b6dd299a3/editorconfig_checker-3.6.0.tar.gz", hash = "sha256:dcaf0248ad7e8539fda03857c300267a4af004e0c2aaa195485e6be85034f6d0", size = 4769, upload-time = "2025-11-30T14:39:19.464Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/8d/c0/44142a174310c63f2e36ec288fc02df3d1572e00ed1bb87de7d49d65e412/editorconfig_checker-3.6.1.tar.gz", hash = "sha256:7b6285cfa0797c1f4e1ecae6ec218ff440cdbd77a2e0aa95d9ee3e113e79fd5e", size = 4772, upload-time = "2026-03-04T20:04:36.125Z" }
 
 [[package]]
 name = "execnet"
@@ -392,7 +392,7 @@ tests = [
 
 [package.metadata.requires-dev]
 check = [
-    { name = "editorconfig-checker", specifier = "==3.6.0" },
+    { name = "editorconfig-checker", specifier = "==3.6.1" },
     { name = "ruff", specifier = "==0.15.4" },
     { name = "ty", specifier = "==0.0.1a27" },
     { name = "types-setuptools", specifier = "==82.0.0.20260210" },
@@ -400,7 +400,7 @@ check = [
 ]
 dev = [
     { name = "commitlint", specifier = "==1.13.3" },
-    { name = "editorconfig-checker", specifier = "==3.6.0" },
+    { name = "editorconfig-checker", specifier = "==3.6.1" },
     { name = "furo", specifier = "==2025.12.19" },
     { name = "lefthook", specifier = "==2.1.2" },
     { name = "packaging", specifier = "==26.0" },
@@ -433,7 +433,7 @@ gh-actions-build = [
     { name = "pytest-xdist", specifier = "==3.8.0" },
 ]
 gh-actions-check = [
-    { name = "editorconfig-checker", specifier = "==3.6.0" },
+    { name = "editorconfig-checker", specifier = "==3.6.1" },
     { name = "furo", specifier = "==2025.12.19" },
     { name = "packaging", specifier = "==26.0" },
     { name = "pytest", specifier = "==9.0.2" },
