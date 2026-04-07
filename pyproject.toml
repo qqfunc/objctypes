@@ -38,7 +38,7 @@ check = [
   "types-setuptools==82.0.0.20260402",
   "typos==1.45.0",
 ]
-tests = ["pytest==9.0.2", "pytest-xdist==3.8.0"]
+tests = ["pytest==9.0.3", "pytest-xdist==3.8.0"]
 docs = [
   "furo==2025.12.19",
   "packaging==26.0",
