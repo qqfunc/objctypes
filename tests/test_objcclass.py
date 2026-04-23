@@ -7,12 +7,12 @@ from objctypes import ObjCClass, ObjCObject
 
 def test_objcclass() -> None:
     """Test instantiation of ObjCClass."""
-    ObjCClass("NSObject")
-    ObjCClass("NSString")
-    ObjCClass("NSNumber")
+    ObjCClass.from_name("NSObject")
+    ObjCClass.from_name("NSString")
+    ObjCClass.from_name("NSNumber")
 
     with pytest.raises(NameError) as excinfo:
-        ObjCClass("NonexistentClass")
+        ObjCClass.from_name("NonexistentClass")
 
     assert (
         str(excinfo.value)
@@ -22,9 +22,9 @@ def test_objcclass() -> None:
 
 def test_objcclass_inheritance() -> None:
     """Test inheritance relationships of ObjCClass."""
-    NSObject = ObjCClass("NSObject")  # noqa: N806
-    NSString = ObjCClass("NSString")  # noqa: N806
-    NSNumber = ObjCClass("NSNumber")  # noqa: N806
+    NSObject = ObjCClass.from_name("NSObject")  # noqa: N806
+    NSString = ObjCClass.from_name("NSString")  # noqa: N806
+    NSNumber = ObjCClass.from_name("NSNumber")  # noqa: N806
 
     assert issubclass(NSObject, ObjCObject)
     assert issubclass(NSString, ObjCObject)
@@ -41,13 +41,13 @@ def test_objcclass_inheritance() -> None:
 
 def test_objcclass_cache() -> None:
     """Test if ObjCClass objects are cached."""
-    NSObject = ObjCClass("NSObject")  # noqa: N806
-    NSString = ObjCClass("NSString")  # noqa: N806
-    NSNumber = ObjCClass("NSNumber")  # noqa: N806
+    NSObject = ObjCClass.from_name("NSObject")  # noqa: N806
+    NSString = ObjCClass.from_name("NSString")  # noqa: N806
+    NSNumber = ObjCClass.from_name("NSNumber")  # noqa: N806
 
-    assert NSObject is ObjCClass("NSObject")
-    assert NSString is ObjCClass("NSString")
-    assert NSNumber is ObjCClass("NSNumber")
+    assert NSObject is ObjCClass.from_name("NSObject")
+    assert NSString is ObjCClass.from_name("NSString")
+    assert NSNumber is ObjCClass.from_name("NSNumber")
 
     assert NSObject is not NSString
     assert NSString is not NSNumber
@@ -61,9 +61,9 @@ def test_objcclass_doc() -> None:
 
 def test_objcclass_repr() -> None:
     """Test ObjCClass.__str__() and ObjCClass.__repr__()."""
-    NSObject = ObjCClass("NSObject")  # noqa: N806
-    NSString = ObjCClass("NSString")  # noqa: N806
-    NSNumber = ObjCClass("NSNumber")  # noqa: N806
+    NSObject = ObjCClass.from_name("NSObject")  # noqa: N806
+    NSString = ObjCClass.from_name("NSString")  # noqa: N806
+    NSNumber = ObjCClass.from_name("NSNumber")  # noqa: N806
 
     assert repr(NSObject) == "<ObjCClass 'NSObject'>"
     assert repr(NSString) == "<ObjCClass 'NSString'>"
@@ -72,9 +72,9 @@ def test_objcclass_repr() -> None:
 
 def test_objcclass_from_address() -> None:
     """Test ObjCClass.from_address()."""
-    NSObject = ObjCClass("NSObject")  # noqa: N806
-    NSString = ObjCClass("NSString")  # noqa: N806
-    NSNumber = ObjCClass("NSNumber")  # noqa: N806
+    NSObject = ObjCClass.from_name("NSObject")  # noqa: N806
+    NSString = ObjCClass.from_name("NSString")  # noqa: N806
+    NSNumber = ObjCClass.from_name("NSNumber")  # noqa: N806
 
     assert NSObject.address == ObjCClass.from_address(NSObject.address).address
     assert NSString.address == ObjCClass.from_address(NSString.address).address
@@ -103,13 +103,13 @@ def test_objcclass_from_address_nil() -> None:
 
 def test_objcclass_address() -> None:
     """Test ObjCClass.address."""
-    NSObject = ObjCClass("NSObject")  # noqa: N806
-    NSString = ObjCClass("NSString")  # noqa: N806
-    NSNumber = ObjCClass("NSNumber")  # noqa: N806
+    NSObject = ObjCClass.from_name("NSObject")  # noqa: N806
+    NSString = ObjCClass.from_name("NSString")  # noqa: N806
+    NSNumber = ObjCClass.from_name("NSNumber")  # noqa: N806
 
-    assert NSObject.address == ObjCClass("NSObject").address
-    assert NSString.address == ObjCClass("NSString").address
-    assert NSNumber.address == ObjCClass("NSNumber").address
+    assert NSObject.address == ObjCClass.from_name("NSObject").address
+    assert NSString.address == ObjCClass.from_name("NSString").address
+    assert NSNumber.address == ObjCClass.from_name("NSNumber").address
 
     assert NSObject.address != NSString.address
     assert NSString.address != NSNumber.address
@@ -118,9 +118,9 @@ def test_objcclass_address() -> None:
 
 def test_objcclass_name() -> None:
     """Test ObjCClass.name."""
-    NSObject = ObjCClass("NSObject")  # noqa: N806
-    NSString = ObjCClass("NSString")  # noqa: N806
-    NSNumber = ObjCClass("NSNumber")  # noqa: N806
+    NSObject = ObjCClass.from_name("NSObject")  # noqa: N806
+    NSString = ObjCClass.from_name("NSString")  # noqa: N806
+    NSNumber = ObjCClass.from_name("NSNumber")  # noqa: N806
 
     assert NSObject.name == "NSObject"
     assert NSString.name == "NSString"

@@ -1,7 +1,7 @@
 from types import GenericAlias
-from typing import Any, Self, final, overload
+from typing import Any, Self, final
 
-@final  # NOTE: final?
+# @final  # NOTE: final?
 class ObjCClass(type):  # NOTE: type?
     """A Python wrapper class for an Objective-C class.
 
@@ -10,16 +10,13 @@ class ObjCClass(type):  # NOTE: type?
     of Objective-C.
     """
 
-    @overload
-    def __new__(cls, name: str, /) -> ObjCClass: ...
-    @overload
-    def __new__(
-        cls,
+    def __init__(
+        cls: type[ObjCClass],
         name: str,
         bases: tuple[ObjCClass, ...],
-        dict: dict[str, object],
+        attrs: dict[str, object],
         /,
-    ) -> ObjCClass: ...
+    ) -> None: ...
     @classmethod
     def from_address(cls, address: int, /) -> ObjCClass:
         """Retrieve an Objective-C class from the specified address.
@@ -31,6 +28,16 @@ class ObjCClass(type):  # NOTE: type?
 
         .. warning::
             Passing an invalid address may cause crashes.
+        """
+
+    @classmethod
+    def from_name(cls, name: str, /) -> type[ObjCObject]:
+        """Retrieve an Objective-C class from the specified name.
+
+        :param name: The name of the Objective-C class.
+        :return: The Objective-C class that was retrieved.
+        :raises NameError: if the specified name does not correspond to
+            any Objective-C class
         """
 
     @property

@@ -140,6 +140,29 @@ _ObjCClass_FromClass(PyTypeObject *type, Class cls)
     return self;
 }
 
+// ObjCClass.__init__()
+static int
+ObjCClass_init(PyObject *self, PyObject *args, PyObject *kwds)
+{
+    static char *kwlist[] = {"", "", "", NULL};
+    char *name;
+    PyObject *bases = NULL, *dict = NULL;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "s|O!O!:ObjCClass", kwlist,
+                                     &name, &PyTuple_Type, &bases,
+                                     &PyDict_Type, &dict)) {
+        return -1;
+    }
+
+    PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
+    objctypes_state *state = PyModule_GetState(module);
+    ObjCClassState *cls_state =
+        PyObject_GetTypeData(self, state->ObjCClass_Type);
+    cls_state->value = NULL;
+
+    return 0;
+}
+
 // ObjCClass.from_address()
 static PyObject *
 ObjCClass_from_address(PyTypeObject *type, PyObject *address)
@@ -180,54 +203,34 @@ ObjCClass_from_address(PyTypeObject *type, PyObject *address)
     return (PyObject *)_ObjCClass_FromClass(type, cls);
 }
 
-// ObjCClass.__new__()
+// ObjCClass.from_name()
 static PyObject *
-ObjCClass_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
+ObjCClass_from_name(PyTypeObject *type, PyObject *name)
 {
+    PyObject *self;
+
+    if (!PyUnicode_Check(name)) {
+        PyErr_Format(PyExc_TypeError,
+                     "ObjCClass.from_name() argument 1 must be str, not %T",
+                     name);
+        return NULL;
+    }
+
     PyObject *module = PyType_GetModuleByDef(type, &objctypes_module);
     if (module == NULL) {
         return NULL;
     }
 
-    static char *kwlist[] = {"", "", "", NULL};
-    char *name;
-    PyObject *bases = NULL, *dict = NULL;
-    PyObject *self;
+    const char *cls_name = PyUnicode_AsUTF8(name);
 
-    if (!PyArg_ParseTupleAndKeywords(args, kwds, "s|O!O!:ObjCClass", kwlist,
-                                     &name, &PyTuple_Type, &bases,
-                                     &PyDict_Type, &dict)) {
+    Class cls = objc_getClass(cls_name);
+    if (cls == NULL) {
+        PyErr_Format(PyExc_NameError,
+                        "Objective-C class '%s' is not defined", cls_name);
         return NULL;
     }
 
-    if (bases == NULL) {
-        // ObjCClass(name, /)
-        Class cls = objc_getClass(name);
-        if (cls == NULL) {
-            PyErr_Format(PyExc_NameError,
-                         "Objective-C class '%s' is not defined", name);
-            return NULL;
-        }
-
-        self = _ObjCClass_FromClass(type, cls);
-    }
-    else if (dict == NULL) {
-        PyErr_SetString(
-            PyExc_TypeError,
-            "ObjCClass() arguments 2 and 3 must be given together");
-        return NULL;
-    }
-    else {
-        // ObjCClass(name, bases, dict, /)
-        self = PyType_Type.tp_new(type, Py_BuildValue("(s(){})", name),
-                                  PyDict_New());
-        if (self != NULL) {
-            objctypes_state *state = PyModule_GetState(module);
-            ObjCClassState *cls_state =
-                PyObject_GetTypeData(self, state->ObjCClass_Type);
-            cls_state->value = NULL;
-        }
-    }
+    self = _ObjCClass_FromClass(type, cls);
 
     return (PyObject *)self;
 }
@@ -238,6 +241,12 @@ static PyMethodDef ObjCClass_methods[] = {
         (PyCFunction)ObjCClass_from_address,
         METH_O | METH_CLASS,
         PyDoc_STR("Get an ObjCClass from the memory address."),
+    },
+    {
+        "from_name",
+        (PyCFunction)ObjCClass_from_name,
+        METH_O | METH_CLASS,
+        PyDoc_STR("Get an ObjCClass from the class name."),
     },
     {
         "load_methods",
@@ -272,7 +281,7 @@ static PyType_Slot ObjCClass_slots[] = {
     {Py_tp_doc, "Python wrapper for Objective-C Class."},
     {Py_tp_methods, ObjCClass_methods},
     {Py_tp_getset, ObjCClass_getset},
-    {Py_tp_new, ObjCClass_new},
+    {Py_tp_init, ObjCClass_init},
     {0, NULL},
 };
 
