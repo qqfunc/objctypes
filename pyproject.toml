@@ -71,7 +71,7 @@ gh-actions-check = [
 readthedocs = [{ include-group = "docs" }]
 
 [tool.pyright]
-typeCheckingMode = "off"
+typeCheckingMode = "off" # Disable type checking in editors
 
 [tool.pytest.ini_options]
 addopts = "-n auto"
