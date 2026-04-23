@@ -2,9 +2,12 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended",
-    ":semanticCommits"
+    ":automergeAll",
+    ":disableDependencyDashboard",
+    ":label(dependencies)",
+    ":semanticCommits",
+    ":semanticPrefixChore"
   ],
-  "automerge": true,
   "automergeStrategy": "squash",
   "lockFileMaintenance": {
     "enabled": true,
