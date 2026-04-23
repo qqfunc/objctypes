@@ -1,3 +1,8 @@
+/**
+ * @file objcobject.c
+ * @brief Source declarations and definitions for objcobject.c.
+ */
+
 #include <Python.h>
 
 #include "objcobject.h"
@@ -7,7 +12,7 @@
 
 #include "objctypes_module.h"
 
-// Destruct an ObjCObject.
+/// Destruct an ObjCObject.
 static void
 ObjCObject_dealloc(ObjCObjectObject *self)
 {
@@ -18,7 +23,7 @@ ObjCObject_dealloc(ObjCObjectObject *self)
     Py_TYPE(self)->tp_free((PyObject *)self);
 }
 
-// ObjCObject.__repr__()
+/// ObjCObject.__repr__()
 static PyObject *
 ObjCObject_repr(ObjCObjectObject *self)
 {
@@ -26,14 +31,14 @@ ObjCObject_repr(ObjCObjectObject *self)
                                 object_getClassName(self->value), self->value);
 }
 
-// ObjCObject.address
+/// ObjCObject.address
 static PyObject *
 ObjCObject_address(ObjCObjectObject *self, void *Py_UNUSED(closure))
 {
     return PyLong_FromVoidPtr(self->value);
 }
 
-// Get an ObjCObject from a Python type and an Objective-C id.
+/// Get an ObjCObject from a Python type and an Objective-C id.
 static ObjCObjectObject *
 _ObjCObject_FromId(PyTypeObject *type, id obj)
 {
@@ -55,7 +60,7 @@ _ObjCObject_FromId(PyTypeObject *type, id obj)
     return self;
 }
 
-// ObjCObject.from_address()
+/// ObjCObject.from_address()
 static PyObject *
 ObjCObject_from_address(PyTypeObject *type, PyObject *address)
 {
@@ -96,7 +101,7 @@ ObjCObject_from_address(PyTypeObject *type, PyObject *address)
     return (PyObject *)_ObjCObject_FromId(type, obj);
 }
 
-// ObjCObject.__new__()
+/// ObjCObject.__new__()
 static PyObject *
 ObjCObject_new(PyTypeObject *type, PyObject *Py_UNUSED(args),
                PyObject *Py_UNUSED(kwds))

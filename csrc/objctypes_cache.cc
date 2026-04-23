@@ -1,3 +1,8 @@
+/**
+ * @file objctypes_cache.cc
+ * @brief Source declarations and definitions for objctypes_cache.cc.
+ */
+
 #include <Python.h>
 
 #include "objctypes_cache.h"
@@ -11,7 +16,7 @@
 
 typedef std::map<void *, PyObject *> cache_map;
 
-// Cache ObjCClass
+/// Cache ObjCClass
 
 void *
 ObjCClass_cache_alloc(void)
@@ -54,7 +59,7 @@ ObjCClass_cache_del(PyObject *module, Class cls)
     cache->erase(cls);
 }
 
-// Cache ObjCObject
+/// Cache ObjCObject
 
 void *
 ObjCObject_cache_alloc(void)
@@ -97,7 +102,7 @@ ObjCObject_cache_del(PyObject *module, id obj)
     cache->erase(obj);
 }
 
-// Cache ObjCMethod
+/// Cache ObjCMethod
 
 void *
 ObjCMethod_cache_alloc(void)
@@ -140,7 +145,7 @@ ObjCMethod_cache_del(PyObject *module, Method method)
     cache->erase(method);
 }
 
-// Cache ObjCSelector
+/// Cache ObjCSelector
 
 void *
 ObjCSelector_cache_alloc(void)

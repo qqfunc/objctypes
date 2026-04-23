@@ -1,2 +1,4 @@
 Completion:
   HeaderInsertion: Never
+Documentation:
+  CommentFormat: Doxygen

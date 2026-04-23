@@ -1,3 +1,8 @@
+/**
+ * @file objctypes_module.h
+ * @brief Source declarations and definitions for objctypes_module.h.
+ */
+
 #ifndef OBJCTYPES_MODULE_H
 #define OBJCTYPES_MODULE_H
 

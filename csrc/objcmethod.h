@@ -1,3 +1,8 @@
+/**
+ * @file objcmethod.h
+ * @brief Source declarations and definitions for objcmethod.h.
+ */
+
 #ifndef OBJCMETHOD_H
 #define OBJCMETHOD_H
 
@@ -5,7 +10,7 @@
 
 #include <objc/runtime.h>
 
-// ObjCMethod
+/// ObjCMethod
 
 typedef struct {
     PyObject_HEAD

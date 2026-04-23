@@ -1,3 +1,8 @@
+/**
+ * @file objcobject.h
+ * @brief Source declarations and definitions for objcobject.h.
+ */
+
 #ifndef OBJCOBJECT_H
 #define OBJCOBJECT_H
 
@@ -5,7 +10,7 @@
 
 #include <objc/objc.h>
 
-// ObjCObject
+/// ObjCObject
 
 typedef struct {
     PyObject_HEAD

@@ -1,3 +1,8 @@
+/**
+ * @file objcselector.h
+ * @brief Source declarations and definitions for objcselector.h.
+ */
+
 #ifndef OBJCSELECTOR_H
 #define OBJCSELECTOR_H
 
@@ -5,7 +10,7 @@
 
 #include <objc/runtime.h>
 
-// ObjCSelector
+/// ObjCSelector
 
 typedef struct {
     PyObject_HEAD
