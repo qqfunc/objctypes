@@ -2,20 +2,20 @@ pre-commit:
   parallel: true
   jobs:
     - name: editorconfig-checker
-      run: ec
+      run: uv run ec
     - name: Typos
-      run: typos
+      run: uv run typos
     - group:
         parallel: true
         jobs:
           - name: Ruff Check
-            run: ruff check
+            run: uv run ruff check
           - name: Ruff Format
-            run: ruff format --check
+            run: uv run ruff format --check
     - name: ty
-      run: ty check
+      run: uv run ty check
     - name: sphinx-lint
-      run: task docs-lint
+      run: uv run task docs-lint
 
 commit-msg:
   jobs:
@@ -26,34 +26,34 @@ check:
   parallel: true
   jobs:
     - name: editorconfig-checker
-      run: ec
+      run: uv run ec
     - name: Typos
-      run: typos
+      run: uv run typos
     - group:
         parallel: true
         jobs:
           - name: Ruff Check
-            run: ruff check
+            run: uv run ruff check
           - name: Ruff Format
-            run: ruff format --check
+            run: uv run ruff format --check
     - name: ty
-      run: ty check
+      run: uv run ty check
     - name: sphinx-lint
-      run: task docs-lint
+      run: uv run task docs-lint
 
 fix:
   jobs:
     - name: editorconfig-checker
-      run: ec
+      run: uv run ec
     - name: Typos
-      run: typos -w
+      run: uv run typos -w
     - group:
         jobs:
           - name: Ruff Check
-            run: ruff check --fix
+            run: uv run ruff check --fix
           - name: Ruff Format
-            run: ruff format
+            run: uv run ruff format
     - name: ty
-      run: ty check
+      run: uv run ty check
     - name: sphinx-lint
-      run: task docs-lint
+      run: uv run task docs-lint
