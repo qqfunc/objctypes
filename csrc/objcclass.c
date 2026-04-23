@@ -138,6 +138,12 @@ _ObjCClass_FromClass(PyTypeObject *type, Class cls, int lock_cache)
         }
         else {
             PyObject *super = _ObjCClass_FromClass(type, super_cls, 0);
+            if (super == NULL) {
+                if (lock_cache) {
+                    PyMutex_Unlock(&state->ObjCClass_cache_mutex);
+                }
+                return NULL;
+            }
             self = PyType_Type.tp_new(
                 type, Py_BuildValue("(s(O){})", class_getName(cls), super),
                 PyDict_New());
