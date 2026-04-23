@@ -62,6 +62,10 @@ _ObjCMethod_FromMethod(PyTypeObject *type, Method method)
         return NULL;
     }
 
+    objctypes_state *state = PyModule_GetState(module);
+
+    PyMutex_Lock(&state->ObjCMethod_cache_mutex);
+
     ObjCMethodObject *self = ObjCMethod_cache_get(module, method);
 
     if (self == NULL) {
@@ -71,6 +75,8 @@ _ObjCMethod_FromMethod(PyTypeObject *type, Method method)
             ObjCMethod_cache_set(module, method, self);
         }
     }
+
+    PyMutex_Unlock(&state->ObjCMethod_cache_mutex);
 
     return self;
 }

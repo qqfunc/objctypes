@@ -114,6 +114,10 @@ _ObjCClass_FromClass(PyTypeObject *type, Class cls)
         return NULL;
     }
 
+    objctypes_state *state = PyModule_GetState(module);
+
+    PyMutex_Lock(&state->ObjCClass_cache_mutex);
+
     PyObject *self = ObjCClass_cache_get(module, cls);
 
     if (self == NULL) {
@@ -141,6 +145,8 @@ _ObjCClass_FromClass(PyTypeObject *type, Class cls)
             ObjCClass_cache_set(module, cls, self);
         }
     }
+
+    PyMutex_Unlock(&state->ObjCClass_cache_mutex);
 
     return self;
 }

@@ -37,6 +37,12 @@ typedef struct {
      */
     void *ObjCClass_cache;
 
+    /**
+     * @brief Mutex for synchronizing access to the `ObjCClass` cache.
+     * @warning Do not manipulate this field outside of the `ObjCClass` type.
+     */
+    PyMutex ObjCClass_cache_mutex;
+
     /// @brief The `ObjCMethod` type.
     PyTypeObject *ObjCMethod_Type;
 
@@ -46,6 +52,12 @@ typedef struct {
      * @warning Do not manipulate this field outside of the `ObjCMethod` type.
      */
     void *ObjCMethod_cache;
+
+    /**
+     * @brief Mutex for synchronizing access to the `ObjCMethod` cache.
+     * @warning Do not manipulate this field outside of the `ObjCMethod` type.
+     */
+    PyMutex ObjCMethod_cache_mutex;
 
     /// @brief The `ObjCObject` type.
     PyTypeObject *ObjCObject_Type;
@@ -57,6 +69,12 @@ typedef struct {
      */
     void *ObjCObject_cache;
 
+    /**
+     * @brief Mutex for synchronizing access to the `ObjCObject` cache.
+     * @warning Do not manipulate this field outside of the `ObjCObject` type.
+     */
+    PyMutex ObjCObject_cache_mutex;
+
     /// @brief The `ObjCSelector` type.
     PyTypeObject *ObjCSelector_Type;
 
@@ -66,6 +84,12 @@ typedef struct {
      * @warning Do not manipulate this field outside of the `ObjCSelector` type.
      */
     void *ObjCSelector_cache;
+
+    /**
+     * @brief Mutex for synchronizing access to the `ObjCSelector` cache.
+     * @warning Do not manipulate this field outside of the `ObjCSelector` type.
+     */
+    PyMutex ObjCSelector_cache_mutex;
 
 } objctypes_state;
 

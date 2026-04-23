@@ -67,6 +67,10 @@ _ObjCSelector_FromSEL(PyTypeObject *type, SEL sel)
         return NULL;
     }
 
+    objctypes_state *state = PyModule_GetState(module);
+
+    PyMutex_Lock(&state->ObjCSelector_cache_mutex);
+
     ObjCSelectorObject *self = ObjCSelector_cache_get(module, sel);
 
     if (self == NULL) {
@@ -76,6 +80,8 @@ _ObjCSelector_FromSEL(PyTypeObject *type, SEL sel)
             ObjCSelector_cache_set(module, sel, self);
         }
     }
+
+    PyMutex_Unlock(&state->ObjCSelector_cache_mutex);
 
     return self;
 }
