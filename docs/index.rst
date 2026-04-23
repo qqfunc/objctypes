@@ -4,7 +4,7 @@ objctypes documentation
 .. code-block:: pycon
 
    >>> from objctypes import *
-   >>> NSString = ObjCClass("NSString")
+   >>> NSString = ObjCClass.from_name("NSString")
 
 .. toctree::
    :hidden:

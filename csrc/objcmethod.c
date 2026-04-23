@@ -5,11 +5,16 @@
 #include "objctypes.h"
 #include "objctypes_cache.h"
 
+#include "objctypes_module.h"
+
 // Destruct an ObjCMethod.
 static void
 ObjCMethod_dealloc(ObjCMethodObject *self)
 {
-    ObjCMethod_cache_del(self->value);
+    PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
+    if (module != NULL) {
+        ObjCMethod_cache_del(module, self->value);
+    }
     Py_TYPE(self)->tp_free((PyObject *)self);
 }
 
@@ -47,13 +52,18 @@ ObjCMethod_address(ObjCMethodObject *self, void *Py_UNUSED(closure))
 static ObjCMethodObject *
 _ObjCMethod_FromMethod(PyTypeObject *type, Method method)
 {
-    ObjCMethodObject *self = ObjCMethod_cache_get(method);
+    PyObject *module = PyType_GetModuleByDef(type, &objctypes_module);
+    if (module == NULL) {
+        return NULL;
+    }
+
+    ObjCMethodObject *self = ObjCMethod_cache_get(module, method);
 
     if (self == NULL) {
         self = (ObjCMethodObject *)type->tp_alloc(type, 0);
         if (self != NULL) {
             self->value = method;
-            ObjCMethod_cache_set(method, self);
+            ObjCMethod_cache_set(module, method, self);
         }
     }
 
@@ -112,23 +122,33 @@ static PyGetSetDef ObjCMethod_getset[] = {
     {.name = NULL},
 };
 
-PyTypeObject ObjCMethodType = {
-    .ob_base = PyVarObject_HEAD_INIT(NULL, 0)
-    .tp_name = "objctypes.ObjCMethod",
-    .tp_basicsize = sizeof(ObjCMethodObject),
-    .tp_itemsize = 0,
-    .tp_dealloc = (destructor)ObjCMethod_dealloc,
-    .tp_repr = (reprfunc)ObjCMethod_repr,
-    .tp_str = (reprfunc)ObjCMethod_str,
-    .tp_flags = Py_TPFLAGS_DEFAULT,
-    .tp_doc = PyDoc_STR("Python wrapper for Objective-C Method."),
-    .tp_methods = ObjCMethod_methods,
-    .tp_getset = ObjCMethod_getset,
-    .tp_new = ObjCMethod_new,
+static PyType_Slot ObjCMethod_slots[] = {
+    {Py_tp_dealloc, ObjCMethod_dealloc},
+    {Py_tp_repr, ObjCMethod_repr},
+    {Py_tp_str, ObjCMethod_str},
+    {Py_tp_doc, "Python wrapper for Objective-C Method."},
+    {Py_tp_methods, ObjCMethod_methods},
+    {Py_tp_getset, ObjCMethod_getset},
+    {Py_tp_new, ObjCMethod_new},
+    {0, NULL},
+};
+
+PyType_Spec ObjCMethod_spec = {
+    .name = "objctypes.ObjCMethod",
+    .basicsize = sizeof(ObjCMethodObject),
+    .itemsize = 0,
+    .flags = Py_TPFLAGS_DEFAULT,
+    .slots = ObjCMethod_slots,
 };
 
 PyObject *
-ObjCMethod_FromMethod(Method method)
+ObjCMethod_FromMethod(PyObject *module, Method method)
 {
-    return (PyObject *)_ObjCMethod_FromMethod(&ObjCMethodType, method);
+    objctypes_state *state = PyModule_GetState(module);
+    if (state->ObjCMethod_Type == NULL) {
+        return NULL;
+    }
+
+    return (PyObject *)_ObjCMethod_FromMethod(
+        (PyTypeObject *)state->ObjCMethod_Type, method);
 }

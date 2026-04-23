@@ -14,7 +14,4 @@ typedef struct {
 
 extern PyType_Spec ObjCSelector_spec;
 
-PyObject *
-ObjCSelector_FromSEL(PyObject *module, SEL sel);
-
 #endif // OBJCSELECTOR_H

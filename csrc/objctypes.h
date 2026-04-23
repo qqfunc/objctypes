@@ -8,21 +8,19 @@
 
 // Get an ObjCClass from an Objective-C Class.
 PyObject *
-ObjCClass_FromClass(Class cls);
+ObjCClass_FromClass(PyObject *module, Class cls);
 
 // Get an ObjCObject from an Objective-C id.
 PyObject *
-ObjCObject_FromId(id obj);
+ObjCObject_FromId(PyObject *module, id obj);
 
 // Get an ObjCMethod from an Objective-C Method.
 PyObject *
-ObjCMethod_FromMethod(Method method);
+ObjCMethod_FromMethod(PyObject *module, Method method);
 
 // Get an ObjCSelector from an Objective-C SEL.
 PyObject *
 ObjCSelector_FromSEL(PyObject *module, SEL sel);
-
-// ObjCBool
 
 // Get an ObjCBool from an int.
 PyObject *

@@ -3,8 +3,6 @@
 
 #include <Python.h>
 
-#include "objcclass.h"
-
 #include <objc/objc.h>
 
 // ObjCObject
@@ -14,6 +12,6 @@ typedef struct {
     id value;
 } ObjCObjectObject;
 
-extern ObjCClassObject ObjCObjectType;
+extern PyType_Spec ObjCObject_spec;
 
 #endif // OBJCOBJECT_H
