@@ -38,7 +38,7 @@ def test_objcobject_from_address() -> None:
 def test_objcobject_from_address_wrong_arg() -> None:
     """Test ObjCObject.from_address() with wrong arguments."""
     with pytest.raises(TypeError) as excinfo:
-        ObjCObject.from_address("wrong argument")  # type: ignore[arg-type]
+        ObjCObject.from_address("wrong argument")  # ty: ignore[invalid-argument-type]
     assert (
         str(excinfo.value)
         == "ObjCObject.from_address() argument 1 must be int, not str"

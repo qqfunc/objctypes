@@ -81,13 +81,13 @@ def test_objcclass_from_address() -> None:
     assert NSNumber.address == ObjCClass.from_address(NSNumber.address).address
 
     with pytest.raises(TypeError):
-        ObjCClass.from_address(object())  # type: ignore[arg-type]
+        ObjCClass.from_address(object())  # ty: ignore[invalid-argument-type]
 
 
 def test_objcclass_from_address_wrong_arg() -> None:
     """Test ObjCClass.from_address() with wrong arguments."""
     with pytest.raises(TypeError) as excinfo:
-        ObjCClass.from_address("wrong argument")  # type: ignore[arg-type]
+        ObjCClass.from_address("wrong argument")  # ty: ignore[invalid-argument-type]
     assert (
         str(excinfo.value)
         == "ObjCClass.from_address() argument 1 must be int, not str"
