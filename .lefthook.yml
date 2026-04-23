@@ -16,6 +16,8 @@ pre-commit:
       run: uv run ty check
     - name: sphinx-lint
       run: uv run task docs-lint
+    - name: uv lock
+      run: uv lock --check
 
 commit-msg:
   jobs:
@@ -40,20 +42,32 @@ check:
       run: uv run ty check
     - name: sphinx-lint
       run: uv run task docs-lint
+    - name: uv lock
+      run: uv lock --check
 
 fix:
   jobs:
-    - name: editorconfig-checker
-      run: uv run ec
-    - name: Typos
-      run: uv run typos -w
-    - group:
+    - name: Check
+      group:
+        parallel: true
         jobs:
-          - name: Ruff Check
-            run: uv run ruff check --fix
-          - name: Ruff Format
-            run: uv run ruff format
-    - name: ty
-      run: uv run ty check
-    - name: sphinx-lint
-      run: uv run task docs-lint
+          - name: editorconfig-checker
+            run: uv run ec
+          - name: ty
+            run: uv run ty check
+          - name: sphinx-lint
+            run: uv run task docs-lint
+    - name: Fix
+      group:
+        jobs:
+          - name: Typos
+            run: uv run typos -w
+          - name: Ruff
+            group:
+              jobs:
+                - name: Ruff Check
+                  run: uv run ruff check --fix
+                - name: Ruff Format
+                  run: uv run ruff format
+          - name: uv lock
+            run: uv lock
