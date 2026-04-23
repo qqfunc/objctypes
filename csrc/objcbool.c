@@ -44,6 +44,7 @@ _ObjCBool_FromLong(PyTypeObject *type, long v)
     objctypes_state *state = PyModule_GetState(module);
 
     if (v) {
+        // Cache the YES value if it hasn't been cached yet
         if (state->ObjCBool_YES == NULL) {
             state->ObjCBool_YES = type->tp_alloc(type, 0);
             if (state->ObjCBool_YES != NULL) {
@@ -53,6 +54,7 @@ _ObjCBool_FromLong(PyTypeObject *type, long v)
         return (ObjCBoolObject *)Py_NewRef(state->ObjCBool_YES);
     }
 
+    // Cache the NO value if it hasn't been cached yet
     if (state->ObjCBool_NO == NULL) {
         state->ObjCBool_NO = type->tp_alloc(type, 0);
         if (state->ObjCBool_NO != NULL) {
