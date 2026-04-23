@@ -30,10 +30,10 @@ LIBFFI_INCLUDE_PATH = (
             ["/opt/homebrew/bin/brew", "--prefix", "libffi"],
             text=True,
         ).removesuffix("\n")
-        if Path("/opt/homebrew/bin/brew").is_file()
-        else None,
     )
     / "include"
+    if Path("/opt/homebrew/bin/brew").is_file()
+    else None
 )
 
 

@@ -61,7 +61,7 @@ def test_objcselector_from_address() -> None:
 def test_objcselector_from_address_wrong_arg() -> None:
     """Test ObjCSelector.from_address() with wrong arguments."""
     with pytest.raises(TypeError) as excinfo:
-        ObjCSelector.from_address("wrong argument")  # type: ignore[arg-type]
+        ObjCSelector.from_address("wrong argument")  # ty: ignore[invalid-argument-type]
     assert (
         str(excinfo.value)
         == "ObjCSelector.from_address() argument 1 must be int, not str"
