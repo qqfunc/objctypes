@@ -19,8 +19,8 @@ def test_objcselector_concurrent_from_name() -> None:
 
     with ThreadPoolExecutor(max_workers=10) as executor:
         futures = [executor.submit(worker) for _ in range(10)]
-    for future in futures:
-        future.result()
+        for future in futures:
+            future.result()
 
     first = results[0]
     assert all(s is first for s in results)
@@ -41,8 +41,8 @@ def test_objcselector_concurrent_from_address() -> None:
 
     with ThreadPoolExecutor(max_workers=10) as executor:
         futures = [executor.submit(worker) for _ in range(10)]
-    for future in futures:
-        future.result()
+        for future in futures:
+            future.result()
 
     assert all(s is sel for s in results)
 
@@ -60,8 +60,8 @@ def test_objcclass_concurrent_from_name() -> None:
 
     with ThreadPoolExecutor(max_workers=10) as executor:
         futures = [executor.submit(worker) for _ in range(10)]
-    for future in futures:
-        future.result()
+        for future in futures:
+            future.result()
 
     first = results[0]
     assert all(c is first for c in results)
@@ -82,7 +82,7 @@ def test_objcclass_concurrent_from_address() -> None:
 
     with ThreadPoolExecutor(max_workers=10) as executor:
         futures = [executor.submit(worker) for _ in range(10)]
-    for future in futures:
-        future.result()
+        for future in futures:
+            future.result()
 
     assert all(c is cls for c in results)
