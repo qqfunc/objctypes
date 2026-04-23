@@ -221,6 +221,7 @@ ObjCClass_from_address(PyTypeObject *type, PyObject *address)
                      "The Objective-C class at %p is a metaclass. Use "
                      "ObjCMetaClass.from_address() instead.",
                      cls);
+        return NULL;
     }
 
     return (PyObject *)_ObjCClass_FromClass(type, cls, 1);
