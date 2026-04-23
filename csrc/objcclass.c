@@ -127,27 +127,30 @@ _ObjCClass_FromClass(PyTypeObject *type, Class cls, int lock_cache)
     if (self == NULL) {
         objctypes_state *state = PyModule_GetState(module);
 
+        PyObject *base;
+
         Class super_cls = class_getSuperclass(cls);
         if (super_cls == NULL) {
-            // The class is a root class.
-            self = PyType_Type.tp_new(type,
-                                      Py_BuildValue("(s(O){})",
-                                                    class_getName(cls),
-                                                    state->ObjCObject_Type),
-                                      PyDict_New());
+            // The class is a root class
+            base = (PyObject *)state->ObjCObject_Type;
         }
         else {
-            PyObject *super = _ObjCClass_FromClass(type, super_cls, 0);
-            if (super == NULL) {
+            // Retrieve the superclass of the Objective-C class
+            base = _ObjCClass_FromClass(type, super_cls, 0);
+            if (base == NULL) {
                 if (lock_cache) {
                     PyMutex_Unlock(&state->ObjCClass_cache_mutex);
                 }
                 return NULL;
             }
-            self = PyType_Type.tp_new(
-                type, Py_BuildValue("(s(O){})", class_getName(cls), super),
-                PyDict_New());
         }
+
+        PyObject *args = Py_BuildValue("(s(O){})", class_getName(cls), base);
+        PyObject *kwds = PyDict_New();
+        self = PyType_Type.tp_new(type, args, kwds);
+        Py_XDECREF(args);
+        Py_XDECREF(kwds);
+
         if (self != NULL) {
             ObjCClassState *cls_state =
                 PyObject_GetTypeData(self, state->ObjCClass_Type);
@@ -249,8 +252,8 @@ ObjCClass_from_name(PyTypeObject *type, PyObject *name)
 
     Class cls = objc_getClass(cls_name);
     if (cls == NULL) {
-        PyErr_Format(PyExc_NameError,
-                        "Objective-C class '%s' is not defined", cls_name);
+        PyErr_Format(PyExc_NameError, "Objective-C class '%s' is not defined",
+                     cls_name);
         return NULL;
     }
 
