@@ -107,7 +107,7 @@ ObjCClass_load_methods(PyObject *self, PyObject *Py_UNUSED(args))
 
 /// Get an ObjCClass from a Python type and an Objective-C Class.
 static PyObject *
-_ObjCClass_FromClass(PyTypeObject *type, Class cls)
+_ObjCClass_FromClass(PyTypeObject *type, Class cls, int lock_cache)
 {
     PyObject *module = PyType_GetModuleByDef(type, &objctypes_module);
     if (module == NULL) {
@@ -116,7 +116,9 @@ _ObjCClass_FromClass(PyTypeObject *type, Class cls)
 
     objctypes_state *state = PyModule_GetState(module);
 
-    PyMutex_Lock(&state->ObjCClass_cache_mutex);
+    if (lock_cache) {
+        PyMutex_Lock(&state->ObjCClass_cache_mutex);
+    }
 
     PyObject *self = ObjCClass_cache_get(module, cls);
 
@@ -133,7 +135,7 @@ _ObjCClass_FromClass(PyTypeObject *type, Class cls)
                                       PyDict_New());
         }
         else {
-            PyObject *super = ObjCClass_FromClass(module, super_cls);
+            PyObject *super = _ObjCClass_FromClass(type, super_cls, 0);
             self = PyType_Type.tp_new(
                 type, Py_BuildValue("(s(O){})", class_getName(cls), super),
                 PyDict_New());
@@ -146,7 +148,9 @@ _ObjCClass_FromClass(PyTypeObject *type, Class cls)
         }
     }
 
-    PyMutex_Unlock(&state->ObjCClass_cache_mutex);
+    if (lock_cache) {
+        PyMutex_Unlock(&state->ObjCClass_cache_mutex);
+    }
 
     return self;
 }
@@ -211,7 +215,7 @@ ObjCClass_from_address(PyTypeObject *type, PyObject *address)
                      cls);
     }
 
-    return (PyObject *)_ObjCClass_FromClass(type, cls);
+    return (PyObject *)_ObjCClass_FromClass(type, cls, 1);
 }
 
 /// ObjCClass.from_name()
@@ -241,7 +245,7 @@ ObjCClass_from_name(PyTypeObject *type, PyObject *name)
         return NULL;
     }
 
-    self = _ObjCClass_FromClass(type, cls);
+    self = _ObjCClass_FromClass(type, cls, 1);
 
     return (PyObject *)self;
 }
@@ -313,5 +317,5 @@ ObjCClass_FromClass(PyObject *module, Class cls)
     }
 
     return (PyObject *)_ObjCClass_FromClass(
-        (PyTypeObject *)state->ObjCClass_Type, cls);
+        (PyTypeObject *)state->ObjCClass_Type, cls, 1);
 }
