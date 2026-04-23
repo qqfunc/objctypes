@@ -20,7 +20,7 @@ pre-commit:
 commit-msg:
   jobs:
     - name: Commitlint
-      run: commitlint --file=./.git/COMMIT_EDITMSG
+      run: uv run commitlint --file=./.git/COMMIT_EDITMSG
 
 check:
   parallel: true
