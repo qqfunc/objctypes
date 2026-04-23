@@ -18,7 +18,10 @@ ObjCMethod_dealloc(ObjCMethodObject *self)
 {
     PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
     if (module != NULL) {
+        objctypes_state *state = PyModule_GetState(module);
+        PyMutex_Lock(&state->ObjCMethod_cache_mutex);
         ObjCMethod_cache_del(module, self->value);
+        PyMutex_Unlock(&state->ObjCMethod_cache_mutex);
     }
     Py_TYPE(self)->tp_free((PyObject *)self);
 }

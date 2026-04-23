@@ -17,7 +17,10 @@ ObjCSelector_dealloc(ObjCSelectorObject *self)
 {
     PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
     if (module != NULL) {
+        objctypes_state *state = PyModule_GetState(module);
+        PyMutex_Lock(&state->ObjCSelector_cache_mutex);
         ObjCSelector_cache_del(module, self->value);
+        PyMutex_Unlock(&state->ObjCSelector_cache_mutex);
     }
     Py_TYPE(self)->tp_free((PyObject *)self);
 }

@@ -21,7 +21,9 @@ ObjCClass_dealloc(PyObject *self)
         ObjCClassState *cls_state =
             PyObject_GetTypeData(self, state->ObjCClass_Type);
         if (cls_state != NULL) {
+            PyMutex_Lock(&state->ObjCClass_cache_mutex);
             ObjCClass_cache_del(module, cls_state->value);
+            PyMutex_Unlock(&state->ObjCClass_cache_mutex);
         }
     }
     Py_TYPE(self)->tp_free((PyObject *)self);
