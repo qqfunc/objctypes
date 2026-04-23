@@ -1,0 +1,14 @@
+{
+  "lsp": {
+    "ty": {
+      "settings": {
+        "disableLanguageServices": true,
+      },
+    },
+  },
+  "languages": {
+    "Python": {
+      "language_servers": ["ruff", "ty", "pyright"],
+    },
+  },
+}
