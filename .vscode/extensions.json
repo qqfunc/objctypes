@@ -4,7 +4,6 @@
     "charliermarsh.ruff",
     "editorconfig.editorconfig",
     "github.vscode-github-actions",
-    "github.vscode-pull-request-github",
     "llvm-vs-code-extensions.vscode-clangd",
     "ms-python.python",
     "ms-python.vscode-pylance",

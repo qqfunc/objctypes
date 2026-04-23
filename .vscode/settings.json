@@ -6,6 +6,10 @@
     "**/uv.lock": true
   },
   "clangd.arguments": ["--enable-config"],
+  "json.schemaDownload.trustedDomains": {
+    "https://docs.renovatebot.com/renovate-schema.json": true
+  },
+  "python.languageServer": "Default",
   "ty.disableLanguageServices": true,
   "[c]": {
     "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
