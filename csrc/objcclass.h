@@ -1,3 +1,8 @@
+/**
+ * @file objcclass.h
+ * @brief Source declarations and definitions for objcclass.h.
+ */
+
 #ifndef OBJCCLASS_H
 #define OBJCCLASS_H
 
@@ -5,7 +10,7 @@
 
 #include <objc/objc.h>
 
-// ObjCClass
+/// ObjCClass
 
 typedef struct {
     Class value;

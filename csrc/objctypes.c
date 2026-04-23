@@ -1,3 +1,8 @@
+/**
+ * @file objctypes.c
+ * @brief Source declarations and definitions for objctypes.c.
+ */
+
 #include <Python.h>
 
 #include "objctypes.h"

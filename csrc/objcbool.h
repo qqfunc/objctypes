@@ -1,3 +1,8 @@
+/**
+ * @file objcbool.h
+ * @brief Source declarations and definitions for objcbool.h.
+ */
+
 #ifndef OBJCBOOL_H
 #define OBJCBOOL_H
 

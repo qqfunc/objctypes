@@ -1,3 +1,8 @@
+/**
+ * @file objcmethod.c
+ * @brief Source declarations and definitions for objcmethod.c.
+ */
+
 #include <Python.h>
 
 #include "objcmethod.h"
@@ -7,7 +12,7 @@
 
 #include "objctypes_module.h"
 
-// Destruct an ObjCMethod.
+/// Destruct an ObjCMethod.
 static void
 ObjCMethod_dealloc(ObjCMethodObject *self)
 {
@@ -18,7 +23,7 @@ ObjCMethod_dealloc(ObjCMethodObject *self)
     Py_TYPE(self)->tp_free((PyObject *)self);
 }
 
-// ObjCMethod.__repr__()
+/// ObjCMethod.__repr__()
 static PyObject *
 ObjCMethod_repr(ObjCMethodObject *self)
 {
@@ -27,28 +32,28 @@ ObjCMethod_repr(ObjCMethodObject *self)
                                 self->value);
 }
 
-// ObjCMethod.__str__()
+/// ObjCMethod.__str__()
 static PyObject *
 ObjCMethod_str(ObjCMethodObject *self)
 {
     return PyUnicode_FromString(sel_getName(method_getName(self->value)));
 }
 
-// ObjCMethod.name
+/// ObjCMethod.name
 static PyObject *
 ObjCMethod_name(ObjCMethodObject *self, void *Py_UNUSED(closure))
 {
     return PyUnicode_FromString(sel_getName(method_getName(self->value)));
 }
 
-// ObjCMethod.address
+/// ObjCMethod.address
 static PyObject *
 ObjCMethod_address(ObjCMethodObject *self, void *Py_UNUSED(closure))
 {
     return PyLong_FromVoidPtr(self->value);
 }
 
-// Get an ObjCMethod from a Python type and an Objective-C Method.
+/// Get an ObjCMethod from a Python type and an Objective-C Method.
 static ObjCMethodObject *
 _ObjCMethod_FromMethod(PyTypeObject *type, Method method)
 {
@@ -70,7 +75,7 @@ _ObjCMethod_FromMethod(PyTypeObject *type, Method method)
     return self;
 }
 
-// ObjCMethod.from_address()
+/// ObjCMethod.from_address()
 static PyObject *
 ObjCMethod_from_address(PyTypeObject *type, PyObject *address)
 {
@@ -85,7 +90,7 @@ ObjCMethod_from_address(PyTypeObject *type, PyObject *address)
     return (PyObject *)_ObjCMethod_FromMethod(type, PyLong_AsVoidPtr(address));
 }
 
-// ObjCMethod.__new__()
+/// ObjCMethod.__new__()
 static PyObject *
 ObjCMethod_new(PyTypeObject *Py_UNUSED(type), PyObject *Py_UNUSED(args),
                PyObject *Py_UNUSED(kwds))
