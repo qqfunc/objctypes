@@ -1,6 +1,6 @@
 /**
  * @file objcmetaclass.h
- * @brief Source declarations and definitions for objcmetaclass.h.
+ * @brief Source declarations and definitions for objcmetaclass.c.
  */
 
 #ifndef OBJCMETACLASS_H
