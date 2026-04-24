@@ -9,7 +9,7 @@
 ## Setup
 
 - Install dependencies and build project with `uv sync`
-- Install Git Hooks with `uv run lefthook install`
+- Setup the project environment with `uv run task setup`
 
 ## Coding Conventions
 
@@ -27,36 +27,8 @@ Run tests with `uv run task test`.
 
 ## Commands
 
-- Run all checks with `uv run lefthook run check`
-- Fix all problems with `uv run lefthook run fix`
-
-### editorconfig-checker
-
-- `uv run ec`
-
-### Typos
-
-- `uv run typos`
-
-### Ruff
-
-Check and format Python code with Ruff.
-
-#### Check Only
-
-- `uv run ruff check`
-- `uv run ruff format --check`
-
-#### Format / Fix
-
-- `uv run ruff check --fix`
-- `uv run ruff format`
-
-### ty
-
-Type-check Python code with ty.
-
-- `uv run ty check`
+- Run all checks with `uv run task check`
+- Fix all problems with `uv run task fix`
 
 ## Commit Messages
 
