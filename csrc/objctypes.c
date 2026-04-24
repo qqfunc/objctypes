@@ -38,6 +38,8 @@ objctypes_module_exec(PyObject *module)
         return -1;
     }
 
+    state->ObjCSelector_cache_mutex = (PyMutex){0};
+
     state->ObjCClass_Type = (PyTypeObject *)PyType_FromModuleAndSpec(
         module, &ObjCClass_spec, (PyObject *)&PyType_Type);
     if (state->ObjCClass_Type == NULL) {
@@ -48,6 +50,8 @@ objctypes_module_exec(PyObject *module)
     if (state->ObjCClass_cache == NULL) {
         return -1;
     }
+
+    state->ObjCClass_cache_mutex = (PyMutex){0};
 
     state->ObjCObject_Type = (PyTypeObject *)PyType_FromMetaclass(
         state->ObjCClass_Type, module, &ObjCObject_spec, NULL);
@@ -60,6 +64,8 @@ objctypes_module_exec(PyObject *module)
         return -1;
     }
 
+    state->ObjCObject_cache_mutex = (PyMutex){0};
+
     state->ObjCMethod_Type = (PyTypeObject *)PyType_FromModuleAndSpec(
         module, &ObjCMethod_spec, NULL);
     if (state->ObjCMethod_Type == NULL) {
@@ -70,6 +76,8 @@ objctypes_module_exec(PyObject *module)
     if (state->ObjCMethod_cache == NULL) {
         return -1;
     }
+
+    state->ObjCMethod_cache_mutex = (PyMutex){0};
 
     // Add ObjCObject
     if (PyModule_AddType(module, (PyTypeObject *)state->ObjCObject_Type) < 0) {

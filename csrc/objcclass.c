@@ -21,7 +21,9 @@ ObjCClass_dealloc(PyObject *self)
         ObjCClassState *cls_state =
             PyObject_GetTypeData(self, state->ObjCClass_Type);
         if (cls_state != NULL) {
+            PyMutex_Lock(&state->ObjCClass_cache_mutex);
             ObjCClass_cache_del(module, cls_state->value);
+            PyMutex_Unlock(&state->ObjCClass_cache_mutex);
         }
     }
     Py_TYPE(self)->tp_free((PyObject *)self);
@@ -107,11 +109,17 @@ ObjCClass_load_methods(PyObject *self, PyObject *Py_UNUSED(args))
 
 /// Get an ObjCClass from a Python type and an Objective-C Class.
 static PyObject *
-_ObjCClass_FromClass(PyTypeObject *type, Class cls)
+_ObjCClass_FromClass(PyTypeObject *type, Class cls, int lock_cache)
 {
     PyObject *module = PyType_GetModuleByDef(type, &objctypes_module);
     if (module == NULL) {
         return NULL;
+    }
+
+    objctypes_state *state = PyModule_GetState(module);
+
+    if (lock_cache) {
+        PyMutex_Lock(&state->ObjCClass_cache_mutex);
     }
 
     PyObject *self = ObjCClass_cache_get(module, cls);
@@ -119,27 +127,40 @@ _ObjCClass_FromClass(PyTypeObject *type, Class cls)
     if (self == NULL) {
         objctypes_state *state = PyModule_GetState(module);
 
+        PyObject *base;
+
         Class super_cls = class_getSuperclass(cls);
         if (super_cls == NULL) {
-            // The class is a root class.
-            self = PyType_Type.tp_new(type,
-                                      Py_BuildValue("(s(O){})",
-                                                    class_getName(cls),
-                                                    state->ObjCObject_Type),
-                                      PyDict_New());
+            // The class is a root class
+            base = (PyObject *)state->ObjCObject_Type;
         }
         else {
-            PyObject *super = ObjCClass_FromClass(module, super_cls);
-            self = PyType_Type.tp_new(
-                type, Py_BuildValue("(s(O){})", class_getName(cls), super),
-                PyDict_New());
+            // Retrieve the superclass of the Objective-C class
+            base = _ObjCClass_FromClass(type, super_cls, 0);
+            if (base == NULL) {
+                if (lock_cache) {
+                    PyMutex_Unlock(&state->ObjCClass_cache_mutex);
+                }
+                return NULL;
+            }
         }
+
+        PyObject *args = Py_BuildValue("(s(O){})", class_getName(cls), base);
+        PyObject *kwds = PyDict_New();
+        self = PyType_Type.tp_new(type, args, kwds);
+        Py_XDECREF(args);
+        Py_XDECREF(kwds);
+
         if (self != NULL) {
             ObjCClassState *cls_state =
                 PyObject_GetTypeData(self, state->ObjCClass_Type);
             cls_state->value = cls;
             ObjCClass_cache_set(module, cls, self);
         }
+    }
+
+    if (lock_cache) {
+        PyMutex_Unlock(&state->ObjCClass_cache_mutex);
     }
 
     return self;
@@ -203,9 +224,10 @@ ObjCClass_from_address(PyTypeObject *type, PyObject *address)
                      "The Objective-C class at %p is a metaclass. Use "
                      "ObjCMetaClass.from_address() instead.",
                      cls);
+        return NULL;
     }
 
-    return (PyObject *)_ObjCClass_FromClass(type, cls);
+    return (PyObject *)_ObjCClass_FromClass(type, cls, 1);
 }
 
 /// ObjCClass.from_name()
@@ -230,12 +252,12 @@ ObjCClass_from_name(PyTypeObject *type, PyObject *name)
 
     Class cls = objc_getClass(cls_name);
     if (cls == NULL) {
-        PyErr_Format(PyExc_NameError,
-                        "Objective-C class '%s' is not defined", cls_name);
+        PyErr_Format(PyExc_NameError, "Objective-C class '%s' is not defined",
+                     cls_name);
         return NULL;
     }
 
-    self = _ObjCClass_FromClass(type, cls);
+    self = _ObjCClass_FromClass(type, cls, 1);
 
     return (PyObject *)self;
 }
@@ -307,5 +329,5 @@ ObjCClass_FromClass(PyObject *module, Class cls)
     }
 
     return (PyObject *)_ObjCClass_FromClass(
-        (PyTypeObject *)state->ObjCClass_Type, cls);
+        (PyTypeObject *)state->ObjCClass_Type, cls, 1);
 }

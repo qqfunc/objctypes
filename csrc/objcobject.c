@@ -18,7 +18,10 @@ ObjCObject_dealloc(ObjCObjectObject *self)
 {
     PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
     if (module != NULL) {
+        objctypes_state *state = PyModule_GetState(module);
+        PyMutex_Lock(&state->ObjCObject_cache_mutex);
         ObjCObject_cache_del(module, self->value);
+        PyMutex_Unlock(&state->ObjCObject_cache_mutex);
     }
     Py_TYPE(self)->tp_free((PyObject *)self);
 }
@@ -47,6 +50,10 @@ _ObjCObject_FromId(PyTypeObject *type, id obj)
         return NULL;
     }
 
+    objctypes_state *state = PyModule_GetState(module);
+
+    PyMutex_Lock(&state->ObjCObject_cache_mutex);
+
     ObjCObjectObject *self = ObjCObject_cache_get(module, obj);
 
     if (self == NULL) {
@@ -56,6 +63,8 @@ _ObjCObject_FromId(PyTypeObject *type, id obj)
             ObjCObject_cache_set(module, obj, self);
         }
     }
+
+    PyMutex_Unlock(&state->ObjCObject_cache_mutex);
 
     return self;
 }
