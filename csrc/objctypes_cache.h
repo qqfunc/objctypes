@@ -14,8 +14,6 @@
 
 #include <objc/objc.h>
 
-/// Cache functions
-
 #ifdef __cplusplus
 extern "C" {
 #endif
