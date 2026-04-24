@@ -101,7 +101,16 @@ ObjCSelector_from_address(PyTypeObject *type, PyObject *address)
         return NULL;
     }
 
-    return (PyObject *)_ObjCSelector_FromSEL(type, PyLong_AsVoidPtr(address));
+    SEL sel = PyLong_AsVoidPtr(address);
+    if (!sel_isMapped(sel)) {
+        PyErr_Format(
+            PyExc_TypeError,
+            "The specified address %p is not a valid Objective-C selector",
+            sel);
+        return NULL;
+    }
+
+    return (PyObject *)_ObjCSelector_FromSEL(type, sel);
 }
 
 /// @brief `ObjCSelector.__new__()`
