@@ -1,28 +1,37 @@
 pre-commit:
   parallel: true
   jobs:
-    - name: editorconfig-checker
-      run: uv run ec
-    - name: Typos
-      run: uv run typos
-    - group:
+    - name: Check
+      group:
         parallel: true
         jobs:
-          - name: Ruff Check
-            run: uv run ruff check
-          - name: Ruff Format
-            run: uv run ruff format --check
-    - name: ty
-      run: uv run ty check
-    - name: sphinx-lint
-      run: uv run task docs-lint
-    - name: uv lock
-      run: uv lock --check
+          - name: editorconfig-checker
+            run: uv run ec
+          - name: Typos
+            run: uv run typos
+          - name: Ruff
+            group:
+              parallel: true
+              jobs:
+                - name: Check
+                  run: uv run ruff check
+                - name: Format
+                  run: uv run ruff format --check
+          - name: ty
+            run: uv run ty check
+          - name: Clang Format
+            run: clang-format --Werror -n ./csrc/*
+          - name: sphinx-lint
+            run: uv run task docs-lint
+          - name: pytest
+            run: uv run pytest
+          - name: uv lock
+            run: uv lock --check
 
 commit-msg:
   jobs:
-    - name: Commitlint
-      run: uv run commitlint --file=./.git/COMMIT_EDITMSG
+    - name: Committed
+      run: uv run committed --commit-file ./.git/COMMIT_EDITMSG
 
 check:
   parallel: true
@@ -31,17 +40,22 @@ check:
       run: uv run ec
     - name: Typos
       run: uv run typos
-    - group:
+    - name: Ruff
+      group:
         parallel: true
         jobs:
-          - name: Ruff Check
+          - name: Check
             run: uv run ruff check
-          - name: Ruff Format
+          - name: Format
             run: uv run ruff format --check
     - name: ty
       run: uv run ty check
+    - name: Clang Format
+      run: clang-format --Werror -n ./csrc/*
     - name: sphinx-lint
       run: uv run task docs-lint
+    - name: pytest
+      run: uv run pytest
     - name: uv lock
       run: uv lock --check
 
@@ -57,6 +71,8 @@ fix:
             run: uv run ty check
           - name: sphinx-lint
             run: uv run task docs-lint
+          - name: pytest
+            run: uv run pytest
     - name: Fix
       group:
         jobs:
@@ -69,5 +85,7 @@ fix:
                   run: uv run ruff check --fix
                 - name: Ruff Format
                   run: uv run ruff format
+          - name: Clang Format
+            run: clang-format --Werror -i ./csrc/*
           - name: uv lock
             run: uv lock

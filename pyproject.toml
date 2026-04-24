@@ -54,7 +54,7 @@ dev = [
   { include-group = "tests" },
   { include-group = "docs" },
   { include-group = "misc" },
-  "commitlint==1.13.3",
+  "committed==1.1.11",
   "lefthook==2.1.6",
   "sphinx-autobuild==2025.8.25",
 ]
@@ -114,6 +114,9 @@ docs = "./docs"
 docs-build = { var = "{docs}/_build", recursive = true }
 
 [tool.taskipy.tasks]
+setup = { cmd = "lefthook install", help = "set up the project" }
+check = { cmd = "lefthook run check", help = "check the code" }
+fix = { cmd = "lefthook run fix", help = "check and fix the code" }
 test = { cmd = "pytest", help = "Run unit tests with pytest" }
 docs-build = { cmd = "sphinx-build {docs} {docs-build}", help = "Build the documentation with Sphinx" }
 docs-autobuild = { cmd = "sphinx-autobuild {docs} {docs-build}", help = "Build the documentation with sphinx-autobuild" }
