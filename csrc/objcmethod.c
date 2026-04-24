@@ -9,7 +9,6 @@
 
 #include "objctypes.h"
 #include "objctypes_cache.h"
-
 #include "objctypes_module.h"
 
 /// @brief Destruct an ObjCMethod.

@@ -140,5 +140,6 @@ ObjCBool_FromLong(PyObject *module, long v)
         return NULL;
     }
 
-    return (PyObject *)_ObjCBool_FromLong((PyTypeObject *)state->ObjCBool_Type, v);
+    return (PyObject *)_ObjCBool_FromLong((PyTypeObject *)state->ObjCBool_Type,
+                                          v);
 }

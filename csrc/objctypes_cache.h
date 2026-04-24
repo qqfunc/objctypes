@@ -33,10 +33,12 @@ void
 ObjCClass_cache_deinit(PyObject *module);
 
 /**
- * @brief Get an `ObjCClass` from the cache if it exists, otherwise return `NULL`.
+ * @brief Get an `ObjCClass` from the cache if it exists, otherwise return
+ * `NULL`.
  * @param module The Python module object.
  * @param cls The Objective-C class to look up.
- * @return A new reference to the cached `ObjCClass` object, or `NULL` if not found.
+ * @return A new reference to the cached `ObjCClass` object, or `NULL` if not
+ * found.
  */
 PyObject *
 ObjCClass_cache_get(PyObject *module, Class cls);
@@ -73,10 +75,12 @@ void
 ObjCObject_cache_deinit(PyObject *module);
 
 /**
- * @brief Get an `ObjCObject` from the cache if it exists, otherwise return `NULL`.
+ * @brief Get an `ObjCObject` from the cache if it exists, otherwise return
+ * `NULL`.
  * @param module The Python module object.
  * @param obj The Objective-C object to look up.
- * @return A new reference to the cached `ObjCObject` object, or `NULL` if not found.
+ * @return A new reference to the cached `ObjCObject` object, or `NULL` if not
+ * found.
  */
 ObjCObjectObject *
 ObjCObject_cache_get(PyObject *module, id obj);
@@ -113,10 +117,12 @@ void
 ObjCMethod_cache_deinit(PyObject *module);
 
 /**
- * @brief Get an `ObjCMethod` from the cache if it exists, otherwise return `NULL`.
+ * @brief Get an `ObjCMethod` from the cache if it exists, otherwise return
+ * `NULL`.
  * @param module The Python module object.
  * @param method The Objective-C method to look up.
- * @return A new reference to the cached `ObjCMethod` object, or `NULL` if not found.
+ * @return A new reference to the cached `ObjCMethod` object, or `NULL` if not
+ * found.
  */
 ObjCMethodObject *
 ObjCMethod_cache_get(PyObject *module, Method method);
@@ -153,19 +159,23 @@ void
 ObjCSelector_cache_deinit(PyObject *module);
 
 /**
- * @brief Get an `ObjCSelector` from the cache if it exists, otherwise return `NULL`.
+ * @brief Get an `ObjCSelector` from the cache if it exists, otherwise return
+ * `NULL`.
  * @param module The Python module object.
  * @param sel The Objective-C selector to look up.
- * @return A new reference to the cached `ObjCSelector` object, or `NULL` if not found.
+ * @return A new reference to the cached `ObjCSelector` object, or `NULL` if
+ * not found.
  */
 void
 ObjCSelector_cache_deinit(PyObject *module);
 
 /**
- * @brief Get an `ObjCSelector` from the cache if it exists, otherwise return `NULL`.
+ * @brief Get an `ObjCSelector` from the cache if it exists, otherwise return
+ * `NULL`.
  * @param module The Python module object.
  * @param sel The Objective-C selector to look up.
- * @return A new reference to the cached `ObjCSelector` object, or `NULL` if not found.
+ * @return A new reference to the cached `ObjCSelector` object, or `NULL` if
+ * not found.
  */
 ObjCSelectorObject *
 ObjCSelector_cache_get(PyObject *module, SEL sel);

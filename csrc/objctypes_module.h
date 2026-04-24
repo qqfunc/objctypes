@@ -32,7 +32,8 @@ typedef struct {
 
     /**
      * @brief Cache for `ObjCClass` instances.
-     * @details This is a pointer to a C++ `std::map` that maps Objective-C class pointers to their corresponding `ObjCClass` Python objects.
+     * @details This is a pointer to a C++ `std::map` that maps Objective-C
+     * class pointers to their corresponding `ObjCClass` Python objects.
      * @warning Do not manipulate this field outside of the `ObjCClass` type.
      */
     void *ObjCClass_cache;
@@ -48,7 +49,8 @@ typedef struct {
 
     /**
      * @brief Cache for `ObjCMethod` instances.
-     * @details This is a pointer to a C++ `std::map` that maps Objective-C method pointers to their corresponding `ObjCMethod` Python objects.
+     * @details This is a pointer to a C++ `std::map` that maps Objective-C
+     * method pointers to their corresponding `ObjCMethod` Python objects.
      * @warning Do not manipulate this field outside of the `ObjCMethod` type.
      */
     void *ObjCMethod_cache;
@@ -64,7 +66,8 @@ typedef struct {
 
     /**
      * @brief Cache for `ObjCObject` instances.
-     * @details This is a pointer to a C++ `std::map` that maps Objective-C object pointers to their corresponding `ObjCObject` Python objects.
+     * @details This is a pointer to a C++ `std::map` that maps Objective-C
+     * object pointers to their corresponding `ObjCObject` Python objects.
      * @warning Do not manipulate this field outside of the `ObjCObject` type.
      */
     void *ObjCObject_cache;
@@ -80,14 +83,17 @@ typedef struct {
 
     /**
      * @brief Cache for `ObjCSelector` instances.
-     * @details This is a pointer to a C++ `std::map` that maps Objective-C selector pointers to their corresponding `ObjCSelector` Python objects.
-     * @warning Do not manipulate this field outside of the `ObjCSelector` type.
+     * @details This is a pointer to a C++ `std::map` that maps Objective-C
+     * selector pointers to their corresponding `ObjCSelector` Python objects.
+     * @warning Do not manipulate this field outside of the `ObjCSelector`
+     * type.
      */
     void *ObjCSelector_cache;
 
     /**
      * @brief Mutex for synchronizing access to the `ObjCSelector` cache.
-     * @warning Do not manipulate this field outside of the `ObjCSelector` type.
+     * @warning Do not manipulate this field outside of the `ObjCSelector`
+     * type.
      */
     PyMutex ObjCSelector_cache_mutex;
 
