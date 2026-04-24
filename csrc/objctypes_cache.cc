@@ -16,18 +16,18 @@
 
 typedef std::map<void *, PyObject *> cache_map;
 
-/// Cache ObjCClass
-
-void *
-ObjCClass_cache_alloc(void)
+void
+ObjCClass_cache_init(PyObject *module)
 {
-    return new (std::nothrow) cache_map();
+    objctypes_state *state = (objctypes_state *)PyModule_GetState(module);
+    state->ObjCClass_cache = new (std::nothrow) cache_map();
 }
 
 void
-ObjCClass_cache_dealloc(void *cache)
+ObjCClass_cache_deinit(PyObject *module)
 {
-    delete (cache_map *)cache;
+    objctypes_state *state = (objctypes_state *)PyModule_GetState(module);
+    delete (cache_map *)state->ObjCClass_cache;
 }
 
 PyObject *
@@ -59,18 +59,18 @@ ObjCClass_cache_del(PyObject *module, Class cls)
     cache->erase(cls);
 }
 
-/// Cache ObjCObject
-
-void *
-ObjCObject_cache_alloc(void)
+void
+ObjCObject_cache_init(PyObject *module)
 {
-    return new (std::nothrow) cache_map();
+    objctypes_state *state = (objctypes_state *)PyModule_GetState(module);
+    state->ObjCObject_cache = new (std::nothrow) cache_map();
 }
 
 void
-ObjCObject_cache_dealloc(void *cache)
+ObjCObject_cache_deinit(PyObject *module)
 {
-    delete (cache_map *)cache;
+    objctypes_state *state = (objctypes_state *)PyModule_GetState(module);
+    delete (cache_map *)state->ObjCObject_cache;
 }
 
 ObjCObjectObject *
@@ -102,18 +102,18 @@ ObjCObject_cache_del(PyObject *module, id obj)
     cache->erase(obj);
 }
 
-/// Cache ObjCMethod
-
-void *
-ObjCMethod_cache_alloc(void)
+void
+ObjCMethod_cache_init(PyObject *module)
 {
-    return new (std::nothrow) cache_map();
+    objctypes_state *state = (objctypes_state *)PyModule_GetState(module);
+    state->ObjCMethod_cache = new (std::nothrow) cache_map();
 }
 
 void
-ObjCMethod_cache_dealloc(void *cache)
+ObjCMethod_cache_deinit(PyObject *module)
 {
-    delete (cache_map *)cache;
+    objctypes_state *state = (objctypes_state *)PyModule_GetState(module);
+    delete (cache_map *)state->ObjCMethod_cache;
 }
 
 ObjCMethodObject *
@@ -145,18 +145,18 @@ ObjCMethod_cache_del(PyObject *module, Method method)
     cache->erase(method);
 }
 
-/// Cache ObjCSelector
-
-void *
-ObjCSelector_cache_alloc(void)
+void
+ObjCSelector_cache_init(PyObject *module)
 {
-    return new (std::nothrow) cache_map();
+    objctypes_state *state = (objctypes_state *)PyModule_GetState(module);
+    state->ObjCSelector_cache = new (std::nothrow) cache_map();
 }
 
 void
-ObjCSelector_cache_dealloc(void *cache)
+ObjCSelector_cache_deinit(PyObject *module)
 {
-    delete (cache_map *)cache;
+    objctypes_state *state = (objctypes_state *)PyModule_GetState(module);
+    delete (cache_map *)state->ObjCSelector_cache;
 }
 
 ObjCSelectorObject *

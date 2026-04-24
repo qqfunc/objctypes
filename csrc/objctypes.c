@@ -33,7 +33,7 @@ objctypes_module_exec(PyObject *module)
         return -1;
     }
 
-    state->ObjCSelector_cache = ObjCSelector_cache_alloc();
+    ObjCSelector_cache_init(module);
     if (state->ObjCSelector_cache == NULL) {
         return -1;
     }
@@ -46,7 +46,7 @@ objctypes_module_exec(PyObject *module)
         return -1;
     }
 
-    state->ObjCClass_cache = ObjCClass_cache_alloc();
+    ObjCClass_cache_init(module);
     if (state->ObjCClass_cache == NULL) {
         return -1;
     }
@@ -59,7 +59,7 @@ objctypes_module_exec(PyObject *module)
         return -1;
     }
 
-    state->ObjCObject_cache = ObjCObject_cache_alloc();
+    ObjCObject_cache_init(module);
     if (state->ObjCObject_cache == NULL) {
         return -1;
     }
@@ -72,7 +72,7 @@ objctypes_module_exec(PyObject *module)
         return -1;
     }
 
-    state->ObjCMethod_cache = ObjCMethod_cache_alloc();
+    ObjCMethod_cache_init(module);
     if (state->ObjCMethod_cache == NULL) {
         return -1;
     }
@@ -151,15 +151,10 @@ objctypes_module_clear(PyObject *module)
 static void
 objctypes_module_free(void *module)
 {
-    objctypes_state *state = (objctypes_state *)PyModule_GetState(module);
-
-    ObjCClass_cache_dealloc(state->ObjCClass_cache);
-
-    ObjCMethod_cache_dealloc(state->ObjCMethod_cache);
-
-    ObjCObject_cache_dealloc(state->ObjCObject_cache);
-
-    ObjCSelector_cache_dealloc(state->ObjCSelector_cache);
+    ObjCClass_cache_deinit(module);
+    ObjCMethod_cache_deinit(module);
+    ObjCObject_cache_deinit(module);
+    ObjCSelector_cache_deinit(module);
 
     objctypes_module.m_clear(module);
 }
