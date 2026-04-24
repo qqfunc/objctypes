@@ -10,14 +10,14 @@
 #include "objctypes.h"
 #include "objctypes_module.h"
 
-/// Destruct an ObjCBool.
+/// @brief Destruct an ObjCBool.
 static void
 ObjCBool_dealloc(ObjCBoolObject *self)
 {
     Py_TYPE(self)->tp_free((PyObject *)self);
 }
 
-/// ObjCBool.__repr__()
+/// @brief `ObjCBool.__repr__()`
 static PyObject *
 ObjCBool_repr(ObjCBoolObject *self)
 {
@@ -25,14 +25,14 @@ ObjCBool_repr(ObjCBoolObject *self)
                                 self->value ? "True" : "False");
 }
 
-/// ObjCBool.__str__()
+/// @brief `ObjCBool.__str__()`
 static PyObject *
 ObjCBool_str(ObjCBoolObject *self)
 {
     return PyUnicode_FromString(self->value ? "YES" : "NO");
 }
 
-/// Get an ObjCBool from a Python type and an long.
+/// @brief Get an ObjCBool from a Python type and an long.
 static ObjCBoolObject *
 _ObjCBool_FromLong(PyTypeObject *type, long v)
 {
@@ -64,7 +64,7 @@ _ObjCBool_FromLong(PyTypeObject *type, long v)
     return (ObjCBoolObject *)Py_NewRef(state->ObjCBool_NO);
 }
 
-/// ObjCBool.__new__()
+/// @brief `ObjCBool.__new__()`
 static PyObject *
 ObjCBool_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
 {
@@ -78,14 +78,14 @@ ObjCBool_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
     return (PyObject *)_ObjCBool_FromLong(type, v);
 }
 
-/// ObjCBool.__bool__()
+/// @brief `ObjCBool.__bool__()`
 static int
 ObjCBool_bool(ObjCBoolObject *self)
 {
     return self->value ? 1 : 0;
 }
 
-/// ObjCBool.__invert__()
+/// @brief `ObjCBool.__invert__()`
 static PyObject *
 ObjCBool_invert(ObjCBoolObject *self)
 {
@@ -97,14 +97,14 @@ ObjCBool_invert(ObjCBoolObject *self)
     return (PyObject *)ObjCBool_FromLong(module, !(self->value));
 }
 
-/// ObjCBool.__int__()
+/// @brief `ObjCBool.__int__()`
 static PyObject *
 ObjCBool_int(ObjCBoolObject *self)
 {
     return PyLong_FromLong(self->value ? 1 : 0);
 }
 
-/// ObjCBool.__float__()
+/// @brief `ObjCBool.__float__()`
 static PyObject *
 ObjCBool_float(ObjCBoolObject *self)
 {

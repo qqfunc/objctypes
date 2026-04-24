@@ -11,7 +11,7 @@
 #include "objctypes_cache.h"
 #include "objctypes_module.h"
 
-/// Destruct an ObjCClass.
+/// @brief Destruct an ObjCClass.
 static void
 ObjCClass_dealloc(PyObject *self)
 {
@@ -29,7 +29,7 @@ ObjCClass_dealloc(PyObject *self)
     Py_TYPE(self)->tp_free((PyObject *)self);
 }
 
-/// ObjCClass.__repr__()
+/// @brief `ObjCClass.__repr__()`
 static PyObject *
 ObjCClass_repr(PyObject *self)
 {
@@ -49,7 +49,7 @@ ObjCClass_repr(PyObject *self)
                                 class_getName(cls_state->value));
 }
 
-/// ObjCClass.address
+/// @brief `ObjCClass.address`
 static PyObject *
 ObjCClass_address(PyObject *self, void *Py_UNUSED(closure))
 {
@@ -65,7 +65,7 @@ ObjCClass_address(PyObject *self, void *Py_UNUSED(closure))
     return PyLong_FromVoidPtr(cls_state->value);
 }
 
-/// ObjCClass.name
+/// @brief `ObjCClass.name`
 static PyObject *
 ObjCClass_name(PyObject *self, PyObject *Py_UNUSED(closure))
 {
@@ -84,7 +84,7 @@ ObjCClass_name(PyObject *self, PyObject *Py_UNUSED(closure))
     return PyUnicode_FromString(class_getName(cls_state->value));
 }
 
-/// ObjCClass.load_methods
+/// @brief `ObjCClass.load_methods`
 static PyObject *
 ObjCClass_load_methods(PyObject *self, PyObject *Py_UNUSED(args))
 {
@@ -107,7 +107,7 @@ ObjCClass_load_methods(PyObject *self, PyObject *Py_UNUSED(args))
     return Py_None;
 }
 
-/// Get an ObjCClass from a Python type and an Objective-C Class.
+/// @brief Get an ObjCClass from a Python type and an Objective-C Class.
 static PyObject *
 _ObjCClass_FromClass(PyTypeObject *type, Class cls, int lock_cache)
 {
@@ -166,7 +166,7 @@ _ObjCClass_FromClass(PyTypeObject *type, Class cls, int lock_cache)
     return self;
 }
 
-/// ObjCClass.__init__()
+/// @brief `ObjCClass.__init__()`
 static int
 ObjCClass_init(PyObject *self, PyObject *args, PyObject *kwds)
 {
@@ -189,7 +189,7 @@ ObjCClass_init(PyObject *self, PyObject *args, PyObject *kwds)
     return 0;
 }
 
-/// ObjCClass.from_address()
+/// @brief `ObjCClass.from_address()`
 static PyObject *
 ObjCClass_from_address(PyTypeObject *type, PyObject *address)
 {
@@ -230,7 +230,7 @@ ObjCClass_from_address(PyTypeObject *type, PyObject *address)
     return (PyObject *)_ObjCClass_FromClass(type, cls, 1);
 }
 
-/// ObjCClass.from_name()
+/// @brief `ObjCClass.from_name()`
 static PyObject *
 ObjCClass_from_name(PyTypeObject *type, PyObject *name)
 {

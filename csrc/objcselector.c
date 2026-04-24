@@ -11,7 +11,7 @@
 #include "objctypes_cache.h"
 #include "objctypes_module.h"
 
-/// Destruct an ObjCSelector.
+/// @brief Destruct an ObjCSelector.
 static void
 ObjCSelector_dealloc(ObjCSelectorObject *self)
 {
@@ -25,7 +25,7 @@ ObjCSelector_dealloc(ObjCSelectorObject *self)
     Py_TYPE(self)->tp_free((PyObject *)self);
 }
 
-/// ObjCSelector.__repr__()
+/// @brief `ObjCSelector.__repr__()`
 static PyObject *
 ObjCSelector_repr(ObjCSelectorObject *self)
 {
@@ -33,35 +33,35 @@ ObjCSelector_repr(ObjCSelectorObject *self)
                                 sel_getName(self->value));
 }
 
-/// ObjCSelector.__str__()
+/// @brief `ObjCSelector.__str__()`
 static PyObject *
 ObjCSelector_str(ObjCSelectorObject *self)
 {
     return PyUnicode_FromString(sel_getName(self->value));
 }
 
-/// ObjCSelector.address
+/// @brief `ObjCSelector.address`
 static PyObject *
 ObjCSelector_address(ObjCSelectorObject *self, void *Py_UNUSED(closure))
 {
     return PyLong_FromVoidPtr(self->value);
 }
 
-/// ObjCSelector.name
+/// @brief `ObjCSelector.name`
 static PyObject *
 ObjCSelector_name(ObjCSelectorObject *self, void *Py_UNUSED(closure))
 {
     return PyUnicode_FromString(sel_getName(self->value));
 }
 
-/// ObjCSelector.is_mapped
+/// @brief `ObjCSelector.is_mapped`
 static PyObject *
 ObjCSelector_is_mapped(ObjCSelectorObject *self, void *Py_UNUSED(closure))
 {
     return sel_isMapped(self->value) ? Py_True : Py_False;
 }
 
-/// Get an ObjCSelector from a Python type and an Objective-C SEL.
+/// @brief Get an ObjCSelector from a Python type and an Objective-C SEL.
 static ObjCSelectorObject *
 _ObjCSelector_FromSEL(PyTypeObject *type, SEL sel)
 {
@@ -89,7 +89,7 @@ _ObjCSelector_FromSEL(PyTypeObject *type, SEL sel)
     return self;
 }
 
-/// ObjCSelector.from_address()
+/// @brief `ObjCSelector.from_address()`
 static PyObject *
 ObjCSelector_from_address(PyTypeObject *type, PyObject *address)
 {
@@ -104,7 +104,7 @@ ObjCSelector_from_address(PyTypeObject *type, PyObject *address)
     return (PyObject *)_ObjCSelector_FromSEL(type, PyLong_AsVoidPtr(address));
 }
 
-/// ObjCSelector.__new__()
+/// @brief `ObjCSelector.__new__()`
 static PyObject *
 ObjCSelector_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
 {
