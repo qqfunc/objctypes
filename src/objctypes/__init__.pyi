@@ -2,7 +2,47 @@ from types import GenericAlias
 from typing import Any, Self, final
 
 # @final  # NOTE: final?
-class ObjCClass(type):  # NOTE: type?
+class ObjCMetaclass(type):
+    """A Python wrapper class for an Objective-C metaclass.
+
+    Equivalent to the metaclass of an Objective-C class, which describes
+    the class object itself (e.g. class methods).
+    """
+
+    @classmethod
+    def from_address(cls, address: int, /) -> ObjCMetaclass:
+        """Retrieve an Objective-C metaclass from the specified address.
+
+        :param address: The address of the Objective-C metaclass.
+        :return: The Objective-C metaclass that was retrieved.
+        :raises TypeError: if the address points to a non-metaclass
+            Objective-C object or regular class
+
+        .. warning::
+            Passing an invalid address may cause crashes.
+        """
+
+    @classmethod
+    def from_name(cls, name: str, /) -> ObjCMetaclass:
+        """Retrieve an Objective-C metaclass by class name.
+
+        :param name: The name of the Objective-C class whose metaclass
+            to retrieve.
+        :return: The Objective-C metaclass that was retrieved.
+        :raises NameError: if the specified name does not correspond to
+            any Objective-C class
+        """
+
+    @property
+    def address(cls) -> int:
+        """The address of the Objective-C metaclass."""
+
+    @property
+    def name(cls) -> str:
+        """The name of the Objective-C metaclass."""
+
+# @final  # NOTE: final?
+class ObjCClass(type, metaclass=ObjCMetaclass):  # NOTE: type?
     """A Python wrapper class for an Objective-C class.
 
     Equivalent to

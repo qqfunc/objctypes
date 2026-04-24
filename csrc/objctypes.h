@@ -15,6 +15,10 @@
 PyObject *
 ObjCClass_FromClass(PyObject *module, Class cls);
 
+/// Get an ObjCMetaclass from an Objective-C metaclass.
+PyObject *
+ObjCMetaclass_FromClass(PyObject *module, Class cls);
+
 /// Get an ObjCObject from an Objective-C id.
 PyObject *
 ObjCObject_FromId(PyObject *module, id obj);

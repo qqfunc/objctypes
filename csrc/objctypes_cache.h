@@ -19,6 +19,48 @@ extern "C" {
 #endif
 
 /**
+ * @brief Initialize a cache map for `ObjCMetaclass`.
+ * @param module The Python module object.
+ */
+void
+ObjCMetaclass_cache_init(PyObject *module);
+
+/**
+ * @brief Deinitialize the cache map for `ObjCMetaclass`.
+ * @param module The Python module object.
+ */
+void
+ObjCMetaclass_cache_deinit(PyObject *module);
+
+/**
+ * @brief Get an `ObjCMetaclass` from the cache if it exists, otherwise return
+ * `NULL`.
+ * @param module The Python module object.
+ * @param cls The Objective-C metaclass to look up.
+ * @return A new reference to the cached `ObjCMetaclass` object, or `NULL` if
+ * not found.
+ */
+PyObject *
+ObjCMetaclass_cache_get(PyObject *module, Class cls);
+
+/**
+ * @brief Set an `ObjCMetaclass` in the cache.
+ * @param module The Python module object.
+ * @param cls The Objective-C metaclass to cache.
+ * @param obj The `ObjCMetaclass` to associate with the metaclass.
+ */
+void
+ObjCMetaclass_cache_set(PyObject *module, Class cls, PyObject *obj);
+
+/**
+ * @brief Delete an `ObjCMetaclass` from the cache.
+ * @param module The Python module object.
+ * @param cls The Objective-C metaclass to delete from the cache.
+ */
+void
+ObjCMetaclass_cache_del(PyObject *module, Class cls);
+
+/**
  * @brief Initialize a cache map for `ObjCClass`.
  * @param module The Python module object.
  */

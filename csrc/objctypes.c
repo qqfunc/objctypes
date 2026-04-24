@@ -9,6 +9,7 @@
 
 #include "objcbool.h"
 #include "objcclass.h"
+#include "objcmetaclass.h"
 #include "objcmethod.h"
 #include "objcobject.h"
 #include "objcselector.h"
@@ -40,8 +41,22 @@ objctypes_module_exec(PyObject *module)
 
     state->ObjCSelector_cache_mutex = (PyMutex){0};
 
-    state->ObjCClass_Type = (PyTypeObject *)PyType_FromModuleAndSpec(
-        module, &ObjCClass_spec, (PyObject *)&PyType_Type);
+    state->ObjCMetaclass_Type = (PyTypeObject *)PyType_FromModuleAndSpec(
+        module, &ObjCMetaclass_spec, (PyObject *)&PyType_Type);
+    if (state->ObjCMetaclass_Type == NULL) {
+        return -1;
+    }
+
+    ObjCMetaclass_cache_init(module);
+    if (state->ObjCMetaclass_cache == NULL) {
+        return -1;
+    }
+
+    state->ObjCMetaclass_cache_mutex = (PyMutex){0};
+
+    state->ObjCClass_Type = (PyTypeObject *)PyType_FromMetaclass(
+        state->ObjCMetaclass_Type, module, &ObjCClass_spec,
+        (PyObject *)&PyType_Type);
     if (state->ObjCClass_Type == NULL) {
         return -1;
     }
@@ -81,6 +96,12 @@ objctypes_module_exec(PyObject *module)
 
     // Add ObjCObject
     if (PyModule_AddType(module, (PyTypeObject *)state->ObjCObject_Type) < 0) {
+        return -1;
+    }
+
+    // Add ObjCMetaclass
+    if (PyModule_AddType(module, (PyTypeObject *)state->ObjCMetaclass_Type)
+        < 0) {
         return -1;
     }
 
@@ -128,6 +149,7 @@ objctypes_module_traverse(PyObject *module, visitproc visit, void *arg)
     Py_VISIT(state->ObjCBool_YES);
     Py_VISIT(state->ObjCBool_NO);
     Py_VISIT(state->ObjCClass_Type);
+    Py_VISIT(state->ObjCMetaclass_Type);
     Py_VISIT(state->ObjCMethod_Type);
     Py_VISIT(state->ObjCObject_Type);
     Py_VISIT(state->ObjCSelector_Type);
@@ -142,6 +164,7 @@ objctypes_module_clear(PyObject *module)
     Py_CLEAR(state->ObjCBool_YES);
     Py_CLEAR(state->ObjCBool_NO);
     Py_CLEAR(state->ObjCClass_Type);
+    Py_CLEAR(state->ObjCMetaclass_Type);
     Py_CLEAR(state->ObjCMethod_Type);
     Py_CLEAR(state->ObjCObject_Type);
     Py_CLEAR(state->ObjCSelector_Type);
@@ -152,6 +175,7 @@ static void
 objctypes_module_free(void *module)
 {
     ObjCClass_cache_deinit(module);
+    ObjCMetaclass_cache_deinit(module);
     ObjCMethod_cache_deinit(module);
     ObjCObject_cache_deinit(module);
     ObjCSelector_cache_deinit(module);
