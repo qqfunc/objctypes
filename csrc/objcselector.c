@@ -102,11 +102,9 @@ ObjCSelector_from_address(PyTypeObject *type, PyObject *address)
     }
 
     SEL sel = PyLong_AsVoidPtr(address);
-    if (!sel_isMapped(sel)) {
-        PyErr_Format(
-            PyExc_TypeError,
-            "The specified address %p is not a valid Objective-C selector",
-            sel);
+    if (sel == NULL) {
+        PyErr_Format(PyExc_TypeError,
+                     "The specified address is a null selector", sel);
         return NULL;
     }
 

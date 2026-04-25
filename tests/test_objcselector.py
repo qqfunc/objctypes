@@ -60,10 +60,7 @@ def test_objcselector_from_address() -> None:
     with pytest.raises(TypeError) as excinfo:
         ObjCSelector.from_address(0)
 
-    assert (
-        str(excinfo.value)
-        == "The specified address 0x0 is not a valid Objective-C selector"
-    )
+    assert str(excinfo.value) == "The specified address is a null selector"
 
 
 def test_objcselector_from_address_wrong_arg() -> None:
