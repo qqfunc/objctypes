@@ -110,19 +110,37 @@ _ObjCMetaClass_FromClass(PyTypeObject *type, Class cls, int lock_cache)
     }
 
     PyObject *self = ObjCMetaClass_cache_get(module, cls);
-
     if (self == NULL) {
-        PyObject *args =
-            Py_BuildValue("(s(O){})", class_getName(cls), &PyBaseObject_Type);
+        PyObject *base;
+
+        // Determine the Python base class of the ObjCMetaClass
+        Class super_cls = class_getSuperclass(cls);
+        if (super_cls == NULL) {
+            // The class is a root class
+            base = (PyObject *)state->ObjCClass_Type;
+        }
+        else {
+            // Retrieve the superclass of the Objective-C class
+            base = _ObjCMetaClass_FromClass(type, super_cls, 0);
+            if (base == NULL) {
+                if (lock_cache) {
+                    PyMutex_Unlock(&state->ObjCMetaClass_cache_mutex);
+                }
+                return NULL;
+            }
+        }
+
+        PyObject *args = Py_BuildValue("(s(O){})", class_getName(cls), base);
+        Py_DECREF(base);
         PyObject *kwds = PyDict_New();
         self = PyType_Type.tp_new(type, args, kwds);
         Py_XDECREF(args);
         Py_XDECREF(kwds);
 
         if (self != NULL) {
-            ObjCMetaClassData *cls_state =
+            ObjCMetaClassData *data =
                 PyObject_GetTypeData(self, state->ObjCMetaClass_Type);
-            cls_state->value = cls;
+            data->value = cls;
             ObjCMetaClass_cache_set(module, cls, self);
         }
     }

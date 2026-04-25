@@ -156,6 +156,7 @@ _ObjCClass_FromClass(PyTypeObject *type, Class cls, int lock_cache)
 
         // Create a new ObjCClass object
         PyObject *args = Py_BuildValue("(s(O){})", class_getName(cls), base);
+        Py_DECREF(base);
         PyObject *kwds = PyDict_New();
         self = PyType_Type.tp_new(type, args, kwds);
         Py_XDECREF(args);
@@ -319,7 +320,8 @@ PyType_Spec ObjCClass_spec = {
     .name = "objctypes.ObjCClass",
     .basicsize = -(long)sizeof(ObjCClassData),
     .itemsize = 0,
-    .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_TYPE_SUBCLASS,
+    .flags =
+        Py_TPFLAGS_BASETYPE | Py_TPFLAGS_DEFAULT | Py_TPFLAGS_TYPE_SUBCLASS,
     .slots = ObjCClass_slots,
 };
 

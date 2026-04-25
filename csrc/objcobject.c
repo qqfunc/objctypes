@@ -199,7 +199,7 @@ PyType_Spec ObjCObject_spec = {
     .name = "objctypes.ObjCObject",
     .basicsize = -(long)sizeof(ObjCObjectData),
     .itemsize = 0,
-    .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
+    .flags = Py_TPFLAGS_BASETYPE | Py_TPFLAGS_DEFAULT,
     .slots = ObjCObject_slots,
 };
 
