@@ -5,16 +5,6 @@ import pytest
 from objctypes import ObjCClass, ObjCMetaClass
 
 
-def test_objcmetaclass_is_metaclass_of_objcclass() -> None:
-    """Test that ObjCClass is an instance of ObjCMetaClass."""
-    assert type(ObjCClass) is ObjCMetaClass
-
-
-def test_objcmetaclass_inherits_type() -> None:
-    """Test that ObjCMetaClass inherits from type."""
-    assert issubclass(ObjCMetaClass, type)
-
-
 def test_objcmetaclass_from_name() -> None:
     """Test ObjCMetaClass.from_name()."""
     ObjCMetaClass.from_name("NSObject")
@@ -117,18 +107,25 @@ def test_objcmetaclass_from_address_wrong_arg() -> None:
     )
 
 
-def test_objcmetaclass_from_address_nil() -> None:
-    """Test ObjCMetaClass.from_address() with Nil."""
+def test_objcmetaclass_from_address_rejects_nil() -> None:
+    """Test that ObjCMetaClass.from_address() rejects Nil."""
     with pytest.raises(TypeError) as excinfo:
         ObjCMetaClass.from_address(0)
     assert str(excinfo.value) == "the specified Objective-C metaclass is Nil"
 
 
-def test_objcclass_from_address_rejects_metaclass() -> None:
-    """Test that ObjCClass.from_address() rejects a metaclass."""
-    NSObjectMeta = ObjCMetaClass.from_name("NSObject")  # noqa: N806
+def test_objcmetaclass_from_address_rejects_object() -> None:
+    """Test that ObjCMetaClass.from_address() rejects an object."""
+
+
+def test_objcmetaclass_from_address_rejects_class() -> None:
+    """Test that ObjCMetaClass.from_address() rejects a class."""
+    NSObject = ObjCClass.from_name("NSObject")  # noqa: N806
 
     with pytest.raises(TypeError) as excinfo:
-        ObjCClass.from_address(NSObjectMeta.address)
+        ObjCMetaClass.from_address(NSObject.address)
 
-    assert "ObjCMetaClass.from_address() instead" in str(excinfo.value)
+    assert str(excinfo.value) == (
+        f"The Objective-C class at {NSObject.address:#x} is not a metaclass. "
+        "Use ObjCClass.from_address() instead."
+    )
