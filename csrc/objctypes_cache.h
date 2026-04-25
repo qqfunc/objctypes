@@ -204,17 +204,6 @@ ObjCSelector_cache_deinit(PyObject *module);
  * @return A new reference to the cached `ObjCSelector` object, or `NULL` if
  * not found.
  */
-void
-ObjCSelector_cache_deinit(PyObject *module);
-
-/**
- * @brief Get an `ObjCSelector` from the cache if it exists, otherwise return
- * `NULL`.
- * @param module The Python module object.
- * @param sel The Objective-C selector to look up.
- * @return A new reference to the cached `ObjCSelector` object, or `NULL` if
- * not found.
- */
 PyObject *
 ObjCSelector_cache_get(PyObject *module, SEL sel);
 
