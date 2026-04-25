@@ -151,8 +151,8 @@ ObjCSelector_from_address(PyTypeObject *type, PyObject *address)
 
     SEL sel = PyLong_AsVoidPtr(address);
     if (sel == NULL) {
-        PyErr_Format(PyExc_TypeError,
-                     "The specified address is a null selector", sel);
+        PyErr_SetString(PyExc_TypeError,
+                        "The specified address is a null selector");
         return NULL;
     }
 
