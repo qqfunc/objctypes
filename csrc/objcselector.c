@@ -104,25 +104,6 @@ ObjCSelector_name(PyObject *self, void *Py_UNUSED(closure))
     return PyUnicode_FromString(sel_getName(data->value));
 }
 
-/// @brief `ObjCSelector.is_mapped`
-static PyObject *
-ObjCSelector_is_mapped(PyObject *self, void *Py_UNUSED(closure))
-{
-    // Get the type data of the ObjCSelector object
-    PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
-    if (module == NULL) {
-        return NULL;
-    }
-    objctypes_state *state = PyModule_GetState(module);
-    ObjCSelectorData *data =
-        PyObject_GetTypeData(self, state->ObjCSelector_Type);
-    if (data == NULL) {
-        return NULL;
-    }
-
-    return sel_isMapped(data->value) ? Py_True : Py_False;
-}
-
 /// @brief Get an ObjCSelector from a Python type and an Objective-C SEL.
 static PyObject *
 _ObjCSelector_FromSEL(PyTypeObject *type, SEL sel)
@@ -218,13 +199,6 @@ static PyGetSetDef ObjCSelector_getset[] = {
         ObjCSelector_name,
         NULL,
         PyDoc_STR("The name of the Objective-C selector."),
-        NULL,
-    },
-    {
-        "is_mapped",
-        ObjCSelector_is_mapped,
-        NULL,
-        PyDoc_STR("Whether the Objective-C selector is mapped."),
         NULL,
     },
     {.name = NULL},
