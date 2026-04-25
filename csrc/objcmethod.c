@@ -5,76 +5,130 @@
 
 #include <Python.h>
 
-#include "objcmethod.h"
-
 #include "objctypes.h"
 #include "objctypes_cache.h"
 #include "objctypes_module.h"
 
 /// @brief Destruct an ObjCMethod.
 static void
-ObjCMethod_dealloc(ObjCMethodObject *self)
+ObjCMethod_dealloc(PyObject *self)
 {
     PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
     if (module != NULL) {
         objctypes_state *state = PyModule_GetState(module);
-        PyMutex_Lock(&state->ObjCMethod_cache_mutex);
-        ObjCMethod_cache_del(module, self->value);
-        PyMutex_Unlock(&state->ObjCMethod_cache_mutex);
+        ObjCMethodData *data =
+            PyObject_GetTypeData(self, state->ObjCMethod_Type);
+        if (data != NULL) {
+            PyMutex_Lock(&state->ObjCMethod_cache_mutex);
+            ObjCMethod_cache_del(module, data->value);
+            PyMutex_Unlock(&state->ObjCMethod_cache_mutex);
+        }
     }
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free(self);
 }
 
 /// @brief `ObjCMethod.__repr__()`
 static PyObject *
-ObjCMethod_repr(ObjCMethodObject *self)
+ObjCMethod_repr(PyObject *self)
 {
+    // Get the type data of the ObjCMethod object
+    PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
+    if (module == NULL) {
+        return NULL;
+    }
+    objctypes_state *state = PyModule_GetState(module);
+    ObjCMethodData *data = PyObject_GetTypeData(self, state->ObjCMethod_Type);
+    if (data == NULL) {
+        return NULL;
+    }
+
     return PyUnicode_FromFormat("<ObjCMethod %s at %p>",
-                                sel_getName(method_getName(self->value)),
-                                self->value);
+                                sel_getName(method_getName(data->value)),
+                                data->value);
 }
 
 /// @brief `ObjCMethod.__str__()`
 static PyObject *
-ObjCMethod_str(ObjCMethodObject *self)
+ObjCMethod_str(PyObject *self)
 {
-    return PyUnicode_FromString(sel_getName(method_getName(self->value)));
+    // Get the type data of the ObjCMethod object
+    PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
+    if (module == NULL) {
+        return NULL;
+    }
+    objctypes_state *state = PyModule_GetState(module);
+    ObjCMethodData *data = PyObject_GetTypeData(self, state->ObjCMethod_Type);
+    if (data == NULL) {
+        return NULL;
+    }
+
+    return PyUnicode_FromString(sel_getName(method_getName(data->value)));
 }
 
 /// @brief `ObjCMethod.name`
 static PyObject *
-ObjCMethod_name(ObjCMethodObject *self, void *Py_UNUSED(closure))
+ObjCMethod_name(PyObject *self, void *Py_UNUSED(closure))
 {
-    return PyUnicode_FromString(sel_getName(method_getName(self->value)));
+    // Get the type data of the ObjCMethod object
+    PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
+    if (module == NULL) {
+        return NULL;
+    }
+    objctypes_state *state = PyModule_GetState(module);
+    ObjCMethodData *data = PyObject_GetTypeData(self, state->ObjCMethod_Type);
+    if (data == NULL) {
+        return NULL;
+    }
+
+    return PyUnicode_FromString(sel_getName(method_getName(data->value)));
 }
 
 /// @brief `ObjCMethod.address`
 static PyObject *
-ObjCMethod_address(ObjCMethodObject *self, void *Py_UNUSED(closure))
+ObjCMethod_address(PyObject *self, void *Py_UNUSED(closure))
 {
-    return PyLong_FromVoidPtr(self->value);
+    // Get the type data of the ObjCMethod object
+    PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
+    if (module == NULL) {
+        return NULL;
+    }
+    objctypes_state *state = PyModule_GetState(module);
+    ObjCMethodData *data = PyObject_GetTypeData(self, state->ObjCMethod_Type);
+    if (data == NULL) {
+        return NULL;
+    }
+
+    return PyLong_FromVoidPtr(data->value);
 }
 
 /// @brief Get an ObjCMethod from a Python type and an Objective-C Method.
-static ObjCMethodObject *
+static PyObject *
 _ObjCMethod_FromMethod(PyTypeObject *type, Method method)
 {
+    // Get the module state
     PyObject *module = PyType_GetModuleByDef(type, &objctypes_module);
     if (module == NULL) {
         return NULL;
     }
-
     objctypes_state *state = PyModule_GetState(module);
 
     PyMutex_Lock(&state->ObjCMethod_cache_mutex);
 
-    ObjCMethodObject *self = ObjCMethod_cache_get(module, method);
+    PyObject *self = ObjCMethod_cache_get(module, method);
 
     if (self == NULL) {
-        self = (ObjCMethodObject *)type->tp_alloc(type, 0);
+        self = type->tp_alloc(type, 0);
         if (self != NULL) {
-            self->value = method;
-            ObjCMethod_cache_set(module, method, self);
+            ObjCMethodData *data =
+                PyObject_GetTypeData(self, state->ObjCMethod_Type);
+            if (data == NULL) {
+                Py_DECREF(self);
+                self = NULL;
+            }
+            else {
+                data->value = method;
+                ObjCMethod_cache_set(module, method, self);
+            }
         }
     }
 
@@ -95,7 +149,7 @@ ObjCMethod_from_address(PyTypeObject *type, PyObject *address)
         return NULL;
     }
 
-    return (PyObject *)_ObjCMethod_FromMethod(type, PyLong_AsVoidPtr(address));
+    return _ObjCMethod_FromMethod(type, PyLong_AsVoidPtr(address));
 }
 
 /// @brief `ObjCMethod.__new__()`
@@ -120,14 +174,14 @@ static PyMethodDef ObjCMethod_methods[] = {
 static PyGetSetDef ObjCMethod_getset[] = {
     {
         "address",
-        (getter)ObjCMethod_address,
+        ObjCMethod_address,
         NULL,
         PyDoc_STR("The address of the Objective-C method."),
         NULL,
     },
     {
         "name",
-        (getter)ObjCMethod_name,
+        ObjCMethod_name,
         NULL,
         PyDoc_STR("The name of the Objective-C method."),
         NULL,
@@ -148,7 +202,7 @@ static PyType_Slot ObjCMethod_slots[] = {
 
 PyType_Spec ObjCMethod_spec = {
     .name = "objctypes.ObjCMethod",
-    .basicsize = sizeof(ObjCMethodObject),
+    .basicsize = -(long)sizeof(ObjCMethodData),
     .itemsize = 0,
     .flags = Py_TPFLAGS_DEFAULT,
     .slots = ObjCMethod_slots,
@@ -157,11 +211,12 @@ PyType_Spec ObjCMethod_spec = {
 PyObject *
 ObjCMethod_FromMethod(PyObject *module, Method method)
 {
+    // Get the module state
     objctypes_state *state = PyModule_GetState(module);
     if (state->ObjCMethod_Type == NULL) {
         return NULL;
     }
 
-    return (PyObject *)_ObjCMethod_FromMethod(
-        (PyTypeObject *)state->ObjCMethod_Type, method);
+    return _ObjCMethod_FromMethod((PyTypeObject *)state->ObjCMethod_Type,
+                                  method);
 }

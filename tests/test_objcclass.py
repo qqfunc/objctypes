@@ -70,6 +70,11 @@ def test_objcclass_repr() -> None:
     assert repr(NSNumber) == "<ObjCClass 'NSNumber'>"
 
 
+def test_objcclass_repr_objcobject_class() -> None:
+    """Test ObjCClass.__repr__() for the ObjCObject class."""
+    assert repr(ObjCObject) == "<class 'objctypes.ObjCObject'>"
+
+
 def test_objcclass_from_address() -> None:
     """Test ObjCClass.from_address()."""
     NSObject = ObjCClass.from_name("NSObject")  # noqa: N806
@@ -118,6 +123,16 @@ def test_objcclass_from_address_rejects_metaclass() -> None:
     )
 
 
+def test_objcclass_from_address_objcobject_class() -> None:
+    """Test ObjCClass.from_address() for the ObjCObject class."""
+    with pytest.raises(TypeError) as excinfo:
+        ObjCClass.from_address(ObjCObject.address)
+
+    assert (
+        str(excinfo.value) == "ObjCObject is not an actual Objective-C class"
+    )
+
+
 def test_objcclass_address() -> None:
     """Test ObjCClass.address."""
     NSObject = ObjCClass.from_name("NSObject")  # noqa: N806
@@ -133,6 +148,15 @@ def test_objcclass_address() -> None:
     assert NSNumber.address != NSObject.address
 
 
+def test_objcclass_address_objcobject_class() -> None:
+    """Test ObjCClass.address for the ObjCObject class."""
+    with pytest.raises(TypeError) as excinfo:
+        _ = ObjCObject.address
+    assert (
+        str(excinfo.value) == "ObjCObject is not an actual Objective-C class"
+    )
+
+
 def test_objcclass_name() -> None:
     """Test ObjCClass.name."""
     NSObject = ObjCClass.from_name("NSObject")  # noqa: N806
@@ -142,3 +166,12 @@ def test_objcclass_name() -> None:
     assert NSObject.name == "NSObject"
     assert NSString.name == "NSString"
     assert NSNumber.name == "NSNumber"
+
+
+def test_objcclass_name_objcobject_class() -> None:
+    """Test ObjCClass.name for the ObjCObject class."""
+    with pytest.raises(TypeError) as excinfo:
+        _ = ObjCObject.name
+    assert (
+        str(excinfo.value) == "ObjCObject is not an actual Objective-C class"
+    )

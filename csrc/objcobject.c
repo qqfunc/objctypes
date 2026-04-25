@@ -5,61 +5,91 @@
 
 #include <Python.h>
 
-#include "objcobject.h"
-
 #include "objctypes.h"
 #include "objctypes_cache.h"
 #include "objctypes_module.h"
 
 /// @brief Destruct an ObjCObject.
 static void
-ObjCObject_dealloc(ObjCObjectObject *self)
+ObjCObject_dealloc(PyObject *self)
 {
     PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
     if (module != NULL) {
         objctypes_state *state = PyModule_GetState(module);
-        PyMutex_Lock(&state->ObjCObject_cache_mutex);
-        ObjCObject_cache_del(module, self->value);
-        PyMutex_Unlock(&state->ObjCObject_cache_mutex);
+        ObjCObjectData *data =
+            PyObject_GetTypeData(self, state->ObjCObject_Type);
+        if (data != NULL) {
+            PyMutex_Lock(&state->ObjCObject_cache_mutex);
+            ObjCObject_cache_del(module, data->value);
+            PyMutex_Unlock(&state->ObjCObject_cache_mutex);
+        }
     }
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free(self);
 }
 
 /// @brief `ObjCObject.__repr__()`
 static PyObject *
-ObjCObject_repr(ObjCObjectObject *self)
+ObjCObject_repr(PyObject *self)
 {
+    // Get the type data of the ObjCObject object
+    PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
+    if (module == NULL) {
+        return NULL;
+    }
+    objctypes_state *state = PyModule_GetState(module);
+    ObjCObjectData *data = PyObject_GetTypeData(self, state->ObjCObject_Type);
+    if (data == NULL) {
+        return NULL;
+    }
+
     return PyUnicode_FromFormat("<ObjCObject %s at %p>",
-                                object_getClassName(self->value), self->value);
+                                object_getClassName(data->value), data->value);
 }
 
 /// @brief `ObjCObject.address`
 static PyObject *
-ObjCObject_address(ObjCObjectObject *self, void *Py_UNUSED(closure))
+ObjCObject_address(PyObject *self, void *Py_UNUSED(closure))
 {
-    return PyLong_FromVoidPtr(self->value);
+    PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
+    if (module == NULL) {
+        return NULL;
+    }
+    objctypes_state *state = PyModule_GetState(module);
+    ObjCObjectData *data = PyObject_GetTypeData(self, state->ObjCObject_Type);
+    if (data == NULL) {
+        return NULL;
+    }
+
+    return PyLong_FromVoidPtr(data->value);
 }
 
 /// @brief Get an ObjCObject from a Python type and an Objective-C id.
-static ObjCObjectObject *
+static PyObject *
 _ObjCObject_FromId(PyTypeObject *type, id obj)
 {
+    // Get the module state
     PyObject *module = PyType_GetModuleByDef(type, &objctypes_module);
     if (module == NULL) {
         return NULL;
     }
-
     objctypes_state *state = PyModule_GetState(module);
 
     PyMutex_Lock(&state->ObjCObject_cache_mutex);
 
-    ObjCObjectObject *self = ObjCObject_cache_get(module, obj);
-
+    PyObject *self = ObjCObject_cache_get(module, obj);
     if (self == NULL) {
-        self = (ObjCObjectObject *)type->tp_alloc(type, 0);
+        self = type->tp_alloc(type, 0);
         if (self != NULL) {
-            self->value = obj;
-            ObjCObject_cache_set(module, obj, self);
+            ObjCObjectData *data =
+                PyObject_GetTypeData(self, state->ObjCObject_Type);
+            if (data == NULL) {
+                Py_DECREF(self);
+                self = NULL;
+            }
+            else {
+                data->value = obj;
+                ObjCObject_cache_set(module, obj, self);
+            }
         }
     }
 
@@ -97,16 +127,18 @@ ObjCObject_from_address(PyTypeObject *type, PyObject *address)
                          "The Objective-C object at %p is a metaclass. Use "
                          "ObjCMetaClass.from_address() instead.",
                          obj);
+            return NULL;
         }
         else {
             PyErr_Format(PyExc_TypeError,
                          "The Objective-C object at %p is a class. Use "
                          "ObjCClass.from_address() instead.",
                          obj);
+            return NULL;
         }
     }
 
-    return (PyObject *)_ObjCObject_FromId(type, obj);
+    return _ObjCObject_FromId(type, obj);
 }
 
 /// @brief `ObjCObject.__new__()`
@@ -114,11 +146,11 @@ static PyObject *
 ObjCObject_new(PyTypeObject *type, PyObject *Py_UNUSED(args),
                PyObject *Py_UNUSED(kwds))
 {
+    // Get the module state
     PyObject *module = PyType_GetModuleByDef(type, &objctypes_module);
     if (module == NULL) {
         return NULL;
     }
-
     objctypes_state *state = PyModule_GetState(module);
 
     if (type == state->ObjCObject_Type) {
@@ -150,7 +182,7 @@ static PyMethodDef ObjCObject_methods[] = {
 static PyGetSetDef ObjCObject_getset[] = {
     {
         "address",
-        (getter)ObjCObject_address,
+        ObjCObject_address,
         NULL,
         PyDoc_STR("The address of the Objective-C object."),
         NULL,
@@ -170,19 +202,20 @@ static PyType_Slot ObjCObject_slots[] = {
 
 PyType_Spec ObjCObject_spec = {
     .name = "objctypes.ObjCObject",
-    .basicsize = sizeof(ObjCObjectObject),
+    .basicsize = -(long)sizeof(ObjCObjectData),
     .itemsize = 0,
-    .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
+    .flags = Py_TPFLAGS_BASETYPE | Py_TPFLAGS_DEFAULT,
     .slots = ObjCObject_slots,
 };
 
 PyObject *
 ObjCObject_FromId(PyObject *module, id obj)
 {
+    // Get the module state
     objctypes_state *state = PyModule_GetState(module);
     if (state->ObjCObject_Type == NULL) {
         return NULL;
     }
 
-    return (PyObject *)_ObjCObject_FromId(state->ObjCObject_Type, obj);
+    return _ObjCObject_FromId(state->ObjCObject_Type, obj);
 }

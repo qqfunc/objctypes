@@ -8,6 +8,8 @@
 
 #include <Python.h>
 
+#include <objc/runtime.h>
+
 extern PyModuleDef objctypes_module;
 
 typedef struct {
@@ -26,6 +28,23 @@ typedef struct {
      * @warning Do not manipulate this field outside of the `ObjCBool` type.
      */
     PyObject *ObjCBool_NO;
+
+    /// @brief The `ObjCClass` type.
+    PyTypeObject *ObjCClass_Type;
+
+    /**
+     * @brief Cache for `ObjCClass` instances.
+     * @details This is a pointer to a C++ `std::map` that maps Objective-C
+     * class pointers to their corresponding `ObjCClass` Python objects.
+     * @warning Do not manipulate this field outside of the `ObjCClass` type.
+     */
+    void *ObjCClass_cache;
+
+    /**
+     * @brief Mutex for synchronizing access to the `ObjCClass` cache.
+     * @warning Do not manipulate this field outside of the `ObjCClass` type.
+     */
+    PyMutex ObjCClass_cache_mutex;
 
     /// @brief The `ObjCMetaClass` type.
     PyTypeObject *ObjCMetaClass_Type;
@@ -46,23 +65,6 @@ typedef struct {
      * type.
      */
     PyMutex ObjCMetaClass_cache_mutex;
-
-    /// @brief The `ObjCClass` type.
-    PyTypeObject *ObjCClass_Type;
-
-    /**
-     * @brief Cache for `ObjCClass` instances.
-     * @details This is a pointer to a C++ `std::map` that maps Objective-C
-     * class pointers to their corresponding `ObjCClass` Python objects.
-     * @warning Do not manipulate this field outside of the `ObjCClass` type.
-     */
-    void *ObjCClass_cache;
-
-    /**
-     * @brief Mutex for synchronizing access to the `ObjCClass` cache.
-     * @warning Do not manipulate this field outside of the `ObjCClass` type.
-     */
-    PyMutex ObjCClass_cache_mutex;
 
     /// @brief The `ObjCMethod` type.
     PyTypeObject *ObjCMethod_Type;
@@ -118,5 +120,41 @@ typedef struct {
     PyMutex ObjCSelector_cache_mutex;
 
 } objctypes_state;
+
+typedef struct {
+    BOOL value;
+} ObjCBoolData;
+
+extern PyType_Spec ObjCBool_spec;
+
+typedef struct {
+    Class value;
+} ObjCClassData;
+
+extern PyType_Spec ObjCClass_spec;
+
+typedef struct {
+    Class value;
+} ObjCMetaClassData;
+
+extern PyType_Spec ObjCMetaClass_spec;
+
+typedef struct {
+    Method value;
+} ObjCMethodData;
+
+extern PyType_Spec ObjCMethod_spec;
+
+typedef struct {
+    id value;
+} ObjCObjectData;
+
+extern PyType_Spec ObjCObject_spec;
+
+typedef struct {
+    SEL value;
+} ObjCSelectorData;
+
+extern PyType_Spec ObjCSelector_spec;
 
 #endif // OBJCTYPES_MODULE_H

@@ -5,82 +5,151 @@
 
 #include <Python.h>
 
-#include "objcselector.h"
-
 #include "objctypes.h"
 #include "objctypes_cache.h"
 #include "objctypes_module.h"
 
 /// @brief Destruct an ObjCSelector.
 static void
-ObjCSelector_dealloc(ObjCSelectorObject *self)
+ObjCSelector_dealloc(PyObject *self)
 {
     PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
     if (module != NULL) {
         objctypes_state *state = PyModule_GetState(module);
-        PyMutex_Lock(&state->ObjCSelector_cache_mutex);
-        ObjCSelector_cache_del(module, self->value);
-        PyMutex_Unlock(&state->ObjCSelector_cache_mutex);
+        ObjCSelectorData *data =
+            PyObject_GetTypeData(self, state->ObjCSelector_Type);
+        if (data != NULL) {
+            PyMutex_Lock(&state->ObjCSelector_cache_mutex);
+            ObjCSelector_cache_del(module, data->value);
+            PyMutex_Unlock(&state->ObjCSelector_cache_mutex);
+        }
     }
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free(self);
 }
 
 /// @brief `ObjCSelector.__repr__()`
 static PyObject *
-ObjCSelector_repr(ObjCSelectorObject *self)
+ObjCSelector_repr(PyObject *self)
 {
+    // Get the type data of the ObjCSelector object
+    PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
+    if (module == NULL) {
+        return NULL;
+    }
+    objctypes_state *state = PyModule_GetState(module);
+    ObjCSelectorData *data =
+        PyObject_GetTypeData(self, state->ObjCSelector_Type);
+    if (data == NULL) {
+        return NULL;
+    }
+
     return PyUnicode_FromFormat("ObjCSelector('%s')",
-                                sel_getName(self->value));
+                                sel_getName(data->value));
 }
 
 /// @brief `ObjCSelector.__str__()`
 static PyObject *
-ObjCSelector_str(ObjCSelectorObject *self)
+ObjCSelector_str(PyObject *self)
 {
-    return PyUnicode_FromString(sel_getName(self->value));
+    // Get the type data of the ObjCSelector object
+    PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
+    if (module == NULL) {
+        return NULL;
+    }
+    objctypes_state *state = PyModule_GetState(module);
+    ObjCSelectorData *data =
+        PyObject_GetTypeData(self, state->ObjCSelector_Type);
+    if (data == NULL) {
+        return NULL;
+    }
+
+    return PyUnicode_FromString(sel_getName(data->value));
 }
 
 /// @brief `ObjCSelector.address`
 static PyObject *
-ObjCSelector_address(ObjCSelectorObject *self, void *Py_UNUSED(closure))
+ObjCSelector_address(PyObject *self, void *Py_UNUSED(closure))
 {
-    return PyLong_FromVoidPtr(self->value);
+    // Get the type data of the ObjCSelector object
+    PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
+    if (module == NULL) {
+        return NULL;
+    }
+    objctypes_state *state = PyModule_GetState(module);
+    ObjCSelectorData *data =
+        PyObject_GetTypeData(self, state->ObjCSelector_Type);
+    if (data == NULL) {
+        return NULL;
+    }
+
+    return PyLong_FromVoidPtr(data->value);
 }
 
 /// @brief `ObjCSelector.name`
 static PyObject *
-ObjCSelector_name(ObjCSelectorObject *self, void *Py_UNUSED(closure))
+ObjCSelector_name(PyObject *self, void *Py_UNUSED(closure))
 {
-    return PyUnicode_FromString(sel_getName(self->value));
+    // Get the type data of the ObjCSelector object
+    PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
+    if (module == NULL) {
+        return NULL;
+    }
+    objctypes_state *state = PyModule_GetState(module);
+    ObjCSelectorData *data =
+        PyObject_GetTypeData(self, state->ObjCSelector_Type);
+    if (data == NULL) {
+        return NULL;
+    }
+
+    return PyUnicode_FromString(sel_getName(data->value));
 }
 
 /// @brief `ObjCSelector.is_mapped`
 static PyObject *
-ObjCSelector_is_mapped(ObjCSelectorObject *self, void *Py_UNUSED(closure))
+ObjCSelector_is_mapped(PyObject *self, void *Py_UNUSED(closure))
 {
-    return sel_isMapped(self->value) ? Py_True : Py_False;
+    // Get the type data of the ObjCSelector object
+    PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
+    if (module == NULL) {
+        return NULL;
+    }
+    objctypes_state *state = PyModule_GetState(module);
+    ObjCSelectorData *data =
+        PyObject_GetTypeData(self, state->ObjCSelector_Type);
+    if (data == NULL) {
+        return NULL;
+    }
+
+    return sel_isMapped(data->value) ? Py_True : Py_False;
 }
 
 /// @brief Get an ObjCSelector from a Python type and an Objective-C SEL.
-static ObjCSelectorObject *
+static PyObject *
 _ObjCSelector_FromSEL(PyTypeObject *type, SEL sel)
 {
+    // Get the module state
     PyObject *module = PyType_GetModuleByDef(type, &objctypes_module);
     if (module == NULL) {
         return NULL;
     }
-
     objctypes_state *state = PyModule_GetState(module);
 
     PyMutex_Lock(&state->ObjCSelector_cache_mutex);
 
-    ObjCSelectorObject *self = ObjCSelector_cache_get(module, sel);
-
+    PyObject *self = ObjCSelector_cache_get(module, sel);
     if (self == NULL) {
-        self = (ObjCSelectorObject *)type->tp_alloc(type, 0);
+        self = type->tp_alloc(type, 0);
         if (self != NULL) {
-            self->value = sel;
-            ObjCSelector_cache_set(module, sel, self);
+            ObjCSelectorData *data =
+                PyObject_GetTypeData(self, state->ObjCSelector_Type);
+            if (data == NULL) {
+                Py_DECREF(self);
+                self = NULL;
+            }
+            else {
+                data->value = sel;
+                ObjCSelector_cache_set(module, sel, self);
+            }
         }
     }
 
@@ -103,12 +172,12 @@ ObjCSelector_from_address(PyTypeObject *type, PyObject *address)
 
     SEL sel = PyLong_AsVoidPtr(address);
     if (sel == NULL) {
-        PyErr_Format(PyExc_TypeError,
-                     "The specified address is a null selector", sel);
+        PyErr_SetString(PyExc_TypeError,
+                        "The specified address is a null selector");
         return NULL;
     }
 
-    return (PyObject *)_ObjCSelector_FromSEL(type, sel);
+    return _ObjCSelector_FromSEL(type, sel);
 }
 
 /// @brief `ObjCSelector.__new__()`
@@ -123,9 +192,7 @@ ObjCSelector_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
         return NULL;
     }
 
-    ObjCSelectorObject *self =
-        _ObjCSelector_FromSEL(type, sel_registerName(name));
-    return (PyObject *)self;
+    return _ObjCSelector_FromSEL(type, sel_registerName(name));
 }
 
 static PyMethodDef ObjCSelector_methods[] = {
@@ -141,21 +208,21 @@ static PyMethodDef ObjCSelector_methods[] = {
 static PyGetSetDef ObjCSelector_getset[] = {
     {
         "address",
-        (getter)ObjCSelector_address,
+        ObjCSelector_address,
         NULL,
         PyDoc_STR("The address of the Objective-C selector."),
         NULL,
     },
     {
         "name",
-        (getter)ObjCSelector_name,
+        ObjCSelector_name,
         NULL,
         PyDoc_STR("The name of the Objective-C selector."),
         NULL,
     },
     {
         "is_mapped",
-        (getter)ObjCSelector_is_mapped,
+        ObjCSelector_is_mapped,
         NULL,
         PyDoc_STR("Whether the Objective-C selector is mapped."),
         NULL,
@@ -176,7 +243,7 @@ static PyType_Slot ObjCSelector_slots[] = {
 
 PyType_Spec ObjCSelector_spec = {
     .name = "objctypes.ObjCSelector",
-    .basicsize = sizeof(ObjCSelectorObject),
+    .basicsize = -(long)sizeof(ObjCSelectorData),
     .itemsize = 0,
     .flags = Py_TPFLAGS_DEFAULT,
     .slots = ObjCSelector_slots,
@@ -185,11 +252,12 @@ PyType_Spec ObjCSelector_spec = {
 PyObject *
 ObjCSelector_FromSEL(PyObject *module, SEL sel)
 {
+    // Get the module state
     objctypes_state *state = PyModule_GetState(module);
     if (state->ObjCSelector_Type == NULL) {
         return NULL;
     }
 
-    return (PyObject *)_ObjCSelector_FromSEL(
-        (PyTypeObject *)state->ObjCSelector_Type, sel);
+    return _ObjCSelector_FromSEL((PyTypeObject *)state->ObjCSelector_Type,
+                                 sel);
 }

@@ -20,20 +20,23 @@ def test_objcmetaclass_from_name() -> None:
     )
 
 
-def test_objcmetaclass_doc() -> None:
-    """Test docstring of ObjCMetaClass."""
-    assert ObjCMetaClass.__doc__ is not None
-
-
-def test_objcmetaclass_repr() -> None:
-    """Test ObjCMetaClass.__repr__()."""
+def test_objcmetaclass_inheritance() -> None:
+    """Test inheritance relationships of ObjCMetaClass."""
     NSObjectMeta = ObjCMetaClass.from_name("NSObject")  # noqa: N806
     NSStringMeta = ObjCMetaClass.from_name("NSString")  # noqa: N806
     NSNumberMeta = ObjCMetaClass.from_name("NSNumber")  # noqa: N806
 
-    assert repr(NSObjectMeta) == "<ObjCMetaClass 'NSObject'>"
-    assert repr(NSStringMeta) == "<ObjCMetaClass 'NSString'>"
-    assert repr(NSNumberMeta) == "<ObjCMetaClass 'NSNumber'>"
+    assert issubclass(NSObjectMeta, ObjCClass)
+    assert issubclass(NSStringMeta, ObjCClass)
+    assert issubclass(NSNumberMeta, ObjCClass)
+
+    assert issubclass(NSStringMeta, NSObjectMeta)
+    assert issubclass(NSNumberMeta, NSObjectMeta)
+
+    assert not issubclass(NSObjectMeta, NSStringMeta)
+    assert not issubclass(NSObjectMeta, NSNumberMeta)
+    assert not issubclass(NSNumberMeta, NSStringMeta)
+    assert not issubclass(NSStringMeta, NSNumberMeta)
 
 
 def test_objcmetaclass_cache() -> None:
@@ -51,6 +54,27 @@ def test_objcmetaclass_cache() -> None:
     assert NSNumberMeta is not NSObjectMeta
 
 
+def test_objcmetaclass_doc() -> None:
+    """Test docstring of ObjCMetaClass."""
+    assert ObjCMetaClass.__doc__ is not None
+
+
+def test_objcmetaclass_repr() -> None:
+    """Test ObjCMetaClass.__repr__()."""
+    NSObjectMeta = ObjCMetaClass.from_name("NSObject")  # noqa: N806
+    NSStringMeta = ObjCMetaClass.from_name("NSString")  # noqa: N806
+    NSNumberMeta = ObjCMetaClass.from_name("NSNumber")  # noqa: N806
+
+    assert repr(NSObjectMeta) == "<ObjCMetaClass 'NSObject'>"
+    assert repr(NSStringMeta) == "<ObjCMetaClass 'NSString'>"
+    assert repr(NSNumberMeta) == "<ObjCMetaClass 'NSNumber'>"
+
+
+def test_objcmetaclass_repr_objcclass_class() -> None:
+    """Test ObjCMetaClass.__repr__() for the ObjCClass class."""
+    assert repr(ObjCClass) == "<class 'objctypes.ObjCClass'>"
+
+
 def test_objcmetaclass_address() -> None:
     """Test ObjCMetaClass.address."""
     NSObjectMeta = ObjCMetaClass.from_name("NSObject")  # noqa: N806
@@ -66,6 +90,16 @@ def test_objcmetaclass_address() -> None:
     assert NSNumberMeta.address != NSObjectMeta.address
 
 
+def test_objcmetaclass_address_objcclass_class() -> None:
+    """Test ObjCMetaClass.address for the ObjCClass class."""
+    with pytest.raises(TypeError) as excinfo:
+        _ = ObjCClass.address
+    assert (
+        str(excinfo.value)
+        == "ObjCClass is not an actual Objective-C metaclass"
+    )
+
+
 def test_objcmetaclass_name() -> None:
     """Test ObjCMetaClass.name."""
     NSObjectMeta = ObjCMetaClass.from_name("NSObject")  # noqa: N806
@@ -75,6 +109,16 @@ def test_objcmetaclass_name() -> None:
     assert NSObjectMeta.name == "NSObject"
     assert NSStringMeta.name == "NSString"
     assert NSNumberMeta.name == "NSNumber"
+
+
+def test_objcmetaclass_name_objcclass_class() -> None:
+    """Test ObjCMetaClass.name for the ObjCClass class."""
+    with pytest.raises(TypeError) as excinfo:
+        _ = ObjCClass.name
+    assert (
+        str(excinfo.value)
+        == "ObjCClass is not an actual Objective-C metaclass"
+    )
 
 
 def test_objcmetaclass_from_address() -> None:

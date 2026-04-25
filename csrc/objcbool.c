@@ -5,42 +5,62 @@
 
 #include <Python.h>
 
-#include "objcbool.h"
-
 #include "objctypes.h"
 #include "objctypes_module.h"
 
 /// @brief Destruct an ObjCBool.
 static void
-ObjCBool_dealloc(ObjCBoolObject *self)
+ObjCBool_dealloc(PyObject *self)
 {
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free(self);
 }
 
 /// @brief `ObjCBool.__repr__()`
 static PyObject *
-ObjCBool_repr(ObjCBoolObject *self)
+ObjCBool_repr(PyObject *self)
 {
+    // Get the type data of the ObjCBool object
+    PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
+    if (module == NULL) {
+        return NULL;
+    }
+    objctypes_state *state = PyModule_GetState(module);
+    ObjCBoolData *data = PyObject_GetTypeData(self, state->ObjCBool_Type);
+    if (data == NULL) {
+        return NULL;
+    }
+
     return PyUnicode_FromFormat("ObjCBool(%s)",
-                                self->value ? "True" : "False");
+                                data->value ? "True" : "False");
 }
 
 /// @brief `ObjCBool.__str__()`
 static PyObject *
-ObjCBool_str(ObjCBoolObject *self)
+ObjCBool_str(PyObject *self)
 {
-    return PyUnicode_FromString(self->value ? "YES" : "NO");
+    // Get the type data of the ObjCBool object
+    PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
+    if (module == NULL) {
+        return NULL;
+    }
+    objctypes_state *state = PyModule_GetState(module);
+    ObjCBoolData *data = PyObject_GetTypeData(self, state->ObjCBool_Type);
+    if (data == NULL) {
+        return NULL;
+    }
+
+    return PyUnicode_FromString(data->value ? "YES" : "NO");
 }
 
 /// @brief Get an ObjCBool from a Python type and an long.
-static ObjCBoolObject *
+static PyObject *
 _ObjCBool_FromLong(PyTypeObject *type, long v)
 {
+    // Get the module state
     PyObject *module = PyType_GetModuleByDef(type, &objctypes_module);
     if (module == NULL) {
         return NULL;
     }
-
     objctypes_state *state = PyModule_GetState(module);
 
     if (v) {
@@ -48,20 +68,36 @@ _ObjCBool_FromLong(PyTypeObject *type, long v)
         if (state->ObjCBool_YES == NULL) {
             state->ObjCBool_YES = type->tp_alloc(type, 0);
             if (state->ObjCBool_YES != NULL) {
-                ((ObjCBoolObject *)state->ObjCBool_YES)->value = YES;
+                ObjCBoolData *data = PyObject_GetTypeData(
+                    state->ObjCBool_YES, state->ObjCBool_Type);
+                if (data != NULL) {
+                    data->value = YES;
+                }
+                else {
+                    Py_DECREF(state->ObjCBool_YES);
+                    state->ObjCBool_YES = NULL;
+                }
             }
         }
-        return (ObjCBoolObject *)Py_NewRef(state->ObjCBool_YES);
+        return Py_XNewRef(state->ObjCBool_YES);
     }
 
     // Cache the NO value if it hasn't been cached yet
     if (state->ObjCBool_NO == NULL) {
         state->ObjCBool_NO = type->tp_alloc(type, 0);
         if (state->ObjCBool_NO != NULL) {
-            ((ObjCBoolObject *)state->ObjCBool_NO)->value = NO;
+            ObjCBoolData *data =
+                PyObject_GetTypeData(state->ObjCBool_NO, state->ObjCBool_Type);
+            if (data == NULL) {
+                Py_DECREF(state->ObjCBool_NO);
+                state->ObjCBool_NO = NULL;
+            }
+            else {
+                data->value = NO;
+            }
         }
     }
-    return (ObjCBoolObject *)Py_NewRef(state->ObjCBool_NO);
+    return Py_XNewRef(state->ObjCBool_NO);
 }
 
 /// @brief `ObjCBool.__new__()`
@@ -75,40 +111,79 @@ ObjCBool_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
         return NULL;
     }
 
-    return (PyObject *)_ObjCBool_FromLong(type, v);
+    return _ObjCBool_FromLong(type, v);
 }
 
 /// @brief `ObjCBool.__bool__()`
 static int
-ObjCBool_bool(ObjCBoolObject *self)
+ObjCBool_bool(PyObject *self)
 {
-    return self->value ? 1 : 0;
+    // Get the type data of the ObjCBool object
+    PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
+    if (module == NULL) {
+        return -1;
+    }
+    objctypes_state *state = PyModule_GetState(module);
+    ObjCBoolData *data = PyObject_GetTypeData(self, state->ObjCBool_Type);
+    if (data == NULL) {
+        return -1;
+    }
+
+    return data->value ? 1 : 0;
 }
 
 /// @brief `ObjCBool.__invert__()`
 static PyObject *
-ObjCBool_invert(ObjCBoolObject *self)
+ObjCBool_invert(PyObject *self)
 {
+    // Get the type data of the ObjCBool object
     PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
     if (module == NULL) {
         return NULL;
     }
+    objctypes_state *state = PyModule_GetState(module);
+    ObjCBoolData *data = PyObject_GetTypeData(self, state->ObjCBool_Type);
+    if (data == NULL) {
+        return NULL;
+    }
 
-    return (PyObject *)ObjCBool_FromLong(module, !(self->value));
+    return _ObjCBool_FromLong(Py_TYPE(self), !(data->value));
 }
 
 /// @brief `ObjCBool.__int__()`
 static PyObject *
-ObjCBool_int(ObjCBoolObject *self)
+ObjCBool_int(PyObject *self)
 {
-    return PyLong_FromLong(self->value ? 1 : 0);
+    // Get the type data of the ObjCBool object
+    PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
+    if (module == NULL) {
+        return NULL;
+    }
+    objctypes_state *state = PyModule_GetState(module);
+    ObjCBoolData *data = PyObject_GetTypeData(self, state->ObjCBool_Type);
+    if (data == NULL) {
+        return NULL;
+    }
+
+    return PyLong_FromLong(data->value ? 1 : 0);
 }
 
 /// @brief `ObjCBool.__float__()`
 static PyObject *
-ObjCBool_float(ObjCBoolObject *self)
+ObjCBool_float(PyObject *self)
 {
-    return PyFloat_FromDouble(self->value ? 1 : 0);
+    // Get the type data of the ObjCBool object
+    PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
+    if (module == NULL) {
+        return NULL;
+    }
+    objctypes_state *state = PyModule_GetState(module);
+    ObjCBoolData *data = PyObject_GetTypeData(self, state->ObjCBool_Type);
+    if (data == NULL) {
+        return NULL;
+    }
+
+    return PyFloat_FromDouble(data->value ? 1 : 0);
 }
 
 static PyType_Slot ObjCBool_slots[] = {
@@ -126,7 +201,7 @@ static PyType_Slot ObjCBool_slots[] = {
 
 PyType_Spec ObjCBool_spec = {
     .name = "objctypes.ObjCBool",
-    .basicsize = sizeof(ObjCBoolObject),
+    .basicsize = -(long)sizeof(ObjCBoolData),
     .itemsize = 0,
     .flags = Py_TPFLAGS_DEFAULT,
     .slots = ObjCBool_slots,
@@ -135,6 +210,7 @@ PyType_Spec ObjCBool_spec = {
 PyObject *
 ObjCBool_FromLong(PyObject *module, long v)
 {
+    // Get the module state
     objctypes_state *state = PyModule_GetState(module);
     if (state->ObjCBool_Type == NULL) {
         return NULL;

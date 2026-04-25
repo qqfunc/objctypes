@@ -7,12 +7,6 @@
 
 #include "objctypes.h"
 
-#include "objcbool.h"
-#include "objcclass.h"
-#include "objcmetaclass.h"
-#include "objcmethod.h"
-#include "objcobject.h"
-#include "objcselector.h"
 #include "objctypes_cache.h"
 #include "objctypes_module.h"
 

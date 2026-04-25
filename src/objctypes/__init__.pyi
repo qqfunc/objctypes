@@ -10,7 +10,7 @@ class ObjCMetaClass(type):
     """
 
     @classmethod
-    def from_address(cls, address: int, /) -> ObjCMetaClass:
+    def from_address(cls, address: int, /) -> type[ObjCClass]:
         """Retrieve an Objective-C metaclass from the specified address.
 
         :param address: The address of the Objective-C metaclass.
@@ -23,7 +23,7 @@ class ObjCMetaClass(type):
         """
 
     @classmethod
-    def from_name(cls, name: str, /) -> ObjCMetaClass:
+    def from_name(cls, name: str, /) -> type[ObjCClass]:
         """Retrieve an Objective-C metaclass by class name.
 
         :param name: The name of the Objective-C class whose metaclass
@@ -41,8 +41,7 @@ class ObjCMetaClass(type):
     def name(cls) -> str:
         """The name of the Objective-C metaclass."""
 
-@final
-class ObjCClass(type, metaclass=ObjCMetaClass):  # NOTE: type?
+class ObjCClass(type, metaclass=ObjCMetaClass):
     """A Python wrapper class for an Objective-C class.
 
     Equivalent to
@@ -58,7 +57,7 @@ class ObjCClass(type, metaclass=ObjCMetaClass):  # NOTE: type?
         /,
     ) -> None: ...
     @classmethod
-    def from_address(cls, address: int, /) -> ObjCClass:
+    def from_address(cls, address: int, /) -> type[ObjCObject]:
         """Retrieve an Objective-C class from the specified address.
 
         :param address: The address of the Objective-C class.
