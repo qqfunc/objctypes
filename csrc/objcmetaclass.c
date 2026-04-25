@@ -18,7 +18,7 @@ ObjCMetaClass_dealloc(PyObject *self)
         objctypes_state *state = PyModule_GetState(module);
         ObjCMetaClassData *data =
             PyObject_GetTypeData(self, state->ObjCMetaClass_Type);
-        if (data != NULL) {
+        if (data != NULL && data->value != NULL) {
             PyMutex_Lock(&state->ObjCMetaClass_cache_mutex);
             ObjCMetaClass_cache_del(module, data->value);
             PyMutex_Unlock(&state->ObjCMetaClass_cache_mutex);
@@ -41,7 +41,7 @@ ObjCMetaClass_repr(PyObject *self)
         PyObject_GetTypeData(self, state->ObjCMetaClass_Type);
 
     if (data->value == NULL) {
-        return PyUnicode_FromString("<ObjCMetaClass>");
+        return PyUnicode_FromString("<class 'objctypes.ObjCClass'>");
     }
     return PyUnicode_FromFormat("<ObjCMetaClass '%s'>",
                                 class_getName(data->value));
@@ -60,6 +60,13 @@ ObjCMetaClass_address(PyObject *self, void *Py_UNUSED(closure))
     ObjCMetaClassData *data =
         PyObject_GetTypeData(self, state->ObjCMetaClass_Type);
 
+    // Make sure that the metaclass is not ObjCClass class
+    if (data->value == NULL) {
+        PyErr_SetString(PyExc_TypeError,
+                        "ObjCClass is not an actual Objective-C metaclass");
+        return NULL;
+    }
+
     return PyLong_FromVoidPtr(data->value);
 }
 
@@ -76,9 +83,13 @@ ObjCMetaClass_name(PyObject *self, void *Py_UNUSED(closure))
     ObjCMetaClassData *data =
         PyObject_GetTypeData(self, state->ObjCMetaClass_Type);
 
+    // Make sure that the metaclass is not ObjCClass class
     if (data->value == NULL) {
-        return Py_GetConstant(Py_CONSTANT_EMPTY_STR);
+        PyErr_SetString(PyExc_TypeError,
+                        "ObjCClass is not an actual Objective-C metaclass");
+        return NULL;
     }
+
     return PyUnicode_FromString(class_getName(data->value));
 }
 
