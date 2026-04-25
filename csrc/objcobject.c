@@ -122,12 +122,14 @@ ObjCObject_from_address(PyTypeObject *type, PyObject *address)
                          "The Objective-C object at %p is a metaclass. Use "
                          "ObjCMetaClass.from_address() instead.",
                          obj);
+            return NULL;
         }
         else {
             PyErr_Format(PyExc_TypeError,
                          "The Objective-C object at %p is a class. Use "
                          "ObjCClass.from_address() instead.",
                          obj);
+            return NULL;
         }
     }
 
