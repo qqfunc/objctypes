@@ -1,7 +1,7 @@
 from types import GenericAlias
 from typing import Any, Self, final
 
-# @final  # NOTE: final?
+@final
 class ObjCMetaClass(type):
     """A Python wrapper class for an Objective-C metaclass.
 
@@ -41,7 +41,7 @@ class ObjCMetaClass(type):
     def name(cls) -> str:
         """The name of the Objective-C metaclass."""
 
-# @final  # NOTE: final?
+@final
 class ObjCClass(type, metaclass=ObjCMetaClass):  # NOTE: type?
     """A Python wrapper class for an Objective-C class.
 
