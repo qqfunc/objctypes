@@ -84,7 +84,7 @@ ObjCClass_name(PyObject *self, PyObject *Py_UNUSED(closure))
     return PyUnicode_FromString(class_getName(cls_state->value));
 }
 
-/// @brief `ObjCClass.load_methods`
+/// @brief `ObjCClass.load_methods()`
 static PyObject *
 ObjCClass_load_methods(PyObject *self, PyObject *Py_UNUSED(args))
 {
