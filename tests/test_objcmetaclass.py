@@ -1,28 +1,28 @@
-"""Test functions for ObjCMetaclass."""
+"""Test functions for ObjCMetaClass."""
 
 import pytest
 
-from objctypes import ObjCClass, ObjCMetaclass
+from objctypes import ObjCClass, ObjCMetaClass
 
 
 def test_objcmetaclass_is_metaclass_of_objcclass() -> None:
-    """Test that ObjCClass is an instance of ObjCMetaclass."""
-    assert type(ObjCClass) is ObjCMetaclass
+    """Test that ObjCClass is an instance of ObjCMetaClass."""
+    assert type(ObjCClass) is ObjCMetaClass
 
 
 def test_objcmetaclass_inherits_type() -> None:
-    """Test that ObjCMetaclass inherits from type."""
-    assert issubclass(ObjCMetaclass, type)
+    """Test that ObjCMetaClass inherits from type."""
+    assert issubclass(ObjCMetaClass, type)
 
 
 def test_objcmetaclass_from_name() -> None:
-    """Test ObjCMetaclass.from_name()."""
-    ObjCMetaclass.from_name("NSObject")
-    ObjCMetaclass.from_name("NSString")
-    ObjCMetaclass.from_name("NSNumber")
+    """Test ObjCMetaClass.from_name()."""
+    ObjCMetaClass.from_name("NSObject")
+    ObjCMetaClass.from_name("NSString")
+    ObjCMetaClass.from_name("NSNumber")
 
     with pytest.raises(NameError) as excinfo:
-        ObjCMetaclass.from_name("NonexistentClass")
+        ObjCMetaClass.from_name("NonexistentClass")
 
     assert (
         str(excinfo.value)
@@ -31,30 +31,30 @@ def test_objcmetaclass_from_name() -> None:
 
 
 def test_objcmetaclass_doc() -> None:
-    """Test docstring of ObjCMetaclass."""
-    assert ObjCMetaclass.__doc__ is not None
+    """Test docstring of ObjCMetaClass."""
+    assert ObjCMetaClass.__doc__ is not None
 
 
 def test_objcmetaclass_repr() -> None:
-    """Test ObjCMetaclass.__repr__()."""
-    NSObjectMeta = ObjCMetaclass.from_name("NSObject")  # noqa: N806
-    NSStringMeta = ObjCMetaclass.from_name("NSString")  # noqa: N806
-    NSNumberMeta = ObjCMetaclass.from_name("NSNumber")  # noqa: N806
+    """Test ObjCMetaClass.__repr__()."""
+    NSObjectMeta = ObjCMetaClass.from_name("NSObject")  # noqa: N806
+    NSStringMeta = ObjCMetaClass.from_name("NSString")  # noqa: N806
+    NSNumberMeta = ObjCMetaClass.from_name("NSNumber")  # noqa: N806
 
-    assert repr(NSObjectMeta) == "<ObjCMetaclass 'NSObject'>"
-    assert repr(NSStringMeta) == "<ObjCMetaclass 'NSString'>"
-    assert repr(NSNumberMeta) == "<ObjCMetaclass 'NSNumber'>"
+    assert repr(NSObjectMeta) == "<ObjCMetaClass 'NSObject'>"
+    assert repr(NSStringMeta) == "<ObjCMetaClass 'NSString'>"
+    assert repr(NSNumberMeta) == "<ObjCMetaClass 'NSNumber'>"
 
 
 def test_objcmetaclass_cache() -> None:
-    """Test if ObjCMetaclass objects are cached."""
-    NSObjectMeta = ObjCMetaclass.from_name("NSObject")  # noqa: N806
-    NSStringMeta = ObjCMetaclass.from_name("NSString")  # noqa: N806
-    NSNumberMeta = ObjCMetaclass.from_name("NSNumber")  # noqa: N806
+    """Test if ObjCMetaClass objects are cached."""
+    NSObjectMeta = ObjCMetaClass.from_name("NSObject")  # noqa: N806
+    NSStringMeta = ObjCMetaClass.from_name("NSString")  # noqa: N806
+    NSNumberMeta = ObjCMetaClass.from_name("NSNumber")  # noqa: N806
 
-    assert NSObjectMeta is ObjCMetaclass.from_name("NSObject")
-    assert NSStringMeta is ObjCMetaclass.from_name("NSString")
-    assert NSNumberMeta is ObjCMetaclass.from_name("NSNumber")
+    assert NSObjectMeta is ObjCMetaClass.from_name("NSObject")
+    assert NSStringMeta is ObjCMetaClass.from_name("NSString")
+    assert NSNumberMeta is ObjCMetaClass.from_name("NSNumber")
 
     assert NSObjectMeta is not NSStringMeta
     assert NSStringMeta is not NSNumberMeta
@@ -62,14 +62,14 @@ def test_objcmetaclass_cache() -> None:
 
 
 def test_objcmetaclass_address() -> None:
-    """Test ObjCMetaclass.address."""
-    NSObjectMeta = ObjCMetaclass.from_name("NSObject")  # noqa: N806
-    NSStringMeta = ObjCMetaclass.from_name("NSString")  # noqa: N806
-    NSNumberMeta = ObjCMetaclass.from_name("NSNumber")  # noqa: N806
+    """Test ObjCMetaClass.address."""
+    NSObjectMeta = ObjCMetaClass.from_name("NSObject")  # noqa: N806
+    NSStringMeta = ObjCMetaClass.from_name("NSString")  # noqa: N806
+    NSNumberMeta = ObjCMetaClass.from_name("NSNumber")  # noqa: N806
 
-    assert NSObjectMeta.address == ObjCMetaclass.from_name("NSObject").address
-    assert NSStringMeta.address == ObjCMetaclass.from_name("NSString").address
-    assert NSNumberMeta.address == ObjCMetaclass.from_name("NSNumber").address
+    assert NSObjectMeta.address == ObjCMetaClass.from_name("NSObject").address
+    assert NSStringMeta.address == ObjCMetaClass.from_name("NSString").address
+    assert NSNumberMeta.address == ObjCMetaClass.from_name("NSNumber").address
 
     assert NSObjectMeta.address != NSStringMeta.address
     assert NSStringMeta.address != NSNumberMeta.address
@@ -77,10 +77,10 @@ def test_objcmetaclass_address() -> None:
 
 
 def test_objcmetaclass_name() -> None:
-    """Test ObjCMetaclass.name."""
-    NSObjectMeta = ObjCMetaclass.from_name("NSObject")  # noqa: N806
-    NSStringMeta = ObjCMetaclass.from_name("NSString")  # noqa: N806
-    NSNumberMeta = ObjCMetaclass.from_name("NSNumber")  # noqa: N806
+    """Test ObjCMetaClass.name."""
+    NSObjectMeta = ObjCMetaClass.from_name("NSObject")  # noqa: N806
+    NSStringMeta = ObjCMetaClass.from_name("NSString")  # noqa: N806
+    NSNumberMeta = ObjCMetaClass.from_name("NSNumber")  # noqa: N806
 
     assert NSObjectMeta.name == "NSObject"
     assert NSStringMeta.name == "NSString"
@@ -88,47 +88,47 @@ def test_objcmetaclass_name() -> None:
 
 
 def test_objcmetaclass_from_address() -> None:
-    """Test ObjCMetaclass.from_address()."""
-    NSObjectMeta = ObjCMetaclass.from_name("NSObject")  # noqa: N806
-    NSStringMeta = ObjCMetaclass.from_name("NSString")  # noqa: N806
-    NSNumberMeta = ObjCMetaclass.from_name("NSNumber")  # noqa: N806
+    """Test ObjCMetaClass.from_address()."""
+    NSObjectMeta = ObjCMetaClass.from_name("NSObject")  # noqa: N806
+    NSStringMeta = ObjCMetaClass.from_name("NSString")  # noqa: N806
+    NSNumberMeta = ObjCMetaClass.from_name("NSNumber")  # noqa: N806
 
     assert (
         NSObjectMeta.address
-        == ObjCMetaclass.from_address(NSObjectMeta.address).address
+        == ObjCMetaClass.from_address(NSObjectMeta.address).address
     )
     assert (
         NSStringMeta.address
-        == ObjCMetaclass.from_address(NSStringMeta.address).address
+        == ObjCMetaClass.from_address(NSStringMeta.address).address
     )
     assert (
         NSNumberMeta.address
-        == ObjCMetaclass.from_address(NSNumberMeta.address).address
+        == ObjCMetaClass.from_address(NSNumberMeta.address).address
     )
 
 
 def test_objcmetaclass_from_address_wrong_arg() -> None:
-    """Test ObjCMetaclass.from_address() with wrong argument type."""
+    """Test ObjCMetaClass.from_address() with wrong argument type."""
     with pytest.raises(TypeError) as excinfo:
-        ObjCMetaclass.from_address("wrong argument")  # ty: ignore[invalid-argument-type]
+        ObjCMetaClass.from_address("wrong argument")  # ty: ignore[invalid-argument-type]
     assert (
         str(excinfo.value)
-        == "ObjCMetaclass.from_address() argument 1 must be int, not str"
+        == "ObjCMetaClass.from_address() argument 1 must be int, not str"
     )
 
 
 def test_objcmetaclass_from_address_nil() -> None:
-    """Test ObjCMetaclass.from_address() with Nil."""
+    """Test ObjCMetaClass.from_address() with Nil."""
     with pytest.raises(TypeError) as excinfo:
-        ObjCMetaclass.from_address(0)
+        ObjCMetaClass.from_address(0)
     assert str(excinfo.value) == "the specified Objective-C metaclass is Nil"
 
 
 def test_objcclass_from_address_rejects_metaclass() -> None:
     """Test that ObjCClass.from_address() rejects a metaclass."""
-    NSObjectMeta = ObjCMetaclass.from_name("NSObject")  # noqa: N806
+    NSObjectMeta = ObjCMetaClass.from_name("NSObject")  # noqa: N806
 
     with pytest.raises(TypeError) as excinfo:
         ObjCClass.from_address(NSObjectMeta.address)
 
-    assert "ObjCMetaclass.from_address() instead" in str(excinfo.value)
+    assert "ObjCMetaClass.from_address() instead" in str(excinfo.value)

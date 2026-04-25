@@ -222,7 +222,7 @@ ObjCClass_from_address(PyTypeObject *type, PyObject *address)
     if (class_isMetaClass(cls)) {
         PyErr_Format(PyExc_TypeError,
                      "The Objective-C class at %p is a metaclass. Use "
-                     "ObjCMetaclass.from_address() instead.",
+                     "ObjCMetaClass.from_address() instead.",
                      cls);
         return NULL;
     }

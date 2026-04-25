@@ -19,46 +19,46 @@ extern "C" {
 #endif
 
 /**
- * @brief Initialize a cache map for `ObjCMetaclass`.
+ * @brief Initialize a cache map for `ObjCMetaClass`.
  * @param module The Python module object.
  */
 void
-ObjCMetaclass_cache_init(PyObject *module);
+ObjCMetaClass_cache_init(PyObject *module);
 
 /**
- * @brief Deinitialize the cache map for `ObjCMetaclass`.
+ * @brief Deinitialize the cache map for `ObjCMetaClass`.
  * @param module The Python module object.
  */
 void
-ObjCMetaclass_cache_deinit(PyObject *module);
+ObjCMetaClass_cache_deinit(PyObject *module);
 
 /**
- * @brief Get an `ObjCMetaclass` from the cache if it exists, otherwise return
+ * @brief Get an `ObjCMetaClass` from the cache if it exists, otherwise return
  * `NULL`.
  * @param module The Python module object.
  * @param cls The Objective-C metaclass to look up.
- * @return A new reference to the cached `ObjCMetaclass` object, or `NULL` if
+ * @return A new reference to the cached `ObjCMetaClass` object, or `NULL` if
  * not found.
  */
 PyObject *
-ObjCMetaclass_cache_get(PyObject *module, Class cls);
+ObjCMetaClass_cache_get(PyObject *module, Class cls);
 
 /**
- * @brief Set an `ObjCMetaclass` in the cache.
+ * @brief Set an `ObjCMetaClass` in the cache.
  * @param module The Python module object.
  * @param cls The Objective-C metaclass to cache.
- * @param obj The `ObjCMetaclass` to associate with the metaclass.
+ * @param obj The `ObjCMetaClass` to associate with the metaclass.
  */
 void
-ObjCMetaclass_cache_set(PyObject *module, Class cls, PyObject *obj);
+ObjCMetaClass_cache_set(PyObject *module, Class cls, PyObject *obj);
 
 /**
- * @brief Delete an `ObjCMetaclass` from the cache.
+ * @brief Delete an `ObjCMetaClass` from the cache.
  * @param module The Python module object.
  * @param cls The Objective-C metaclass to delete from the cache.
  */
 void
-ObjCMetaclass_cache_del(PyObject *module, Class cls);
+ObjCMetaClass_cache_del(PyObject *module, Class cls);
 
 /**
  * @brief Initialize a cache map for `ObjCClass`.

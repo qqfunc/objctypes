@@ -10,12 +10,12 @@
 
 #include <objc/objc.h>
 
-/// ObjCMetaclass
+/// ObjCMetaClass
 
 typedef struct {
     Class value;
-} ObjCMetaclassState;
+} ObjCMetaClassState;
 
-extern PyType_Spec ObjCMetaclass_spec;
+extern PyType_Spec ObjCMetaClass_spec;
 
 #endif // OBJCMETACLASS_H

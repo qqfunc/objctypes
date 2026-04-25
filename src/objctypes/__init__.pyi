@@ -2,7 +2,7 @@ from types import GenericAlias
 from typing import Any, Self, final
 
 # @final  # NOTE: final?
-class ObjCMetaclass(type):
+class ObjCMetaClass(type):
     """A Python wrapper class for an Objective-C metaclass.
 
     Equivalent to the metaclass of an Objective-C class, which describes
@@ -10,7 +10,7 @@ class ObjCMetaclass(type):
     """
 
     @classmethod
-    def from_address(cls, address: int, /) -> ObjCMetaclass:
+    def from_address(cls, address: int, /) -> ObjCMetaClass:
         """Retrieve an Objective-C metaclass from the specified address.
 
         :param address: The address of the Objective-C metaclass.
@@ -23,7 +23,7 @@ class ObjCMetaclass(type):
         """
 
     @classmethod
-    def from_name(cls, name: str, /) -> ObjCMetaclass:
+    def from_name(cls, name: str, /) -> ObjCMetaClass:
         """Retrieve an Objective-C metaclass by class name.
 
         :param name: The name of the Objective-C class whose metaclass
@@ -42,7 +42,7 @@ class ObjCMetaclass(type):
         """The name of the Objective-C metaclass."""
 
 # @final  # NOTE: final?
-class ObjCClass(type, metaclass=ObjCMetaclass):  # NOTE: type?
+class ObjCClass(type, metaclass=ObjCMetaClass):  # NOTE: type?
     """A Python wrapper class for an Objective-C class.
 
     Equivalent to
