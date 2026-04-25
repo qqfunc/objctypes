@@ -18,7 +18,7 @@ ObjCClass_dealloc(PyObject *self)
         objctypes_state *state = PyModule_GetState(module);
         ObjCClassData *data =
             PyObject_GetTypeData(self, state->ObjCClass_Type);
-        if (data != NULL) {
+        if (data != NULL && data->value != NULL) {
             PyMutex_Lock(&state->ObjCClass_cache_mutex);
             ObjCClass_cache_del(module, data->value);
             PyMutex_Unlock(&state->ObjCClass_cache_mutex);
@@ -58,6 +58,13 @@ ObjCClass_address(PyObject *self, void *Py_UNUSED(closure))
     objctypes_state *state = PyModule_GetState(module);
     ObjCClassData *data = PyObject_GetTypeData(self, state->ObjCClass_Type);
 
+    // Make sure that the class is not ObjCObject class
+    if (data->value == NULL) {
+        PyErr_SetString(PyExc_TypeError,
+                        "ObjCObject is not an actual Objective-C class");
+        return NULL;
+    }
+
     return PyLong_FromVoidPtr(data->value);
 }
 
@@ -73,9 +80,13 @@ ObjCClass_name(PyObject *self, void *Py_UNUSED(closure))
     objctypes_state *state = PyModule_GetState(module);
     ObjCClassData *data = PyObject_GetTypeData(self, state->ObjCClass_Type);
 
+    // Make sure that the class is not ObjCObject class
     if (data->value == NULL) {
-        return Py_GetConstant(Py_CONSTANT_EMPTY_STR);
+        PyErr_SetString(PyExc_TypeError,
+                        "ObjCObject is not an actual Objective-C class");
+        return NULL;
     }
+
     return PyUnicode_FromString(class_getName(data->value));
 }
 
@@ -90,6 +101,12 @@ ObjCClass_load_methods(PyObject *self, PyObject *Py_UNUSED(args))
     }
     objctypes_state *state = PyModule_GetState(module);
     ObjCClassData *data = PyObject_GetTypeData(self, state->ObjCClass_Type);
+
+    if (data->value == NULL) {
+        PyErr_SetString(PyExc_TypeError,
+                        "ObjCObject is not an actual Objective-C class");
+        return NULL;
+    }
 
     unsigned int outCount;
     Method *methods = class_copyMethodList(data->value, &outCount);
@@ -178,9 +195,10 @@ ObjCClass_init(PyObject *self, PyObject *args, PyObject *kwds)
     objctypes_state *state = PyModule_GetState(module);
     ObjCClassData *data = PyObject_GetTypeData(self, state->ObjCClass_Type);
 
+    // This function is not called when the ObjCObject class is initialized
     data->value = NULL;
-
-    return 0;
+    PyErr_SetNone(PyExc_NotImplementedError);
+    return -1;
 }
 
 /// @brief `ObjCClass.from_address()`

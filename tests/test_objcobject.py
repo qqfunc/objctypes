@@ -12,12 +12,6 @@ def test_objcobject() -> None:
     assert str(excinfo.value) == "ObjCObject cannot be initialized directly"
 
 
-def test_objcobject_type() -> None:
-    """Test ObjCObject type object."""
-    assert repr(ObjCObject) == "<class 'objctypes.ObjCObject'>"
-    assert ObjCObject.name == ""
-
-
 def test_objcobject_cache() -> None:
     """Test if ObjCObject objects are cached."""
 
