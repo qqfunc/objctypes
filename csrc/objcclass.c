@@ -67,7 +67,7 @@ ObjCClass_address(PyObject *self, void *Py_UNUSED(closure))
 
 /// @brief `ObjCClass.name`
 static PyObject *
-ObjCClass_name(PyObject *self, PyObject *Py_UNUSED(closure))
+ObjCClass_name(PyObject *self, void *Py_UNUSED(closure))
 {
     PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
     if (module == NULL) {
@@ -287,14 +287,14 @@ static PyMethodDef ObjCClass_methods[] = {
 static PyGetSetDef ObjCClass_getset[] = {
     {
         "address",
-        (getter)ObjCClass_address,
+        ObjCClass_address,
         NULL,
         PyDoc_STR("The address of the Objective-C class."),
         NULL,
     },
     {
         "name",
-        (getter)ObjCClass_name,
+        ObjCClass_name,
         NULL,
         PyDoc_STR("The name of the Objective-C class."),
         NULL,

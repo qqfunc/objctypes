@@ -67,7 +67,7 @@ ObjCMetaClass_address(PyObject *self, void *Py_UNUSED(closure))
 
 /// @brief `ObjCMetaClass.name`
 static PyObject *
-ObjCMetaClass_name(PyObject *self, PyObject *Py_UNUSED(closure))
+ObjCMetaClass_name(PyObject *self, void *Py_UNUSED(closure))
 {
     PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
     if (module == NULL) {
@@ -212,14 +212,14 @@ static PyMethodDef ObjCMetaClass_methods[] = {
 static PyGetSetDef ObjCMetaClass_getset[] = {
     {
         "address",
-        (getter)ObjCMetaClass_address,
+        ObjCMetaClass_address,
         NULL,
         PyDoc_STR("The address of the Objective-C metaclass."),
         NULL,
     },
     {
         "name",
-        (getter)ObjCMetaClass_name,
+        ObjCMetaClass_name,
         NULL,
         PyDoc_STR("The name of the Objective-C metaclass."),
         NULL,
