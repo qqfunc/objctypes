@@ -2,7 +2,7 @@
 
 import pytest
 
-from objctypes import ObjCClass, ObjCObject
+from objctypes import ObjCClass, ObjCMetaClass, ObjCObject
 
 
 def test_objcclass() -> None:
@@ -94,11 +94,28 @@ def test_objcclass_from_address_wrong_arg() -> None:
     )
 
 
-def test_objcclass_from_address_nil() -> None:
-    """Test ObjCClass.from_address() with Nil."""
+def test_objcclass_from_address_rejects_nil() -> None:
+    """Test that ObjCClass.from_address() rejects Nil."""
     with pytest.raises(TypeError) as excinfo:
         ObjCClass.from_address(0)
     assert str(excinfo.value) == "the specified Objective-C class is Nil"
+
+
+def test_objcclass_from_address_rejects_object() -> None:
+    """Test that ObjCClass.from_address() rejects an object."""
+
+
+def test_objcclass_from_address_rejects_metaclass() -> None:
+    """Test that ObjCClass.from_address() rejects a metaclass."""
+    NSObjectMeta = ObjCMetaClass.from_name("NSObject")  # noqa: N806
+
+    with pytest.raises(TypeError) as excinfo:
+        ObjCClass.from_address(NSObjectMeta.address)
+
+    assert str(excinfo.value) == (
+        f"The Objective-C class at {NSObjectMeta.address:#x} is a metaclass. "
+        "Use ObjCMetaClass.from_address() instead."
+    )
 
 
 def test_objcclass_address() -> None:

@@ -27,6 +27,26 @@ typedef struct {
      */
     PyObject *ObjCBool_NO;
 
+    /// @brief The `ObjCMetaClass` type.
+    PyTypeObject *ObjCMetaClass_Type;
+
+    /**
+     * @brief Cache for `ObjCMetaClass` instances.
+     * @details This is a pointer to a C++ `std::map` that maps Objective-C
+     * metaclass pointers to their corresponding `ObjCMetaClass` Python
+     * objects.
+     * @warning Do not manipulate this field outside of the `ObjCMetaClass`
+     * type.
+     */
+    void *ObjCMetaClass_cache;
+
+    /**
+     * @brief Mutex for synchronizing access to the `ObjCMetaClass` cache.
+     * @warning Do not manipulate this field outside of the `ObjCMetaClass`
+     * type.
+     */
+    PyMutex ObjCMetaClass_cache_mutex;
+
     /// @brief The `ObjCClass` type.
     PyTypeObject *ObjCClass_Type;
 

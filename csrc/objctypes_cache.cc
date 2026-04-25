@@ -17,6 +17,49 @@
 typedef std::map<void *, PyObject *> cache_map;
 
 void
+ObjCMetaClass_cache_init(PyObject *module)
+{
+    objctypes_state *state = (objctypes_state *)PyModule_GetState(module);
+    state->ObjCMetaClass_cache = new (std::nothrow) cache_map();
+}
+
+void
+ObjCMetaClass_cache_deinit(PyObject *module)
+{
+    objctypes_state *state = (objctypes_state *)PyModule_GetState(module);
+    delete (cache_map *)state->ObjCMetaClass_cache;
+}
+
+PyObject *
+ObjCMetaClass_cache_get(PyObject *module, Class cls)
+{
+    objctypes_state *state = (objctypes_state *)PyModule_GetState(module);
+    cache_map *cache = (cache_map *)state->ObjCMetaClass_cache;
+
+    const auto it = cache->find(cls);
+    if (it != cache->end()) {
+        return Py_NewRef(it->second);
+    }
+    return NULL;
+}
+
+void
+ObjCMetaClass_cache_set(PyObject *module, Class cls, PyObject *obj)
+{
+    objctypes_state *state = (objctypes_state *)PyModule_GetState(module);
+    cache_map *cache = (cache_map *)state->ObjCMetaClass_cache;
+    (*cache)[cls] = (PyObject *)obj;
+}
+
+void
+ObjCMetaClass_cache_del(PyObject *module, Class cls)
+{
+    objctypes_state *state = (objctypes_state *)PyModule_GetState(module);
+    cache_map *cache = (cache_map *)state->ObjCMetaClass_cache;
+    cache->erase(cls);
+}
+
+void
 ObjCClass_cache_init(PyObject *module)
 {
     objctypes_state *state = (objctypes_state *)PyModule_GetState(module);
