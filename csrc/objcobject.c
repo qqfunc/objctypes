@@ -38,6 +38,9 @@ ObjCObject_repr(PyObject *self)
     }
     objctypes_state *state = PyModule_GetState(module);
     ObjCObjectData *data = PyObject_GetTypeData(self, state->ObjCObject_Type);
+    if (data == NULL) {
+        return NULL;
+    }
 
     return PyUnicode_FromFormat("<ObjCObject %s at %p>",
                                 object_getClassName(data->value), data->value);
@@ -53,6 +56,9 @@ ObjCObject_address(PyObject *self, void *Py_UNUSED(closure))
     }
     objctypes_state *state = PyModule_GetState(module);
     ObjCObjectData *data = PyObject_GetTypeData(self, state->ObjCObject_Type);
+    if (data == NULL) {
+        return NULL;
+    }
 
     return PyLong_FromVoidPtr(data->value);
 }
@@ -71,19 +77,18 @@ _ObjCObject_FromId(PyTypeObject *type, id obj)
     PyMutex_Lock(&state->ObjCObject_cache_mutex);
 
     PyObject *self = ObjCObject_cache_get(module, obj);
-
     if (self == NULL) {
         self = type->tp_alloc(type, 0);
         if (self != NULL) {
             ObjCObjectData *data =
                 PyObject_GetTypeData(self, state->ObjCObject_Type);
-            if (data != NULL) {
-                data->value = obj;
-                ObjCObject_cache_set(module, obj, self);
-            }
-            else {
+            if (data == NULL) {
                 Py_DECREF(self);
                 self = NULL;
+            }
+            else {
+                data->value = obj;
+                ObjCObject_cache_set(module, obj, self);
             }
         }
     }

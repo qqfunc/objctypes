@@ -26,6 +26,9 @@ ObjCBool_repr(PyObject *self)
     }
     objctypes_state *state = PyModule_GetState(module);
     ObjCBoolData *data = PyObject_GetTypeData(self, state->ObjCBool_Type);
+    if (data == NULL) {
+        return NULL;
+    }
 
     return PyUnicode_FromFormat("ObjCBool(%s)",
                                 data->value ? "True" : "False");
@@ -42,6 +45,9 @@ ObjCBool_str(PyObject *self)
     }
     objctypes_state *state = PyModule_GetState(module);
     ObjCBoolData *data = PyObject_GetTypeData(self, state->ObjCBool_Type);
+    if (data == NULL) {
+        return NULL;
+    }
 
     return PyUnicode_FromString(data->value ? "YES" : "NO");
 }
@@ -64,10 +70,16 @@ _ObjCBool_FromLong(PyTypeObject *type, long v)
             if (state->ObjCBool_YES != NULL) {
                 ObjCBoolData *data = PyObject_GetTypeData(
                     state->ObjCBool_YES, state->ObjCBool_Type);
-                data->value = YES;
+                if (data != NULL) {
+                    data->value = YES;
+                }
+                else {
+                    Py_DECREF(state->ObjCBool_YES);
+                    state->ObjCBool_YES = NULL;
+                }
             }
         }
-        return Py_NewRef(state->ObjCBool_YES);
+        return Py_XNewRef(state->ObjCBool_YES);
     }
 
     // Cache the NO value if it hasn't been cached yet
@@ -76,10 +88,16 @@ _ObjCBool_FromLong(PyTypeObject *type, long v)
         if (state->ObjCBool_NO != NULL) {
             ObjCBoolData *data =
                 PyObject_GetTypeData(state->ObjCBool_NO, state->ObjCBool_Type);
-            data->value = NO;
+            if (data == NULL) {
+                Py_DECREF(state->ObjCBool_NO);
+                state->ObjCBool_NO = NULL;
+            }
+            else {
+                data->value = NO;
+            }
         }
     }
-    return Py_NewRef(state->ObjCBool_NO);
+    return Py_XNewRef(state->ObjCBool_NO);
 }
 
 /// @brief `ObjCBool.__new__()`
@@ -107,6 +125,9 @@ ObjCBool_bool(PyObject *self)
     }
     objctypes_state *state = PyModule_GetState(module);
     ObjCBoolData *data = PyObject_GetTypeData(self, state->ObjCBool_Type);
+    if (data == NULL) {
+        return -1;
+    }
 
     return data->value ? 1 : 0;
 }
@@ -122,6 +143,9 @@ ObjCBool_invert(PyObject *self)
     }
     objctypes_state *state = PyModule_GetState(module);
     ObjCBoolData *data = PyObject_GetTypeData(self, state->ObjCBool_Type);
+    if (data == NULL) {
+        return NULL;
+    }
 
     return _ObjCBool_FromLong(Py_TYPE(self), !(data->value));
 }
@@ -137,6 +161,9 @@ ObjCBool_int(PyObject *self)
     }
     objctypes_state *state = PyModule_GetState(module);
     ObjCBoolData *data = PyObject_GetTypeData(self, state->ObjCBool_Type);
+    if (data == NULL) {
+        return NULL;
+    }
 
     return PyLong_FromLong(data->value ? 1 : 0);
 }
@@ -152,6 +179,9 @@ ObjCBool_float(PyObject *self)
     }
     objctypes_state *state = PyModule_GetState(module);
     ObjCBoolData *data = PyObject_GetTypeData(self, state->ObjCBool_Type);
+    if (data == NULL) {
+        return NULL;
+    }
 
     return PyFloat_FromDouble(data->value ? 1 : 0);
 }

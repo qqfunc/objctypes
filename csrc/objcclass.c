@@ -38,6 +38,9 @@ ObjCClass_repr(PyObject *self)
     }
     objctypes_state *state = PyModule_GetState(module);
     ObjCClassData *data = PyObject_GetTypeData(self, state->ObjCClass_Type);
+    if (data == NULL) {
+        return NULL;
+    }
 
     if (data->value == NULL) {
         return PyUnicode_FromString("<class 'objctypes.ObjCObject'>");
@@ -57,6 +60,9 @@ ObjCClass_address(PyObject *self, void *Py_UNUSED(closure))
     }
     objctypes_state *state = PyModule_GetState(module);
     ObjCClassData *data = PyObject_GetTypeData(self, state->ObjCClass_Type);
+    if (data == NULL) {
+        return NULL;
+    }
 
     // Make sure that the class is not ObjCObject class
     if (data->value == NULL) {
@@ -79,6 +85,9 @@ ObjCClass_name(PyObject *self, void *Py_UNUSED(closure))
     }
     objctypes_state *state = PyModule_GetState(module);
     ObjCClassData *data = PyObject_GetTypeData(self, state->ObjCClass_Type);
+    if (data == NULL) {
+        return NULL;
+    }
 
     // Make sure that the class is not ObjCObject class
     if (data->value == NULL) {
@@ -101,6 +110,9 @@ ObjCClass_load_methods(PyObject *self, PyObject *Py_UNUSED(args))
     }
     objctypes_state *state = PyModule_GetState(module);
     ObjCClassData *data = PyObject_GetTypeData(self, state->ObjCClass_Type);
+    if (data == NULL) {
+        return NULL;
+    }
 
     if (data->value == NULL) {
         PyErr_SetString(PyExc_TypeError,
@@ -165,8 +177,14 @@ _ObjCClass_FromClass(PyTypeObject *type, Class cls, int lock_cache)
         if (self != NULL) {
             ObjCClassData *data =
                 PyObject_GetTypeData(self, state->ObjCClass_Type);
-            data->value = cls;
-            ObjCClass_cache_set(module, cls, self);
+            if (data == NULL) {
+                Py_DECREF(self);
+                self = NULL;
+            }
+            else {
+                data->value = cls;
+                ObjCClass_cache_set(module, cls, self);
+            }
         }
     }
 
@@ -193,8 +211,14 @@ ObjCClass_init(PyObject *self, PyObject *args, PyObject *kwds)
 
     // Get the type data of the ObjCClass object
     PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
+    if (module == NULL) {
+        return -1;
+    }
     objctypes_state *state = PyModule_GetState(module);
     ObjCClassData *data = PyObject_GetTypeData(self, state->ObjCClass_Type);
+    if (data == NULL) {
+        return -1;
+    }
 
     // This function is not called when the ObjCObject class is initialized
     data->value = NULL;

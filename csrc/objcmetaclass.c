@@ -39,6 +39,9 @@ ObjCMetaClass_repr(PyObject *self)
     objctypes_state *state = PyModule_GetState(module);
     ObjCMetaClassData *data =
         PyObject_GetTypeData(self, state->ObjCMetaClass_Type);
+    if (data == NULL) {
+        return NULL;
+    }
 
     if (data->value == NULL) {
         return PyUnicode_FromString("<class 'objctypes.ObjCClass'>");
@@ -59,6 +62,9 @@ ObjCMetaClass_address(PyObject *self, void *Py_UNUSED(closure))
     objctypes_state *state = PyModule_GetState(module);
     ObjCMetaClassData *data =
         PyObject_GetTypeData(self, state->ObjCMetaClass_Type);
+    if (data == NULL) {
+        return NULL;
+    }
 
     // Make sure that the metaclass is not ObjCClass class
     if (data->value == NULL) {
@@ -82,6 +88,9 @@ ObjCMetaClass_name(PyObject *self, void *Py_UNUSED(closure))
     objctypes_state *state = PyModule_GetState(module);
     ObjCMetaClassData *data =
         PyObject_GetTypeData(self, state->ObjCMetaClass_Type);
+    if (data == NULL) {
+        return NULL;
+    }
 
     // Make sure that the metaclass is not ObjCClass class
     if (data->value == NULL) {
@@ -140,8 +149,14 @@ _ObjCMetaClass_FromClass(PyTypeObject *type, Class cls, int lock_cache)
         if (self != NULL) {
             ObjCMetaClassData *data =
                 PyObject_GetTypeData(self, state->ObjCMetaClass_Type);
-            data->value = cls;
-            ObjCMetaClass_cache_set(module, cls, self);
+            if (data == NULL) {
+                Py_DECREF(self);
+                self = NULL;
+            }
+            else {
+                data->value = cls;
+                ObjCMetaClass_cache_set(module, cls, self);
+            }
         }
     }
 

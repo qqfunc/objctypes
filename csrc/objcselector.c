@@ -39,6 +39,9 @@ ObjCSelector_repr(PyObject *self)
     objctypes_state *state = PyModule_GetState(module);
     ObjCSelectorData *data =
         PyObject_GetTypeData(self, state->ObjCSelector_Type);
+    if (data == NULL) {
+        return NULL;
+    }
 
     return PyUnicode_FromFormat("ObjCSelector('%s')",
                                 sel_getName(data->value));
@@ -56,6 +59,9 @@ ObjCSelector_str(PyObject *self)
     objctypes_state *state = PyModule_GetState(module);
     ObjCSelectorData *data =
         PyObject_GetTypeData(self, state->ObjCSelector_Type);
+    if (data == NULL) {
+        return NULL;
+    }
 
     return PyUnicode_FromString(sel_getName(data->value));
 }
@@ -72,6 +78,9 @@ ObjCSelector_address(PyObject *self, void *Py_UNUSED(closure))
     objctypes_state *state = PyModule_GetState(module);
     ObjCSelectorData *data =
         PyObject_GetTypeData(self, state->ObjCSelector_Type);
+    if (data == NULL) {
+        return NULL;
+    }
 
     return PyLong_FromVoidPtr(data->value);
 }
@@ -88,6 +97,9 @@ ObjCSelector_name(PyObject *self, void *Py_UNUSED(closure))
     objctypes_state *state = PyModule_GetState(module);
     ObjCSelectorData *data =
         PyObject_GetTypeData(self, state->ObjCSelector_Type);
+    if (data == NULL) {
+        return NULL;
+    }
 
     return PyUnicode_FromString(sel_getName(data->value));
 }
@@ -104,6 +116,9 @@ ObjCSelector_is_mapped(PyObject *self, void *Py_UNUSED(closure))
     objctypes_state *state = PyModule_GetState(module);
     ObjCSelectorData *data =
         PyObject_GetTypeData(self, state->ObjCSelector_Type);
+    if (data == NULL) {
+        return NULL;
+    }
 
     return sel_isMapped(data->value) ? Py_True : Py_False;
 }
@@ -127,8 +142,14 @@ _ObjCSelector_FromSEL(PyTypeObject *type, SEL sel)
         if (self != NULL) {
             ObjCSelectorData *data =
                 PyObject_GetTypeData(self, state->ObjCSelector_Type);
-            data->value = sel;
-            ObjCSelector_cache_set(module, sel, self);
+            if (data == NULL) {
+                Py_DECREF(self);
+                self = NULL;
+            }
+            else {
+                data->value = sel;
+                ObjCSelector_cache_set(module, sel, self);
+            }
         }
     }
 

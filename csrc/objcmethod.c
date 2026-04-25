@@ -38,6 +38,9 @@ ObjCMethod_repr(PyObject *self)
     }
     objctypes_state *state = PyModule_GetState(module);
     ObjCMethodData *data = PyObject_GetTypeData(self, state->ObjCMethod_Type);
+    if (data == NULL) {
+        return NULL;
+    }
 
     return PyUnicode_FromFormat("<ObjCMethod %s at %p>",
                                 sel_getName(method_getName(data->value)),
@@ -55,6 +58,9 @@ ObjCMethod_str(PyObject *self)
     }
     objctypes_state *state = PyModule_GetState(module);
     ObjCMethodData *data = PyObject_GetTypeData(self, state->ObjCMethod_Type);
+    if (data == NULL) {
+        return NULL;
+    }
 
     return PyUnicode_FromString(sel_getName(method_getName(data->value)));
 }
@@ -70,6 +76,9 @@ ObjCMethod_name(PyObject *self, void *Py_UNUSED(closure))
     }
     objctypes_state *state = PyModule_GetState(module);
     ObjCMethodData *data = PyObject_GetTypeData(self, state->ObjCMethod_Type);
+    if (data == NULL) {
+        return NULL;
+    }
 
     return PyUnicode_FromString(sel_getName(method_getName(data->value)));
 }
@@ -85,6 +94,9 @@ ObjCMethod_address(PyObject *self, void *Py_UNUSED(closure))
     }
     objctypes_state *state = PyModule_GetState(module);
     ObjCMethodData *data = PyObject_GetTypeData(self, state->ObjCMethod_Type);
+    if (data == NULL) {
+        return NULL;
+    }
 
     return PyLong_FromVoidPtr(data->value);
 }
@@ -109,13 +121,13 @@ _ObjCMethod_FromMethod(PyTypeObject *type, Method method)
         if (self != NULL) {
             ObjCMethodData *data =
                 PyObject_GetTypeData(self, state->ObjCMethod_Type);
-            if (data != NULL) {
-                data->value = method;
-                ObjCMethod_cache_set(module, method, self);
-            }
-            else {
+            if (data == NULL) {
                 Py_DECREF(self);
                 self = NULL;
+            }
+            else {
+                data->value = method;
+                ObjCMethod_cache_set(module, method, self);
             }
         }
     }
