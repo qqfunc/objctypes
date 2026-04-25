@@ -5,8 +5,6 @@
 
 #include <Python.h>
 
-#include "objcclass.h"
-
 #include "objctypes.h"
 #include "objctypes_cache.h"
 #include "objctypes_module.h"
@@ -18,87 +16,83 @@ ObjCClass_dealloc(PyObject *self)
     PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
     if (module != NULL) {
         objctypes_state *state = PyModule_GetState(module);
-        ObjCClassState *cls_state =
+        ObjCClassData *data =
             PyObject_GetTypeData(self, state->ObjCClass_Type);
-        if (cls_state != NULL) {
+        if (data != NULL) {
             PyMutex_Lock(&state->ObjCClass_cache_mutex);
-            ObjCClass_cache_del(module, cls_state->value);
+            ObjCClass_cache_del(module, data->value);
             PyMutex_Unlock(&state->ObjCClass_cache_mutex);
         }
     }
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free(self);
 }
 
 /// @brief `ObjCClass.__repr__()`
 static PyObject *
 ObjCClass_repr(PyObject *self)
 {
+    // Get the type data of the ObjCClass object
     PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
     if (module == NULL) {
         return NULL;
     }
-
     objctypes_state *state = PyModule_GetState(module);
-    ObjCClassState *cls_state =
-        PyObject_GetTypeData(self, state->ObjCClass_Type);
+    ObjCClassData *data = PyObject_GetTypeData(self, state->ObjCClass_Type);
 
-    if (cls_state->value == NULL) {
+    if (data->value == NULL) {
         return PyUnicode_FromString("<class 'objctypes.ObjCObject'>");
     }
     return PyUnicode_FromFormat("<ObjCClass '%s'>",
-                                class_getName(cls_state->value));
+                                class_getName(data->value));
 }
 
 /// @brief `ObjCClass.address`
 static PyObject *
 ObjCClass_address(PyObject *self, void *Py_UNUSED(closure))
 {
+    // Get the type data of the ObjCClass object
     PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
     if (module == NULL) {
         return NULL;
     }
-
     objctypes_state *state = PyModule_GetState(module);
-    ObjCClassState *cls_state =
-        PyObject_GetTypeData(self, state->ObjCClass_Type);
+    ObjCClassData *data = PyObject_GetTypeData(self, state->ObjCClass_Type);
 
-    return PyLong_FromVoidPtr(cls_state->value);
+    return PyLong_FromVoidPtr(data->value);
 }
 
 /// @brief `ObjCClass.name`
 static PyObject *
 ObjCClass_name(PyObject *self, void *Py_UNUSED(closure))
 {
+    // Get the type data of the ObjCClass object
     PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
     if (module == NULL) {
         return NULL;
     }
-
     objctypes_state *state = PyModule_GetState(module);
-    ObjCClassState *cls_state =
-        PyObject_GetTypeData(self, state->ObjCClass_Type);
+    ObjCClassData *data = PyObject_GetTypeData(self, state->ObjCClass_Type);
 
-    if (cls_state->value == NULL) {
+    if (data->value == NULL) {
         return Py_GetConstant(Py_CONSTANT_EMPTY_STR);
     }
-    return PyUnicode_FromString(class_getName(cls_state->value));
+    return PyUnicode_FromString(class_getName(data->value));
 }
 
 /// @brief `ObjCClass.load_methods()`
 static PyObject *
 ObjCClass_load_methods(PyObject *self, PyObject *Py_UNUSED(args))
 {
+    // Get the type data of the ObjCClass object
     PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
     if (module == NULL) {
         return NULL;
     }
-
     objctypes_state *state = PyModule_GetState(module);
-    ObjCClassState *cls_state =
-        PyObject_GetTypeData(self, state->ObjCClass_Type);
+    ObjCClassData *data = PyObject_GetTypeData(self, state->ObjCClass_Type);
 
     unsigned int outCount;
-    Method *methods = class_copyMethodList(cls_state->value, &outCount);
+    Method *methods = class_copyMethodList(data->value, &outCount);
     for (unsigned int num = 0; num < outCount; num++) {
         printf("Method %s\n", sel_getName(method_getName(methods[num])));
     }
@@ -111,11 +105,11 @@ ObjCClass_load_methods(PyObject *self, PyObject *Py_UNUSED(args))
 static PyObject *
 _ObjCClass_FromClass(PyTypeObject *type, Class cls, int lock_cache)
 {
+    // Get the module state
     PyObject *module = PyType_GetModuleByDef(type, &objctypes_module);
     if (module == NULL) {
         return NULL;
     }
-
     objctypes_state *state = PyModule_GetState(module);
 
     if (lock_cache) {
@@ -123,12 +117,10 @@ _ObjCClass_FromClass(PyTypeObject *type, Class cls, int lock_cache)
     }
 
     PyObject *self = ObjCClass_cache_get(module, cls);
-
     if (self == NULL) {
-        objctypes_state *state = PyModule_GetState(module);
-
         PyObject *base;
 
+        // Determine the Python base class of the ObjCClass
         Class super_cls = class_getSuperclass(cls);
         if (super_cls == NULL) {
             // The class is a root class
@@ -145,6 +137,7 @@ _ObjCClass_FromClass(PyTypeObject *type, Class cls, int lock_cache)
             }
         }
 
+        // Create a new ObjCClass object
         PyObject *args = Py_BuildValue("(s(O){})", class_getName(cls), base);
         PyObject *kwds = PyDict_New();
         self = PyType_Type.tp_new(type, args, kwds);
@@ -152,9 +145,9 @@ _ObjCClass_FromClass(PyTypeObject *type, Class cls, int lock_cache)
         Py_XDECREF(kwds);
 
         if (self != NULL) {
-            ObjCClassState *cls_state =
+            ObjCClassData *data =
                 PyObject_GetTypeData(self, state->ObjCClass_Type);
-            cls_state->value = cls;
+            data->value = cls;
             ObjCClass_cache_set(module, cls, self);
         }
     }
@@ -180,11 +173,12 @@ ObjCClass_init(PyObject *self, PyObject *args, PyObject *kwds)
         return -1;
     }
 
+    // Get the type data of the ObjCClass object
     PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
     objctypes_state *state = PyModule_GetState(module);
-    ObjCClassState *cls_state =
-        PyObject_GetTypeData(self, state->ObjCClass_Type);
-    cls_state->value = NULL;
+    ObjCClassData *data = PyObject_GetTypeData(self, state->ObjCClass_Type);
+
+    data->value = NULL;
 
     return 0;
 }
@@ -227,29 +221,22 @@ ObjCClass_from_address(PyTypeObject *type, PyObject *address)
         return NULL;
     }
 
-    return (PyObject *)_ObjCClass_FromClass(type, cls, 1);
+    return _ObjCClass_FromClass(type, cls, 1);
 }
 
 /// @brief `ObjCClass.from_name()`
 static PyObject *
 ObjCClass_from_name(PyTypeObject *type, PyObject *name)
 {
-    PyObject *self;
-
     if (!PyUnicode_Check(name)) {
         PyErr_Format(PyExc_TypeError,
                      "ObjCClass.from_name() argument 1 must be str, not %T",
                      name);
         return NULL;
     }
-
-    PyObject *module = PyType_GetModuleByDef(type, &objctypes_module);
-    if (module == NULL) {
-        return NULL;
-    }
-
     const char *cls_name = PyUnicode_AsUTF8(name);
 
+    // Look up the class by name
     Class cls = objc_getClass(cls_name);
     if (cls == NULL) {
         PyErr_Format(PyExc_NameError, "Objective-C class '%s' is not defined",
@@ -257,9 +244,7 @@ ObjCClass_from_name(PyTypeObject *type, PyObject *name)
         return NULL;
     }
 
-    self = _ObjCClass_FromClass(type, cls, 1);
-
-    return (PyObject *)self;
+    return _ObjCClass_FromClass(type, cls, 1);
 }
 
 static PyMethodDef ObjCClass_methods[] = {
@@ -314,7 +299,7 @@ static PyType_Slot ObjCClass_slots[] = {
 
 PyType_Spec ObjCClass_spec = {
     .name = "objctypes.ObjCClass",
-    .basicsize = -(long)sizeof(ObjCClassState),
+    .basicsize = -(long)sizeof(ObjCClassData),
     .itemsize = 0,
     .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_TYPE_SUBCLASS,
     .slots = ObjCClass_slots,
@@ -323,11 +308,11 @@ PyType_Spec ObjCClass_spec = {
 PyObject *
 ObjCClass_FromClass(PyObject *module, Class cls)
 {
+    // Get the module state
     objctypes_state *state = PyModule_GetState(module);
     if (state->ObjCClass_Type == NULL) {
         return NULL;
     }
 
-    return (PyObject *)_ObjCClass_FromClass(
-        (PyTypeObject *)state->ObjCClass_Type, cls, 1);
+    return _ObjCClass_FromClass((PyTypeObject *)state->ObjCClass_Type, cls, 1);
 }

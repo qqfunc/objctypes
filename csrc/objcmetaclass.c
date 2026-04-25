@@ -5,8 +5,6 @@
 
 #include <Python.h>
 
-#include "objcmetaclass.h"
-
 #include "objctypes.h"
 #include "objctypes_cache.h"
 #include "objctypes_module.h"
@@ -18,70 +16,70 @@ ObjCMetaClass_dealloc(PyObject *self)
     PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
     if (module != NULL) {
         objctypes_state *state = PyModule_GetState(module);
-        ObjCMetaClassState *cls_state =
+        ObjCMetaClassData *data =
             PyObject_GetTypeData(self, state->ObjCMetaClass_Type);
-        if (cls_state != NULL) {
+        if (data != NULL) {
             PyMutex_Lock(&state->ObjCMetaClass_cache_mutex);
-            ObjCMetaClass_cache_del(module, cls_state->value);
+            ObjCMetaClass_cache_del(module, data->value);
             PyMutex_Unlock(&state->ObjCMetaClass_cache_mutex);
         }
     }
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free(self);
 }
 
 /// @brief `ObjCMetaClass.__repr__()`
 static PyObject *
 ObjCMetaClass_repr(PyObject *self)
 {
+    // Get the type data of the ObjCMetaClass object
     PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
     if (module == NULL) {
         return NULL;
     }
-
     objctypes_state *state = PyModule_GetState(module);
-    ObjCMetaClassState *cls_state =
+    ObjCMetaClassData *data =
         PyObject_GetTypeData(self, state->ObjCMetaClass_Type);
 
-    if (cls_state->value == NULL) {
+    if (data->value == NULL) {
         return PyUnicode_FromString("<ObjCMetaClass>");
     }
     return PyUnicode_FromFormat("<ObjCMetaClass '%s'>",
-                                class_getName(cls_state->value));
+                                class_getName(data->value));
 }
 
 /// @brief `ObjCMetaClass.address`
 static PyObject *
 ObjCMetaClass_address(PyObject *self, void *Py_UNUSED(closure))
 {
+    // Get the type data of the ObjCMetaClass object
     PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
     if (module == NULL) {
         return NULL;
     }
-
     objctypes_state *state = PyModule_GetState(module);
-    ObjCMetaClassState *cls_state =
+    ObjCMetaClassData *data =
         PyObject_GetTypeData(self, state->ObjCMetaClass_Type);
 
-    return PyLong_FromVoidPtr(cls_state->value);
+    return PyLong_FromVoidPtr(data->value);
 }
 
 /// @brief `ObjCMetaClass.name`
 static PyObject *
 ObjCMetaClass_name(PyObject *self, void *Py_UNUSED(closure))
 {
+    // Get the type data of the ObjCMetaClass object
     PyObject *module = PyType_GetModuleByDef(Py_TYPE(self), &objctypes_module);
     if (module == NULL) {
         return NULL;
     }
-
     objctypes_state *state = PyModule_GetState(module);
-    ObjCMetaClassState *cls_state =
+    ObjCMetaClassData *data =
         PyObject_GetTypeData(self, state->ObjCMetaClass_Type);
 
-    if (cls_state->value == NULL) {
+    if (data->value == NULL) {
         return Py_GetConstant(Py_CONSTANT_EMPTY_STR);
     }
-    return PyUnicode_FromString(class_getName(cls_state->value));
+    return PyUnicode_FromString(class_getName(data->value));
 }
 
 /// @brief Get an ObjCMetaClass from a Python type and an Objective-C
@@ -89,11 +87,11 @@ ObjCMetaClass_name(PyObject *self, void *Py_UNUSED(closure))
 static PyObject *
 _ObjCMetaClass_FromClass(PyTypeObject *type, Class cls, int lock_cache)
 {
+    // Get the module state
     PyObject *module = PyType_GetModuleByDef(type, &objctypes_module);
     if (module == NULL) {
         return NULL;
     }
-
     objctypes_state *state = PyModule_GetState(module);
 
     if (lock_cache) {
@@ -111,7 +109,7 @@ _ObjCMetaClass_FromClass(PyTypeObject *type, Class cls, int lock_cache)
         Py_XDECREF(kwds);
 
         if (self != NULL) {
-            ObjCMetaClassState *cls_state =
+            ObjCMetaClassData *cls_state =
                 PyObject_GetTypeData(self, state->ObjCMetaClass_Type);
             cls_state->value = cls;
             ObjCMetaClass_cache_set(module, cls, self);
@@ -175,14 +173,9 @@ ObjCMetaClass_from_name(PyTypeObject *type, PyObject *name)
             "ObjCMetaClass.from_name() argument 1 must be str, not %T", name);
         return NULL;
     }
-
-    PyObject *module = PyType_GetModuleByDef(type, &objctypes_module);
-    if (module == NULL) {
-        return NULL;
-    }
-
     const char *cls_name = PyUnicode_AsUTF8(name);
 
+    // Look up the metaclass by name
     Class cls = objc_getMetaClass(cls_name);
     if (cls == NULL) {
         PyErr_Format(PyExc_NameError, "Objective-C class '%s' is not defined",
@@ -238,7 +231,7 @@ static PyType_Slot ObjCMetaClass_slots[] = {
 
 PyType_Spec ObjCMetaClass_spec = {
     .name = "objctypes.ObjCMetaClass",
-    .basicsize = -(long)sizeof(ObjCMetaClassState),
+    .basicsize = -(long)sizeof(ObjCMetaClassData),
     .itemsize = 0,
     .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_TYPE_SUBCLASS,
     .slots = ObjCMetaClass_slots,
@@ -247,6 +240,7 @@ PyType_Spec ObjCMetaClass_spec = {
 PyObject *
 ObjCMetaClass_FromClass(PyObject *module, Class cls)
 {
+    // Get the module state
     objctypes_state *state = PyModule_GetState(module);
     if (state->ObjCMetaClass_Type == NULL) {
         return NULL;

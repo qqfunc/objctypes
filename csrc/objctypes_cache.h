@@ -8,11 +8,7 @@
 
 #include <Python.h>
 
-#include "objcmethod.h"
-#include "objcobject.h"
-#include "objcselector.h"
-
-#include <objc/objc.h>
+#include <objc/runtime.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -124,7 +120,7 @@ ObjCObject_cache_deinit(PyObject *module);
  * @return A new reference to the cached `ObjCObject` object, or `NULL` if not
  * found.
  */
-ObjCObjectObject *
+PyObject *
 ObjCObject_cache_get(PyObject *module, id obj);
 
 /**
@@ -134,7 +130,7 @@ ObjCObject_cache_get(PyObject *module, id obj);
  * @param pyobj The `ObjCObject` to associate with the object.
  */
 void
-ObjCObject_cache_set(PyObject *module, id obj, ObjCObjectObject *pyobj);
+ObjCObject_cache_set(PyObject *module, id obj, PyObject *pyobj);
 
 /**
  * @brief Delete an `ObjCObject` from the cache.
@@ -166,7 +162,7 @@ ObjCMethod_cache_deinit(PyObject *module);
  * @return A new reference to the cached `ObjCMethod` object, or `NULL` if not
  * found.
  */
-ObjCMethodObject *
+PyObject *
 ObjCMethod_cache_get(PyObject *module, Method method);
 
 /**
@@ -176,7 +172,7 @@ ObjCMethod_cache_get(PyObject *module, Method method);
  * @param obj The `ObjCMethod` to associate with the method.
  */
 void
-ObjCMethod_cache_set(PyObject *module, Method method, ObjCMethodObject *obj);
+ObjCMethod_cache_set(PyObject *module, Method method, PyObject *obj);
 
 /**
  * @brief Delete an `ObjCMethod` from the cache.
@@ -219,7 +215,7 @@ ObjCSelector_cache_deinit(PyObject *module);
  * @return A new reference to the cached `ObjCSelector` object, or `NULL` if
  * not found.
  */
-ObjCSelectorObject *
+PyObject *
 ObjCSelector_cache_get(PyObject *module, SEL sel);
 
 /**
@@ -229,7 +225,7 @@ ObjCSelector_cache_get(PyObject *module, SEL sel);
  * @param obj The `ObjCSelector` to associate with the selector.
  */
 void
-ObjCSelector_cache_set(PyObject *module, SEL sel, ObjCSelectorObject *obj);
+ObjCSelector_cache_set(PyObject *module, SEL sel, PyObject *obj);
 
 /**
  * @brief Delete an `ObjCSelector` from the cache.

@@ -7,9 +7,6 @@
 
 #include "objctypes_cache.h"
 
-#include "objcmethod.h"
-#include "objcobject.h"
-#include "objcselector.h"
 #include "objctypes_module.h"
 
 #include <map>
@@ -48,7 +45,7 @@ ObjCMetaClass_cache_set(PyObject *module, Class cls, PyObject *obj)
 {
     objctypes_state *state = (objctypes_state *)PyModule_GetState(module);
     cache_map *cache = (cache_map *)state->ObjCMetaClass_cache;
-    (*cache)[cls] = (PyObject *)obj;
+    (*cache)[cls] = obj;
 }
 
 void
@@ -91,7 +88,7 @@ ObjCClass_cache_set(PyObject *module, Class cls, PyObject *obj)
 {
     objctypes_state *state = (objctypes_state *)PyModule_GetState(module);
     cache_map *cache = (cache_map *)state->ObjCClass_cache;
-    (*cache)[cls] = (PyObject *)obj;
+    (*cache)[cls] = obj;
 }
 
 void
@@ -116,7 +113,7 @@ ObjCObject_cache_deinit(PyObject *module)
     delete (cache_map *)state->ObjCObject_cache;
 }
 
-ObjCObjectObject *
+PyObject *
 ObjCObject_cache_get(PyObject *module, id obj)
 {
     objctypes_state *state = (objctypes_state *)PyModule_GetState(module);
@@ -124,17 +121,17 @@ ObjCObject_cache_get(PyObject *module, id obj)
 
     const auto it = cache->find(obj);
     if (it != cache->end()) {
-        return (ObjCObjectObject *)Py_NewRef(it->second);
+        return Py_NewRef(it->second);
     }
     return NULL;
 }
 
 void
-ObjCObject_cache_set(PyObject *module, id obj, ObjCObjectObject *pyobj)
+ObjCObject_cache_set(PyObject *module, id obj, PyObject *pyobj)
 {
     objctypes_state *state = (objctypes_state *)PyModule_GetState(module);
     cache_map *cache = (cache_map *)state->ObjCObject_cache;
-    (*cache)[obj] = (PyObject *)pyobj;
+    (*cache)[obj] = pyobj;
 }
 
 void
@@ -159,7 +156,7 @@ ObjCMethod_cache_deinit(PyObject *module)
     delete (cache_map *)state->ObjCMethod_cache;
 }
 
-ObjCMethodObject *
+PyObject *
 ObjCMethod_cache_get(PyObject *module, Method method)
 {
     objctypes_state *state = (objctypes_state *)PyModule_GetState(module);
@@ -167,17 +164,17 @@ ObjCMethod_cache_get(PyObject *module, Method method)
 
     const auto it = cache->find(method);
     if (it != cache->end()) {
-        return (ObjCMethodObject *)Py_NewRef(it->second);
+        return Py_NewRef(it->second);
     }
     return NULL;
 }
 
 void
-ObjCMethod_cache_set(PyObject *module, Method method, ObjCMethodObject *obj)
+ObjCMethod_cache_set(PyObject *module, Method method, PyObject *obj)
 {
     objctypes_state *state = (objctypes_state *)PyModule_GetState(module);
     cache_map *cache = (cache_map *)state->ObjCMethod_cache;
-    (*cache)[method] = (PyObject *)obj;
+    (*cache)[method] = obj;
 }
 
 void
@@ -202,7 +199,7 @@ ObjCSelector_cache_deinit(PyObject *module)
     delete (cache_map *)state->ObjCSelector_cache;
 }
 
-ObjCSelectorObject *
+PyObject *
 ObjCSelector_cache_get(PyObject *module, SEL sel)
 {
     objctypes_state *state = (objctypes_state *)PyModule_GetState(module);
@@ -210,17 +207,17 @@ ObjCSelector_cache_get(PyObject *module, SEL sel)
 
     const auto it = cache->find(sel);
     if (it != cache->end()) {
-        return (ObjCSelectorObject *)Py_NewRef(it->second);
+        return Py_NewRef(it->second);
     }
     return NULL;
 }
 
 void
-ObjCSelector_cache_set(PyObject *module, SEL sel, ObjCSelectorObject *obj)
+ObjCSelector_cache_set(PyObject *module, SEL sel, PyObject *obj)
 {
     objctypes_state *state = (objctypes_state *)PyModule_GetState(module);
     cache_map *cache = (cache_map *)state->ObjCSelector_cache;
-    (*cache)[sel] = (PyObject *)obj;
+    (*cache)[sel] = obj;
 }
 
 void
