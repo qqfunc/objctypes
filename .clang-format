@@ -17,8 +17,6 @@ IncludeCategories:
     CaseSensitive:   true
 IndentWidth: 4
 InsertBraces: true
-Macros:
-  - PyVarObject_HEAD_INIT(type, size)=_PyObject_EXTRA_INIT 1, type, size,
 PointerAlignment: Right
 ReflowComments: true
 RemoveParentheses: ReturnStatement
