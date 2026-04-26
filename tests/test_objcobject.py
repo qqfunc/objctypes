@@ -41,9 +41,9 @@ def test_objcobject_from_address_wrong_arg() -> None:
 
 def test_objcobject_from_address_nil() -> None:
     """Test ObjCObject.from_address() with Nil."""
-    with pytest.raises(TypeError) as excinfo:
+    with pytest.raises(ValueError) as excinfo:
         ObjCObject.from_address(0)
-    assert str(excinfo.value) == "the specified Objective-C object is nil"
+    assert str(excinfo.value) == "The specified Objective-C object is nil"
 
 
 def test_objcobject_address() -> None:

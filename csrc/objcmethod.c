@@ -149,7 +149,14 @@ ObjCMethod_from_address(PyTypeObject *type, PyObject *address)
         return NULL;
     }
 
-    return _ObjCMethod_FromMethod(type, PyLong_AsVoidPtr(address));
+    Method method = PyLong_AsVoidPtr(address);
+    if (method == NULL) {
+        PyErr_SetString(PyExc_ValueError,
+                        "The specified Objective-C method is NULL");
+        return NULL;
+    }
+
+    return _ObjCMethod_FromMethod(type, method);
 }
 
 /// @brief `ObjCMethod.__new__()`

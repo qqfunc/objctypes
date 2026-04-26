@@ -15,7 +15,7 @@ class ObjCMetaClass(type):
 
         :param address: The address of the Objective-C metaclass.
         :return: The Objective-C metaclass that was retrieved.
-        :raises TypeError: if the address points to a non-metaclass
+        :raises ValueError: if the address points to a non-metaclass
             Objective-C object or regular class
 
         .. warning::
@@ -62,7 +62,7 @@ class ObjCClass(type, metaclass=ObjCMetaClass):
 
         :param address: The address of the Objective-C class.
         :return: The Objective-C class that was retrieved.
-        :raises TypeError: if the address points to a non-class
+        :raises ValueError: if the address points to a non-class
             Objective-C object or metaclass
 
         .. warning::
@@ -103,7 +103,8 @@ class ObjCObject(metaclass=ObjCClass):
 
         :param address: The address of the Objective-C object.
         :return: The Objective-C object that was retrieved.
-        :raises TypeError: if the address points to an Objective-C class
+        :raises ValueError: if the address points to an Objective-C
+            class
 
         .. warning::
             Passing an invalid address may cause crashes.
@@ -128,6 +129,7 @@ class ObjCMethod:
 
         :param address: The address of the Objective-C method.
         :return: The Objective-C method that was retrieved.
+        :raises ValueError: if the address points to NULL
 
         .. warning::
             Passing an invalid address may cause crashes.
@@ -157,6 +159,7 @@ class ObjCSelector:
 
         :param address: The address of the Objective-C selector.
         :return: The Objective-C selector that was retrieved.
+        :raises ValueError: if the address points to NULL
 
         .. warning::
             Passing an invalid address may cause crashes.

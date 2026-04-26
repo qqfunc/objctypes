@@ -114,8 +114,8 @@ ObjCObject_from_address(PyTypeObject *type, PyObject *address)
 
     // Make sure the object is not nil.
     if (obj == NULL) {
-        PyErr_SetString(PyExc_TypeError,
-                        "the specified Objective-C object is nil");
+        PyErr_SetString(PyExc_ValueError,
+                        "The specified Objective-C object is nil");
         return NULL;
     }
 
@@ -123,14 +123,14 @@ ObjCObject_from_address(PyTypeObject *type, PyObject *address)
     if (object_isClass(obj)) {
         // Make sure the object is not a metaclass.
         if (class_isMetaClass((Class)obj)) {
-            PyErr_Format(PyExc_TypeError,
+            PyErr_Format(PyExc_ValueError,
                          "The Objective-C object at %p is a metaclass. Use "
                          "ObjCMetaClass.from_address() instead.",
                          obj);
             return NULL;
         }
         else {
-            PyErr_Format(PyExc_TypeError,
+            PyErr_Format(PyExc_ValueError,
                          "The Objective-C object at %p is a class. Use "
                          "ObjCClass.from_address() instead.",
                          obj);

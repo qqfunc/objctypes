@@ -57,10 +57,9 @@ def test_objcselector_from_address() -> None:
     assert sel2.address == ObjCSelector.from_address(sel2.address).address
     assert sel3.address == ObjCSelector.from_address(sel3.address).address
 
-    with pytest.raises(TypeError) as excinfo:
+    with pytest.raises(ValueError) as excinfo:
         ObjCSelector.from_address(0)
-
-    assert str(excinfo.value) == "The specified address is a null selector"
+    assert str(excinfo.value) == "The specified Objective-C selector is NULL"
 
 
 def test_objcselector_from_address_wrong_arg() -> None:

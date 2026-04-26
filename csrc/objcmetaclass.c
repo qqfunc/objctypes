@@ -183,21 +183,21 @@ ObjCMetaClass_from_address(PyTypeObject *type, PyObject *address)
 
     // Make sure the metaclass is not Nil.
     if (cls == NULL) {
-        PyErr_SetString(PyExc_TypeError,
-                        "the specified Objective-C metaclass is Nil");
+        PyErr_SetString(PyExc_ValueError,
+                        "The specified Objective-C metaclass is Nil");
         return NULL;
     }
 
     // Make sure the pointer refers to an Objective-C class.
     if (!object_isClass((id)cls)) {
-        PyErr_Format(PyExc_TypeError,
+        PyErr_Format(PyExc_ValueError,
                      "The Objective-C object at %p is not a class.", cls);
         return NULL;
     }
 
     // Make sure the class is a metaclass.
     if (!class_isMetaClass(cls)) {
-        PyErr_Format(PyExc_TypeError,
+        PyErr_Format(PyExc_ValueError,
                      "The Objective-C class at %p is not a metaclass. Use "
                      "ObjCClass.from_address() instead.",
                      cls);
