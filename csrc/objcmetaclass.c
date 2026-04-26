@@ -142,7 +142,9 @@ _ObjCMetaClass_FromClass(PyTypeObject *type, Class cls, int lock_cache)
         PyObject *args = Py_BuildValue("(s(O){})", class_getName(cls), base);
         Py_DECREF(base);
         PyObject *kwds = PyDict_New();
-        self = PyType_Type.tp_new(type, args, kwds);
+        if (args != NULL && kwds != NULL) {
+            self = PyType_Type.tp_new(type, args, kwds);
+        }
         Py_XDECREF(args);
         Py_XDECREF(kwds);
 
