@@ -420,7 +420,7 @@ check = [
     { name = "ruff", specifier = "==0.15.15" },
     { name = "ty", specifier = "==0.0.42" },
     { name = "types-setuptools", specifier = "==82.0.0.20260518" },
-    { name = "typos", specifier = "==1.47.0" },
+    { name = "typos", specifier = "==1.47.1" },
 ]
 dev = [
     { name = "committed", specifier = "==1.1.11" },
@@ -440,7 +440,7 @@ dev = [
     { name = "taskipy", specifier = "==1.14.1" },
     { name = "ty", specifier = "==0.0.42" },
     { name = "types-setuptools", specifier = "==82.0.0.20260518" },
-    { name = "typos", specifier = "==1.47.0" },
+    { name = "typos", specifier = "==1.47.1" },
 ]
 docs = [
     { name = "furo", specifier = "==2025.12.19" },
@@ -471,7 +471,7 @@ gh-actions-check = [
     { name = "taskipy", specifier = "==1.14.1" },
     { name = "ty", specifier = "==0.0.42" },
     { name = "types-setuptools", specifier = "==82.0.0.20260518" },
-    { name = "typos", specifier = "==1.47.0" },
+    { name = "typos", specifier = "==1.47.1" },
 ]
 misc = [{ name = "taskipy", specifier = "==1.14.1" }]
 readthedocs = [
@@ -1026,19 +1026,19 @@ wheels = [
 
 [[package]]
 name = "typos"
-version = "1.47.0"
+version = "1.47.1"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/5f/bb/363c971ea146d77a712212c33db751480321e7b9855cbf8efa9dada9c1e1/typos-1.47.0.tar.gz", hash = "sha256:f00d98b8338abd6016f968fb7a3911c911010c17c333c2e102e8893b1c97db8f", size = 1828995, upload-time = "2026-05-29T01:10:48.91Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/d6/cd/785d27c923a9f5f00291698c874a8f9465211b12723f432526c7114df177/typos-1.47.1.tar.gz", hash = "sha256:4859db0f56b79ff0ec239ffab4f62cb23b09b3e73c1ec3700dfd632fecb22fbb", size = 1829868, upload-time = "2026-06-03T16:28:10.431Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c5/03/783407273511a479fe5bf038d262a8a169feaa37c82cf9d2d0122bf12757/typos-1.47.0-py3-none-macosx_10_12_x86_64.whl", hash = "sha256:c4104785d237fd2256023ba4339e404ed2db58888af703eb0726a1441a8e85d7", size = 3464612, upload-time = "2026-05-29T01:10:33.974Z" },
-    { url = "https://files.pythonhosted.org/packages/82/ed/b21b293228ca56b8ab870f0f71dfc6b64da33d5d1805be00d299f053eee4/typos-1.47.0-py3-none-macosx_11_0_arm64.whl", hash = "sha256:cb95b6fde16fe5bab11788bc14d3d9ec49dcbeec9517378e2fca9e283e6b7822", size = 3374520, upload-time = "2026-05-29T01:10:35.92Z" },
-    { url = "https://files.pythonhosted.org/packages/de/d0/483ad8d01f130f667c058f0c2950bdbe22566c16555eec1f3d6a89d52d71/typos-1.47.0-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:653eba984d2cc55eb47d50771761bb7e0d6e52771c2489fd76b1f86fbed49a2a", size = 8237577, upload-time = "2026-05-29T01:10:37.495Z" },
-    { url = "https://files.pythonhosted.org/packages/03/4a/c160ba13a594d2df5f15a7bc65f4c8613bf84511bb4aa165c96c5a92d31b/typos-1.47.0-py3-none-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:be447ce8400154e4ae515cc9ecef99532cee6b29271ba3adbe3487304cd2c3c2", size = 7331972, upload-time = "2026-05-29T01:10:39.334Z" },
-    { url = "https://files.pythonhosted.org/packages/02/c2/12e88e0cd6b72b86293a392b212af70cefbc51efce601b1dea831e7a46ba/typos-1.47.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:9856752e08face132c7d08de875567675f2c54e3e04096d6ebad09c6430e16f0", size = 7748067, upload-time = "2026-05-29T01:10:41.33Z" },
-    { url = "https://files.pythonhosted.org/packages/c5/aa/3c95600ece5be8057165b55c735dbf30f2de81bfb2920ec89d6d63bd26ce/typos-1.47.0-py3-none-musllinux_1_2_aarch64.whl", hash = "sha256:438b8579e440ff88baf51cb577b2eb4514d065509ba41a10981e1ea9048a519b", size = 7094259, upload-time = "2026-05-29T01:10:42.913Z" },
-    { url = "https://files.pythonhosted.org/packages/e5/57/a604f4385964bb0a9adcd52343625dc336cffe53e4f99bcc0e1516df36d5/typos-1.47.0-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:19cfe53c33ac7d0c5f029fb97939b082139b63fbbb88350ab7e6df28be31629e", size = 8134304, upload-time = "2026-05-29T01:10:44.453Z" },
-    { url = "https://files.pythonhosted.org/packages/bf/a5/cf2c971663c35b2ab373482e6e68e30972a7912eb25740c3571a7c3d3191/typos-1.47.0-py3-none-win32.whl", hash = "sha256:2de87acff0b6857ce693059a6291227eec999284e16a87162178c847236bafca", size = 3140037, upload-time = "2026-05-29T01:10:46.055Z" },
-    { url = "https://files.pythonhosted.org/packages/33/e2/1817bb66bfdae79b1a18ffa6d17dbd466f1e218eba3cb0964619596cd444/typos-1.47.0-py3-none-win_amd64.whl", hash = "sha256:05c1547e3dbbb6fe8a861b56cb98e9922cd5d20170ee2e7e649faa1605dfdb49", size = 3312662, upload-time = "2026-05-29T01:10:47.539Z" },
+    { url = "https://files.pythonhosted.org/packages/92/83/e66bcbc5dd212cb82d61882243765a5ec639e466a91813ff02245f5436f3/typos-1.47.1-py3-none-macosx_10_12_x86_64.whl", hash = "sha256:00dc731456fce886855db92cfad4ea4af465c9482b567f9f745d680bd104c630", size = 3467975, upload-time = "2026-06-03T16:27:51.85Z" },
+    { url = "https://files.pythonhosted.org/packages/52/ce/3315f611211cf40ad8182e293aa874f7e34c5230a0c026bc5d23a8aa5112/typos-1.47.1-py3-none-macosx_11_0_arm64.whl", hash = "sha256:9378e0715d9cab2c9ef38139012bdb5e69feb27e9a0e412f1cae52748f1fc912", size = 3378216, upload-time = "2026-06-03T16:27:54.04Z" },
+    { url = "https://files.pythonhosted.org/packages/f8/45/8ed267e6241f6460f9ecf61ff808e93dca09ad6c59d67e1a9de8442ff337/typos-1.47.1-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:1ec3a74906eb7439dcc9f01a5f2b4dc8894a7f4df331778bd307b608166643ff", size = 8243583, upload-time = "2026-06-03T16:27:56.11Z" },
+    { url = "https://files.pythonhosted.org/packages/b7/31/2287569d8e33a8a7b6cd796be74e2f57fb48164f488300268b5ee9520536/typos-1.47.1-py3-none-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:5c601086fa5274db3ae1ac923aeeb63658b4f4962aa7825aff095bd236027007", size = 7326531, upload-time = "2026-06-03T16:27:58.253Z" },
+    { url = "https://files.pythonhosted.org/packages/21/9f/92581591f283b6f86b794f37b85747b4f483ae8a2578a40c7d9e35bf26f9/typos-1.47.1-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:577b184f1e9633b6712bd1717fa11eeb390946f1e0c3783bc1655a2d9aeda130", size = 7748712, upload-time = "2026-06-03T16:28:00.483Z" },
+    { url = "https://files.pythonhosted.org/packages/98/d3/75ad322c93a2343b2fc4eca5b50e20491fe6160b1845cd4bd2c4361c6be6/typos-1.47.1-py3-none-musllinux_1_2_aarch64.whl", hash = "sha256:47dd311736caff1246a5d17e236778a91d56ea0b22079fa35e2376d75a96cf07", size = 7097690, upload-time = "2026-06-03T16:28:02.524Z" },
+    { url = "https://files.pythonhosted.org/packages/e1/4c/02e30f727dbbca5b3c1b25dfd0be5de6df66f0fd644b45665d4a01b01c2f/typos-1.47.1-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:85fb88078f74153fe9a38b216764a19fc3dad3e5737caacd57765dcf10ae24b2", size = 8136454, upload-time = "2026-06-03T16:28:04.885Z" },
+    { url = "https://files.pythonhosted.org/packages/b5/b5/26659d82829d01fa6fcf4386329a9081932a55f8c55f2e9a4e2a5bee6090/typos-1.47.1-py3-none-win32.whl", hash = "sha256:0f707e495bf6637cb4556be63982c7a03ce0191c12bc9e5d40463944c66b4487", size = 3140054, upload-time = "2026-06-03T16:28:06.869Z" },
+    { url = "https://files.pythonhosted.org/packages/7a/4f/4a8a288d9a6795b676ef89a7a550f655cbf129c1393d9d69297878f01a8a/typos-1.47.1-py3-none-win_amd64.whl", hash = "sha256:b32db347a72978814cc2a18836967e122e195bf94bd04e03c7c7387d44135ced", size = 3311687, upload-time = "2026-06-03T16:28:08.598Z" },
 ]
 
 [[package]]
