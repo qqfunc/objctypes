@@ -60,7 +60,7 @@ dev = [
 ]
 gh-actions-build = [
   { include-group = "tests" },
-  "pytest-github-actions-annotate-failures==0.4.1",
+  "pytest-github-actions-annotate-failures==0.4.2",
 ]
 gh-actions-check = [
   { include-group = "check" },
