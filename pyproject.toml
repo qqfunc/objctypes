@@ -35,7 +35,7 @@ check = [
   "editorconfig-checker==3.6.1",
   "ruff==0.15.20",
   "ty==0.0.56",
-  "types-setuptools==82.0.0.20260518",
+  "types-setuptools==83.0.0.20260706",
   "typos==1.48.0",
 ]
 tests = ["pytest==9.1.1", "pytest-xdist==3.8.0"]
