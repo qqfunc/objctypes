@@ -55,7 +55,7 @@ dev = [
   { include-group = "docs" },
   { include-group = "misc" },
   "committed==1.1.11",
-  "lefthook==2.1.9",
+  "lefthook==2.1.10",
   "sphinx-autobuild==2025.8.25",
 ]
 gh-actions-build = [
