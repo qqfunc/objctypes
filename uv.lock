@@ -37,11 +37,11 @@ wheels = [
 
 [[package]]
 name = "astroid"
-version = "4.1.2"
+version = "4.3.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/da/fd/24475b7cfb70298e8921bc077adb46a3fe77887422545d8a061573e130ee/astroid-4.1.2.tar.gz", hash = "sha256:d6c4a52bfcda4bbeb7359dead642b0248b90f7d9a07e690230bd86fefd6d37f1", size = 414896, upload-time = "2026-03-22T19:16:42.075Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/33/a0/fc1c9f396c354456d859eb09fa13186bda34cb5b000f47a7103fcf84fe66/astroid-4.3.0.tar.gz", hash = "sha256:2b5b5048d6edc40e748e2728790e444b81c3d358e19cc89db6e973236192362f", size = 438804, upload-time = "2026-08-07T20:28:28.363Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/54/97/4ee9b0438e85bf0a808a89ef0be357319252ab27e1b313ae0aef7aeaa5a6/astroid-4.1.2-py3-none-any.whl", hash = "sha256:21312e682c0866dc5a309ee57e4b88ea92751b9955a58b1c31371cbbeb088707", size = 279956, upload-time = "2026-03-22T19:16:40.062Z" },
+    { url = "https://files.pythonhosted.org/packages/00/0a/f277a39699ac334e332c991b6ce9e47a30bb2bdac6d2141fdbd2d39835a9/astroid-4.3.0-py3-none-any.whl", hash = "sha256:47f329c1f4709c479f84f824c4f3a132816603a749cd4aa6ee9030e69951491a", size = 286532, upload-time = "2026-08-07T20:28:26.602Z" },
 ]
 
 [[package]]
